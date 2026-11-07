@@ -43,6 +43,12 @@ export interface ListingRow {
   plan?: 'basic' | 'verified';
   plan_started_at?: string | null;
   expires_at?: string | null;
+  // Talk-to-owner opt-in (migration 0015). Gating happens on read: an
+  // enquiry's Call/WhatsApp details are only built while this is 1.
+  contact_direct: number;
+  /** Legacy per-channel flags (0010); no longer read for gating. */
+  contact_whatsapp?: number;
+  contact_show_phone?: number;
   created_at: string;
   updated_at: string;
 }
@@ -106,6 +112,8 @@ export interface ListingDto {
   expiresAt: string | null;
   isExpired: boolean;
   rejectionReason: string | null;
+  /** True only when the owner allows Call/WhatsApp after an enquiry. */
+  contactDirect: boolean;
   rooms: {
     id: number;
     roomType: string;
@@ -172,6 +180,7 @@ export const listingDto = (
   expiresAt: row.expires_at ?? null,
   isExpired: isExpired({ expires_at: row.expires_at ?? null }),
   rejectionReason: row.rejection_reason,
+  contactDirect: Boolean(row.contact_direct),
   rooms: rooms.map(roomDto),
   media: media.map((m) => ({
     id: m.id,
@@ -233,6 +242,7 @@ export const PUBLIC_LISTING_COLUMNS = [
   'plan',
   'plan_started_at',
   'expires_at',
+  'contact_direct',
   'created_at',
   'updated_at',
 ].join(', ');

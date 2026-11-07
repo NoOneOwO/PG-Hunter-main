@@ -46,7 +46,7 @@ export const insertListing = async (
       `INSERT INTO owner_listings
         (id, owner_id, name, property_type, gender, address, locality, city, latitude, longitude,
          description, rules, curfew, food, amenity_slugs, status, verification_status,
-         created_by, admin_managed, created_at, updated_at)
+         contact_direct, created_by, admin_managed, created_at, updated_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
@@ -67,6 +67,7 @@ export const insertListing = async (
       JSON.stringify(listing.amenitySlugs),
       'draft',
       'unverified',
+      listing.contactDirect ? 1 : 0,
       actorId,
       adminManaged ? 1 : 0,
       now,

@@ -30,6 +30,8 @@ export interface ParsedListingPayload {
   food: { available: boolean; type?: string; monthlyCost?: number };
   amenitySlugs: string[];
   rooms: ParsedRoom[];
+  /** Owner opt-in: allow Call/WhatsApp handoff after a student enquires. */
+  contactDirect: boolean;
   /**
    * Photos uploaded before the listing existed (uploads land unattached and are
    * claimed on save). Only the *caller's own* unattached media can be claimed,
@@ -113,6 +115,7 @@ export const parseListingPayload = (body: any): ListingPayloadResult => {
       food,
       amenitySlugs: strArr(body?.amenitySlugs),
       rooms,
+      contactDirect: Boolean(body?.contactDirect),
       pendingMediaIds: idArr(body?.pendingMediaIds).slice(0, MAX_PENDING_MEDIA),
     },
   };

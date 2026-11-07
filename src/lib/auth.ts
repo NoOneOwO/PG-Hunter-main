@@ -303,6 +303,8 @@ export const createEnquiry = async (input: {
   budget?: string;
   moveInMonth?: string;
   message?: string;
+  /** Contact number the owner will call back — saved to the profile. */
+  phone?: string;
 }): Promise<{ error?: string }> => {
   const user = await getSession();
   if (!user) return { error: 'Not logged in.' };
@@ -374,6 +376,8 @@ export interface Listing {
   expiresAt?: string | null;
   isExpired?: boolean;
   rejectionReason: string | null;
+  /** Owner opt-in: may a student Call/WhatsApp them after an enquiry. */
+  contactDirect: boolean;
   rooms: ListingRoom[];
   media: ListingMedia[];
   createdAt: string;
@@ -394,6 +398,7 @@ export interface ListingInput {
   curfew?: string;
   food?: { available: boolean; type?: 'veg' | 'non-veg' | 'both'; monthlyCost?: number };
   amenitySlugs?: string[];
+  contactDirect?: boolean;
   rooms: ListingRoom[];
   pendingMediaIds?: string[];
 }
@@ -417,10 +422,18 @@ export interface OwnerLead {
   property_name: string | null;
   budget: string | null;
   move_in_month: string | null;
+  room_type: string | null;
+  college: string | null;
   message: string | null;
   source: string;
   status: string;
+  owner_notes: string | null;
+  /** 1 only when the student ticked the share-my-number consent box. */
+  phone_shared: number;
+  /** The number the student agreed to share for THIS enquiry, else null. */
+  shared_phone: string | null;
   created_at: string;
+  updated_at: string;
   student_name: string | null;
   /** Who sent it — the target of "Message student" on the enquiry row. */
   student_id: string | null;
@@ -482,7 +495,34 @@ export const deleteListing = (id: string): Promise<{ ok: boolean }> =>
 export const submitListing = (id: string): Promise<{ listing: Listing }> =>
   api(`/api/owner/listings/${encodeURIComponent(id)}/submit`, { method: 'POST' });
 
-export const getOwnerLeads = (): Promise<{ leads: OwnerLead[] }> => api('/api/owner/leads');
+export interface OwnerLeadsResponse {
+  leads: OwnerLead[];
+  counts: Record<string, number>;
+  unread: number;
+  listings: { id: string; name: string }[];
+}
+
+/** The owner's enquiry inbox, optionally narrowed to one listing / status. */
+export const getOwnerLeads = (filters?: {
+  listing?: string;
+  status?: string;
+}): Promise<OwnerLeadsResponse> => {
+  const params = new URLSearchParams();
+  if (filters?.listing) params.set('listing', filters.listing);
+  if (filters?.status) params.set('status', filters.status);
+  const query = params.toString();
+  return api(`/api/owner/leads${query ? `?${query}` : ''}`);
+};
+
+/** Move a lead through the follow-up workflow and/or save a private note. */
+export const updateOwnerLead = (
+  id: number,
+  input: { status?: string; notes?: string }
+): Promise<{ ok: boolean; status: string }> =>
+  api(`/api/owner/leads/${id}`, { method: 'PATCH', body: JSON.stringify(input) });
+
+/** Badge count for the owner header — NEW enquiries across all listings. */
+export const getUnreadLeadCount = (): Promise<{ unread: number }> => api('/api/owner/leads/unread');
 
 export const getVerificationState = (): Promise<{
   status: 'none' | 'pending' | 'approved';
