@@ -83,6 +83,12 @@ not_found_handling = "404-page"
 # asset store (no added Worker invocations); the Worker also falls back to the
 # ASSETS binding itself, so an overlapping match would still be harmless.
 #
+# IMPORTANT — these entries only reach production via `npm run deploy` (build +
+# wrangler deploy). `npx wrangler deploy` alone uploads the assets config that
+# the Astro adapter froze into `dist/server/wrangler.json` at the last build,
+# so a newly added route silently keeps 404ing until you rebuild. This bit us:
+# /for-owners was added here and three waste deploys never served it.
+#
 # Keep this list in sync with `prerender = false` routes outside /api/*.
 run_worker_first = [
   "/api/*",
@@ -97,6 +103,7 @@ run_worker_first = [
   # /for-owners is an on-demand page (it reads live plan pricing server-side).
   # Without this entry the asset router 404s a navigation to it.
   "/for-owners",
+  "/for-owners/*",
   "/owner/plans",
   "/owner/plans/*",
   "/owner/listings/*/edit",

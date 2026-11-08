@@ -185,6 +185,13 @@ npm run deploy   # = astro build && wrangler deploy
 `dist/server/wrangler.json` (binding D1 + the ASSETS binding to `dist/client`)
 and uploads both as one Worker (`pg-hunter`).
 
+Never skip the build: `dist/server/wrangler.json` carries a snapshot of
+`wrangler.toml` (bindings, vars, and the `run_worker_first` route list) taken
+when Astro last built. `npx wrangler deploy` on a stale `dist` therefore ships
+the old config — a newly added on-demand page keeps 404ing from the asset
+router with no error, and only a rebuild (this script's first step) fixes it.
+If a route change "did not take", look at `dist/server/wrangler.json` first.
+
 ### Custom domain (recommended)
 
 Workers get a free `*.workers.dev` URL, but for Google OAuth + a real product
