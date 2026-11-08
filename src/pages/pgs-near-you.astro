@@ -8,62 +8,53 @@ import { SlidersHorizontal, ArrowUpDown, ChevronDown } from '@lucide/astro';
   title="PGs Near You — Find Student PGs, Rooms & Co-living | PG Hunter"
   description="Browse PGs, rooms and co-living spaces near your college. Filter by budget, room type, food and more on PG Hunter."
 >
-  <section class="border-b border-slate-200 bg-brand-50">
-    <div class="mx-auto max-w-7xl px-4 pb-10 pt-10 sm:px-6 lg:px-8">
-      <p class="eyebrow">Explore listings</p>
-      <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-
-      <h1 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">PGs Near You</h1>
-      <p class="mt-2 max-w-xl text-sm text-slate-600 sm:text-base">
-        Search, filter and sort the best PGs, rooms and co-living spaces around your college.
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <h1 class="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">PGs Near You</h1>
+      <p class="mt-2 max-w-2xl text-sm text-stone-600 sm:text-base">
+        Search, filter, sort. Find a PG that fits your college and budget.
       </p>
-      <div class="mt-6 max-w-4xl">
+      <div class="mt-5 max-w-4xl">
         <SearchPanel />
       </div>
     </div>
   </section>
 
-  <section aria-label="Search results" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="explorer">
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
-      <h2 id="results-heading" class="text-lg font-bold text-slate-900">
+  <section aria-label="Search results" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10" id="explorer">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-4 border-t border-stone-200 pt-6">
+      <h2 id="results-heading" class="text-base font-bold text-stone-900 sm:text-lg">
         <span id="result-count">0</span> PGs found
       </h2>
       <div class="ml-auto flex flex-wrap items-center gap-2">
-        <label class="field w-auto">
-          <ArrowUpDown class="h-4 w-4 shrink-0 text-brand-600" />
+        <label class="field w-auto min-w-[13rem]">
+          <ArrowUpDown class="h-4 w-4 shrink-0 text-stone-700" />
           <span class="sr-only">Sort</span>
-          <select id="sort-select" name="sort" class="w-auto appearance-none bg-transparent py-2 outline-none">
+          <select id="sort-select" name="sort" class="min-h-11 w-auto appearance-none bg-transparent py-2 pr-1 outline-none">
             <option value="recommended">Sort: Recommended</option>
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
           </select>
-          <ChevronDown class="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+          <ChevronDown class="h-4 w-4 shrink-0 text-stone-500" aria-hidden="true" />
         </label>
       </div>
     </div>
 
-    {/*
-      Shown only when the board itself is empty — a state a student must be able
-      to tell apart from "your filters are too narrow".
-    */}
-    <div id="no-listings" class="card pixel-corner relative mt-6 hidden px-6 py-12 text-center">
-      <div class="pixel-rule justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <p class="mt-5 text-lg font-bold text-slate-900">No PGs are listed yet</p>
-      <p class="mx-auto mt-1 max-w-md text-sm text-slate-500">
-        PG Hunter is onboarding owners right now. As soon as a PG is approved it shows up
-        here with its real photos, rooms and rents.
+    <div id="no-listings" class="card mt-5 hidden px-6 py-10 text-center">
+      <p class="font-display text-lg font-bold text-stone-900">No PGs are listed yet</p>
+      <p class="mx-auto mt-2 max-w-md text-sm text-stone-600">
+        Owners are joining now. Approved listings show up here with real photos, rooms, and rents.
       </p>
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
         <a href="/for-owners" class="btn-primary px-6">List your PG</a>
         <a href="/colleges" class="btn-secondary px-6">Browse by college</a>
       </div>
     </div>
 
-    <p id="partial-note" class="mt-5 hidden border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-medium text-slate-600" role="status"></p>
+    <p id="partial-note" class="mt-4 hidden rounded-md border border-stone-200 bg-stone-50 px-3.5 py-2 text-sm font-medium text-stone-700" role="status"></p>
 
-    <div id="filter-bar" class="card pixel-corner relative mt-5 p-4" aria-label="Filters">
+    <div id="filter-bar" class="card mt-4 p-4" aria-label="Filters">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="inline-flex min-h-11 items-center gap-1.5 rounded-sm border border-slate-200 bg-brand-50 px-3 text-sm font-semibold text-brand-700">
+        <span class="inline-flex min-h-11 items-center gap-1.5 rounded-md border border-stone-300 bg-stone-50 px-3 text-sm font-semibold text-stone-800">
           <SlidersHorizontal class="h-4 w-4" />
           Filters
         </span>
@@ -71,22 +62,22 @@ import { SlidersHorizontal, ArrowUpDown, ChevronDown } from '@lucide/astro';
         <button type="button" class="chip filter-chip" data-filter="gender" data-value="boys">Boys PG</button>
         <button type="button" class="chip filter-chip" data-filter="gender" data-value="girls">Girls PG</button>
         <button type="button" class="chip filter-chip" data-filter="gender" data-value="co-ed">Co-ed</button>
-        <span class="hidden h-6 w-px bg-slate-200 sm:block" aria-hidden="true"></span>
+        <span class="hidden h-6 w-px bg-stone-200 sm:block" aria-hidden="true"></span>
         <button type="button" class="chip filter-chip" data-filter="food" data-value="yes">With food</button>
         <button type="button" class="chip filter-chip" data-filter="verified" data-value="verified">Verified only</button>
-        <span class="hidden h-6 w-px bg-slate-200 sm:block" aria-hidden="true"></span>
-        <button type="button" id="clear-filters-btn" class="chip text-rose-600 hover:border-rose-200 hover:bg-rose-50">Clear all</button>
+        <span class="hidden h-6 w-px bg-stone-200 sm:block" aria-hidden="true"></span>
+        <button type="button" id="clear-filters-btn" class="chip text-red-700 hover:border-red-200 hover:bg-red-50">Clear all</button>
       </div>
-      <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
-        <span class="eyebrow pr-1">Budget</span>
+      <div class="mt-3 flex flex-wrap items-center gap-2 border-t border-stone-200 pt-3">
+        <span class="pr-1 text-sm font-semibold text-stone-700">Budget</span>
         <button type="button" class="chip filter-chip is-active" data-filter="budget" data-value="">Any</button>
         <button type="button" class="chip filter-chip" data-filter="budget" data-value="under-10">Under ₹10k</button>
-        <button type="button" class="chip filter-chip" data-filter="budget" data-value="10-15">₹10k – ₹15k</button>
-        <button type="button" class="chip filter-chip" data-filter="budget" data-value="15-20">₹15k – ₹20k</button>
-        <button type="button" class="chip filter-chip" data-filter="budget" data-value="20-plus">₹20k +</button>
+        <button type="button" class="chip filter-chip" data-filter="budget" data-value="10-15">₹10k to ₹15k</button>
+        <button type="button" class="chip filter-chip" data-filter="budget" data-value="15-20">₹15k to ₹20k</button>
+        <button type="button" class="chip filter-chip" data-filter="budget" data-value="20-plus">₹20k+</button>
       </div>
-      <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
-        <span class="eyebrow pr-1">Room type</span>
+      <div class="mt-3 flex flex-wrap items-center gap-2 border-t border-stone-200 pt-3">
+        <span class="pr-1 text-sm font-semibold text-stone-700">Room type</span>
         <button type="button" class="chip filter-chip is-active" data-filter="roomType" data-value="">Any</button>
         <button type="button" class="chip filter-chip" data-filter="roomType" data-value="single">Single</button>
         <button type="button" class="chip filter-chip" data-filter="roomType" data-value="double">Double</button>
@@ -95,21 +86,23 @@ import { SlidersHorizontal, ArrowUpDown, ChevronDown } from '@lucide/astro';
       </div>
     </div>
 
-    <div id="results-grid" data-reveal-group class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <div id="results-grid" data-reveal-group class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
 
-    <p id="results-loading" class="mt-8 text-sm font-medium text-slate-500" role="status">
-      Loading live listings…
-    </p>
+    <p id="results-loading" class="mt-6 text-sm font-medium text-stone-600" role="status">Loading live listings…</p>
 
-    <div id="empty-state" class="card pixel-corner relative mt-8 hidden px-6 py-12 text-center" role="status">
-      <div class="pixel-rule justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <p class="mt-5 text-lg font-bold text-slate-900">No PGs match those filters</p>
-      <p id="empty-query" class="mt-1 text-sm font-medium text-slate-500"></p>
-      <p class="mt-1 text-sm text-slate-500">Try widening your budget, searching a shorter name (e.g. DTU, Rohini), or clearing a filter.</p>
-      <button type="button" id="clear-filters" class="btn-secondary mt-6">Clear all filters</button>
+    <div id="empty-state" class="card mt-6 hidden px-6 py-10 text-center" role="status">
+      <p class="font-display text-lg font-bold text-stone-900">No PGs match those filters</p>
+      <p id="empty-query" class="mt-1 text-sm font-medium text-stone-600"></p>
+      <p class="mt-2 text-sm text-stone-600">Try widening budget, searching a shorter name (e.g. DTU, Rohini), or clearing a filter.</p>
+      <button type="button" id="clear-filters" class="btn-secondary mt-5">Clear all filters</button>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+  :where(button, a, [role="button"]):active { opacity: 0.96; }
+</style>
 
 <script>
   // Every card on this page comes from D1, fetched after load. The filter bar

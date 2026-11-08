@@ -110,35 +110,58 @@ const verificationMeta = (status: Listing['verificationStatus']): { label: strin
   }
 };
 
-const coverOf = (listing: LiveListing): string | null => {
+type MediaSlot = { kind: 'photo'; src: string } | { kind: 'video-poster'; src: string } | { kind: 'empty' };
+
+const ytPoster = (id: string): string | null => {
+  const clean = id.trim();
+  return clean ? `https://i.ytimg.com/vi/${encodeURIComponent(clean)}/hqdefault.jpg` : null;
+};
+
+const mediaSlotOf = (listing: LiveListing): MediaSlot => {
   const photo = listing.media.find((m) => m.type === 'photo' && (m.url || m.externalId));
-  if (!photo) return null;
-  return safeImageSrc(photo.url ?? photo.externalId);
+  const photoSrc = photo ? safeImageSrc(photo.url ?? photo.externalId) : null;
+  if (photoSrc) return { kind: 'photo', src: photoSrc };
+  const video = listing.media.find((m) => m.type === 'video' && m.provider === 'youtube' && m.externalId);
+  const poster = video ? ytPoster(video.externalId) : null;
+  if (poster) return { kind: 'video-poster', src: poster };
+  return { kind: 'empty' };
 };
 
 const BOOKMARK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>`;
 
 const roomSummary = (listing: LiveListing): string =>
-  [...new Set(listing.rooms.map((room) => room.occupancy || room.roomType))].join(' · ');
+  [...new Set(listing.rooms.map((room) => room.occupancy || room.roomType))].join(', ');
 
-/** One live listing as a card — the only listing card on the public site. */
+const renderMediaSlot = (slot: MediaSlot, name: string): string => {
+  if (slot.kind === 'photo') {
+    return `<img src="${escapeAttr(slot.src)}" alt="${escapeAttr(name)}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" width="800" height="600" />`;
+  }
+  if (slot.kind === 'video-poster') {
+    return `<img src="${escapeAttr(slot.src)}" alt="${escapeAttr(`${name} walkthrough`)}" loading="lazy" decoding="async" class="h-full w-full object-cover" width="800" height="600" />
+      <span class="absolute inset-0 flex items-center justify-center" aria-hidden="true"><span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent-400 text-stone-900 shadow"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></span>`;
+  }
+  // Empty state (pixel/noticeboard feel, not a flat photo stand-in).
+  return `<div class="flex h-full w-full items-center justify-center bg-stone-900 p-4 text-white" aria-label="No photo yet">
+    <div class="text-center">
+      <svg class="mx-auto h-10 w-10 text-accent-300" viewBox="0 0 64 40" fill="currentColor" aria-hidden="true"><rect x="4" y="18" width="12" height="18" opacity="0.35"/><rect x="18" y="10" width="14" height="26"/><rect x="34" y="14" width="10" height="22" opacity="0.6"/><rect x="46" y="6" width="14" height="30" opacity="0.45"/><rect x="22" y="16" width="3" height="3" fill="#1c1917"/><rect x="27" y="16" width="3" height="3" fill="#1c1917"/><rect x="22" y="22" width="3" height="3" fill="#1c1917"/><rect x="27" y="22" width="3" height="3" fill="#1c1917"/></svg>
+      <p class="mt-3 text-xs font-semibold text-stone-200">No photo yet</p>
+      <p class="mt-1 text-[11px] text-stone-400">Walkthrough or photos show up here</p>
+    </div>
+  </div>`;
+};
+
+/** One live listing as a card. Slot states: real photo | video poster | none (pixel empty). */
 export const liveCardHtml = (listing: LiveListing, opts?: { removable?: boolean }): string => {
   const href = `/pgs/live/${encodeURIComponent(listing.id)}`;
-  const image = coverOf(listing);
+  const slot = mediaSlotOf(listing);
   const verification = verificationMeta(listing.verificationStatus);
   const rent = listing.minRent ?? (listing.rooms.length ? Math.min(...listing.rooms.map((r) => r.rent)) : null);
   const rooms = roomSummary(listing);
   const amenities = listing.amenitySlugs
     .slice(0, 3)
     .map((slug) => amenityBySlug(slug)?.label ?? slug)
-    .map(
-      (label) =>
-        `<span class="bg-slate-100 px-1.5 py-0.5 text-[11px] font-medium text-slate-600">${escapeHtml(label)}</span>`
-    )
+    .map((label) => `<span class="rounded-md bg-stone-100 px-2 py-0.5 text-[11px] font-medium text-stone-700">${escapeHtml(label)}</span>`)
     .join(' ');
-
-  // The data-* attributes are the contract the browse page's filter pass reads;
-  // a new card field only works if the filter knows about it.
   const roomTypes = [...new Set(listing.rooms.map((room) => room.roomType))].join(' ');
 
   return `
@@ -152,52 +175,36 @@ export const liveCardHtml = (listing: LiveListing, opts?: { removable?: boolean 
   data-gender="${escapeAttr(listing.gender)}"
   data-food="${listing.food?.available ? 'yes' : 'no'}"
   data-verified="${escapeAttr(listing.verificationStatus)}">
-  <a href="${escapeAttr(href)}" class="relative block aspect-[4/3] overflow-hidden bg-slate-100" tabindex="-1" aria-hidden="true">
-    ${
-      image
-        ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(listing.name)}" loading="lazy" decoding="async"
-            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" width="800" height="600" />`
-        : `<span class="flex h-full w-full items-center justify-center bg-brand-50 text-sm text-brand-300">No photo yet</span>`
-    }
-    <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${verification.className}">
+  <a href="${escapeAttr(href)}" class="relative block aspect-[4/3] overflow-hidden bg-stone-100" tabindex="-1" aria-hidden="true">
+    ${renderMediaSlot(slot, listing.name)}
+    <span class="absolute left-3 top-3 inline-flex items-center rounded-md bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-stone-800 shadow-sm">
       ${escapeHtml(verification.label)}
     </span>
-    <span class="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-sm bg-accent-400/95 px-2 text-[10px] font-extrabold uppercase tracking-wide text-slate-900" title="This listing is live on PG Hunter right now">
-      Live
-    </span>
+    ${slot.kind === 'video-poster' ? `<span class="absolute right-3 top-3 inline-flex items-center rounded-md bg-stone-900/85 px-2 py-1 text-[10px] font-bold text-white">Video</span>` : ''}
   </a>
   <div class="flex flex-1 flex-col gap-2.5 p-4">
     <div class="flex items-start justify-between gap-2">
-      <h3 class="text-base font-bold leading-snug text-slate-900">
+      <h3 class="font-display text-base font-bold leading-snug text-stone-900">
         <a href="${escapeAttr(href)}" class="after:absolute after:inset-0">${escapeHtml(listing.name)}</a>
       </h3>
       ${
         opts?.removable
-          ? `<button type="button" data-remove-saved="${escapeAttr(listing.id)}"
-              class="relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-slate-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
-              aria-label="${escapeAttr(`Remove ${listing.name} from saved`)}" title="Remove from saved">✕</button>`
-          : `<button type="button" data-save-btn data-property-id="${escapeAttr(listing.id)}"
-              class="relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-slate-400 transition-colors hover:bg-brand-50 hover:text-brand-600"
-              aria-label="${escapeAttr(`Save ${listing.name} to your shortlist`)}" aria-pressed="false" title="Save to shortlist">
-              ${BOOKMARK_SVG}
-            </button>`
+          ? `<button type="button" data-remove-saved="${escapeAttr(listing.id)}" class="relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-stone-500 hover:bg-red-50 hover:text-red-700" aria-label="${escapeAttr(`Remove ${listing.name} from saved`)}" title="Remove from saved">✕</button>`
+          : `<button type="button" data-save-btn data-property-id="${escapeAttr(listing.id)}" class="relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-stone-500 hover:bg-stone-100 hover:text-stone-900" aria-label="${escapeAttr(`Save ${listing.name} to your shortlist`)}" aria-pressed="false" title="Save to shortlist">${BOOKMARK_SVG}</button>`
       }
     </div>
-    <p class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs font-medium text-slate-500">
+    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-stone-600">
       <span>${escapeHtml(listing.locality)}${listing.locality && listing.city ? ', ' : ''}${escapeHtml(listing.city)}</span>
-      <span aria-hidden="true">·</span>
       <span>${escapeHtml(listing.gender === 'co-ed' ? 'Co-ed' : listing.gender === 'boys' ? 'Boys' : 'Girls')}</span>
     </p>
     <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-      <span class="text-xl font-extrabold text-brand-700">${rent !== null ? escapeHtml(formatINR(rent)) : 'Ask owner'}</span>
-      ${rent !== null ? '<span class="text-xs font-medium text-slate-500">/month starting from</span>' : ''}
+      <span class="font-display text-xl font-extrabold text-stone-900">${rent !== null ? escapeHtml(formatINR(rent)) : 'Ask owner'}</span>
+      ${rent !== null ? '<span class="text-xs font-medium text-stone-600">/month starting from</span>' : ''}
     </div>
-    ${rooms ? `<p class="text-sm font-semibold text-slate-700">${escapeHtml(rooms)}</p>` : ''}
+    ${rooms ? `<p class="text-sm font-semibold text-stone-700">${escapeHtml(rooms)}</p>` : ''}
     ${amenities ? `<div class="flex flex-wrap gap-1.5">${amenities}</div>` : ''}
-    <div class="mt-auto flex items-center gap-3 border-t border-slate-200 pt-3">
-      <a href="${escapeAttr(href)}" class="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-sm bg-brand-50 text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-100">
-        View Details
-      </a>
+    <div class="mt-auto flex items-center gap-3 border-t border-stone-200 pt-3">
+      <a href="${escapeAttr(href)}" class="btn-secondary min-h-11 flex-1 text-sm">View Details</a>
     </div>
   </div>
 </article>`;

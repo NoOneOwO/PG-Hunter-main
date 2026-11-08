@@ -80,7 +80,7 @@ const photoSrc = (photo: { url: string | null; externalId: string }): string =>
   photo.url ?? photo.externalId;
 const videos = l ? l.media.filter((m) => m.type === 'video' && m.provider === 'youtube') : [];
 const availableRooms = l ? l.rooms.filter((r) => r.available).length : 0;
-const minRent = l && l.rooms.length ? Math.min(...l.rooms.map((r) => r.rent)) : null;
+const minRent = l && l.rooms.length ? Math.min(…l.rooms.map((r) => r.rent)) : null;
 const food = l?.food ?? { available: false };
 const amenitiesWithLabels = l
   ? l.amenitySlugs.map((slug) => ({ slug, label: amenityBySlug(slug)?.label ?? slug }))
@@ -91,7 +91,7 @@ const listedOn = l
 ---
 
 <BaseLayout
-  title={l ? `${l.name} — ${l.locality}, ${l.city} | PG Hunter` : 'Listing not found — PG Hunter'}
+  title={l ? `${l.name}, ${l.locality} ${l.city} | PG Hunter` : 'Listing not found, PG Hunter'}
   description={l ? l.description.slice(0, 155) : 'This PG listing is no longer available on PG Hunter.'}
   image={photos.length ? photoSrc(photos[0]) : undefined}
   noindex={!l}
@@ -99,19 +99,14 @@ const listedOn = l
   {
     !l ? (
       <section class="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6">
-        <span class="mx-auto flex h-16 w-16 items-center justify-center bg-brand-50 text-brand-700">
+        <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-stone-100 text-stone-800">
           <Compass class="h-8 w-8" />
         </span>
-        <p class="eyebrow mt-6">Listing unavailable</p>
-        <div class="pixel-rule mt-3 justify-center" aria-hidden="true">
-          <i /><i /><i /><i /><i />
-        </div>
-        <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 class="mt-6 font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
           This PG is no longer live
         </h1>
-        <p class="mx-auto mt-2 max-w-md text-sm text-slate-600 sm:text-base">
-          The owner may have paused it or it has come off PG Hunter. Plenty of other
-          verified PGs are waiting — your shortlist stays saved.
+        <p class="mx-auto mt-3 max-w-md text-sm text-stone-600 sm:text-base">
+          The owner may have paused it or it has come off PG Hunter. Your shortlist stays saved.
         </p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
           <a href="/pgs-near-you" class="btn-primary px-8">
@@ -125,52 +120,30 @@ const listedOn = l
     ) : (
       <div class="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         <nav aria-label="Breadcrumb" class="text-sm">
-          <ol class="flex flex-wrap items-center gap-1.5 text-slate-500">
-            <li>
-              <a href="/" class="hover:text-brand-700">
-                Home
-              </a>
-            </li>
+          <ol class="flex flex-wrap items-center gap-1.5 text-stone-600">
+            <li><a href="/" class="font-medium text-[color:var(--color-violet)] hover:underline">Home</a></li>
             <li aria-hidden="true">/</li>
-            <li>
-              <a href="/pgs-near-you" class="hover:text-brand-700">
-                PGs Near You
-              </a>
-            </li>
+            <li><a href="/pgs-near-you" class="font-medium text-[color:var(--color-violet)] hover:underline">PGs Near You</a></li>
             <li aria-hidden="true">/</li>
-            <li aria-current="page" class="font-semibold text-slate-800">
-              {l.name}
-            </li>
+            <li aria-current="page" class="font-semibold text-stone-900">{l.name}</li>
           </ol>
         </nav>
 
-        {/* ------------------------------------------------ title band ---- */}
-        <div class="relative mt-6 overflow-hidden border border-slate-200 bg-brand-50 p-5 sm:p-6">
-          {/* The module script it
-              mounts ships as an external chunk, so it works under the CSP this
-              on-demand route gets from middleware. */}
-          <GradientBackdrop />
-          <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-50/92 via-brand-50/70 to-brand-50/15"
-            aria-hidden="true"
-          />
+        <div class="relative mt-6 overflow-hidden rounded-xl border border-stone-200 bg-white p-5 sm:p-6">
           <div class="relative">
             <div class="flex flex-wrap items-center gap-2">
-              <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{l.name}</h1>
+              <h1 class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">{l.name}</h1>
               <VerificationBadge status={badgeStatus} />
-              <span class="badge border border-accent-300 bg-accent-100 text-slate-900" title="This listing is live on PG Hunter right now">
+              <span class="badge border border-stone-200 bg-stone-50 text-stone-800" title="This listing is live on PG Hunter right now">
                 <Sparkles class="h-3.5 w-3.5" />
                 Live listing
               </span>
             </div>
-            <p class="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm font-medium text-slate-500">
-              <MapPin class="h-4 w-4 text-brand-600" />
-              {l.address ? `${l.address} · ` : ''}
-              {l.locality}
-              {l.locality && l.city ? ', ' : ''}
-              {l.city}
+            <p class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-stone-600">
+              <MapPin class="h-4 w-4 text-stone-700" />
+              {[l.address, [l.locality, l.city].filter(Boolean).join(', ')].filter(Boolean).join(' ')}
             </p>
-            <ul class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium text-slate-500">
+            <ul class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-medium text-stone-500">
               <li class="capitalize">{l.propertyType === 'flat' ? 'Student flat' : l.propertyType === 'hostel' ? 'Hostel' : 'PG'}</li>
               <li class="capitalize">
                 {l.gender === 'co-ed' ? 'Co-ed' : l.gender === 'boys' ? 'Boys only' : 'Girls only'}
@@ -198,14 +171,14 @@ const listedOn = l
                   <div
                     id="pg-gallery"
                     tabindex="0"
-                    class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-none border border-slate-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-lg border border-stone-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   >
                     {/* Walkthrough videos lead the carousel: video-first discovery
                         means the tour is the first thing a visitor sees. The gallery
                         script counts slides generically, so no JS change is needed. */}
                     {videos.map((video) => (
                       <figure class="w-full shrink-0 snap-center">
-                        <div class="aspect-[16/10] w-full bg-slate-900 [&>div]:h-full">
+                        <div class="aspect-[16/10] w-full bg-stone-900 [&>div]:h-full">
                           <VideoPlayer videoId={video.externalId} title={video.title} />
                         </div>
                       </figure>
@@ -230,7 +203,7 @@ const listedOn = l
                       <button
                         type="button"
                         data-gallery-prev
-                        class="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-sm border border-slate-200 bg-white/95 text-slate-700 transition hover:bg-white disabled:pointer-events-none disabled:opacity-0"
+                        class="absolute left-3 top-1/2 flex h-10 w-10 motion-safe:-translate-y-1/2 items-center justify-center rounded-md border border-stone-300 bg-white/95 text-stone-700 motion-safe:transition hover:bg-white disabled:pointer-events-none disabled:opacity-0"
                         aria-label="Previous slide"
                       >
                         <ChevronLeft class="h-5 w-5" />
@@ -238,19 +211,19 @@ const listedOn = l
                       <button
                         type="button"
                         data-gallery-next
-                        class="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-sm border border-slate-200 bg-white/95 text-slate-700 transition hover:bg-white disabled:pointer-events-none disabled:opacity-0"
+                        class="absolute right-3 top-1/2 flex h-10 w-10 motion-safe:-translate-y-1/2 items-center justify-center rounded-md border border-stone-300 bg-white/95 text-stone-700 motion-safe:transition hover:bg-white disabled:pointer-events-none disabled:opacity-0"
                         aria-label="Next slide"
                       >
                         <ChevronRight class="h-5 w-5" />
                       </button>
-                      <p class="pointer-events-none absolute bottom-3 right-3 rounded-sm bg-slate-900/80 px-2.5 py-1 text-xs font-semibold text-white">
+                      <p class="pointer-events-none absolute bottom-3 right-3 rounded-md bg-stone-900/85 px-2.5 py-1 text-xs font-semibold text-white">
                         <span data-gallery-index>1</span> / {photos.length + videos.length}
                       </p>
                     </>
                   )}
                 </>
               ) : (
-                <div class="flex aspect-[16/10] w-full items-center justify-center rounded-none border border-dashed border-slate-300 bg-slate-50 text-sm text-slate-500">
+                <div class="flex aspect-[16/10] w-full items-center justify-center rounded-none border border-dashed border-stone-300 bg-stone-50 text-sm text-stone-500">
                   The owner has not uploaded photos yet.
                 </div>
               )}
@@ -259,20 +232,20 @@ const listedOn = l
             {/* --------------------------------------------- engagement ---- */}
             <div
               id="engagement-bar"
-              class="card pixel-corner relative mt-4 flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 sm:gap-x-6 sm:px-6"
+              class="card relative mt-4 flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 sm:gap-x-6 sm:px-6"
             >
               {/* Views as a stat line — big, bold, readable across the room. */}
               <div class="flex items-center gap-3">
-                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-brand-50 text-brand-600">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-stone-100 text-stone-700">
                   <Eye class="h-5 w-5" />
                 </span>
                 <span class="flex flex-col leading-none">
-                  <span id="eng-views" class="text-2xl font-extrabold text-slate-900 tabular-nums">—</span>
-                  <span class="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">views</span>
+                  <span id="eng-views" class="text-2xl font-extrabold text-stone-900 tabular-nums">…</span>
+                  <span class="mt-1 text-xs font-bold text-stone-600">views</span>
                 </span>
               </div>
 
-              <span class="mx-1 hidden h-10 w-px bg-slate-200 lg:block" aria-hidden="true"></span>
+              <span class="mx-1 hidden h-10 w-px bg-stone-200 lg:block" aria-hidden="true"></span>
 
               <div class="ml-auto flex items-center gap-2">
                 <button
@@ -299,7 +272,7 @@ const listedOn = l
                   title="Like"
                 >
                   <ThumbsUp class="h-[18px] w-[18px]" />
-                  <span data-like-count class="eng-count">—</span>
+                  <span data-like-count class="eng-count">0</span>
                 </button>
                 <button
                   type="button"
@@ -312,32 +285,32 @@ const listedOn = l
                   title="Dislike"
                 >
                   <ThumbsDown class="h-[18px] w-[18px]" />
-                  <span data-dislike-count class="eng-count">—</span>
+                  <span data-dislike-count class="eng-count">0</span>
                 </button>
               </div>
             </div>
 
             {/* ------------------------------------------------ about ---- */}
             <section aria-labelledby="about-heading" class="mt-8">
-              <h2 id="about-heading" class="section-head text-lg font-bold text-slate-900">
+              <h2 id="about-heading" class="font-display text-lg font-bold text-stone-900">
                 About this {l.propertyType === 'flat' ? 'flat' : l.propertyType === 'hostel' ? 'hostel' : 'PG'}
               </h2>
-              <p class="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
+              <p class="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-stone-600">
                 {l.description || 'The owner has not added a description yet.'}
               </p>
             </section>
 
             {/* ------------------------------------------------ rooms ---- */}
             <section aria-labelledby="rooms-heading" class="mt-8">
-              <h2 id="rooms-heading" class="section-head text-lg font-bold text-slate-900">
+              <h2 id="rooms-heading" class="font-display text-lg font-bold text-stone-900">
                 Rooms &amp; pricing
               </h2>
-              <p class="mt-1 text-sm text-slate-500">
+              <p class="mt-1 text-sm text-stone-500">
                 Rent lives at the room level, so every option has its own price.
               </p>
-              <div class="mt-3 overflow-x-auto border border-slate-200">
+              <div class="mt-3 overflow-x-auto border border-stone-200">
                 <table class="w-full text-left text-sm">
-                  <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                  <thead class="bg-stone-50 text-xs  text-stone-500">
                     <tr>
                       <th scope="col" class="px-4 py-3 font-semibold">Room</th>
                       <th scope="col" class="px-4 py-3 font-semibold">Monthly rent</th>
@@ -345,28 +318,28 @@ const listedOn = l
                       <th scope="col" class="px-4 py-3 font-semibold">Status</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-slate-100">
+                  <tbody class="divide-y divide-stone-100">
                     {l.rooms.length === 0 ? (
                       <tr>
-                        <td colspan="4" class="px-4 py-8 text-center text-slate-500">
+                        <td colspan="4" class="px-4 py-8 text-center text-stone-500">
                           The owner has not published room options yet.
                         </td>
                       </tr>
                     ) : (
                       l.rooms.map((room) => (
                         <tr>
-                          <td class="px-4 py-3 font-semibold text-slate-800">
+                          <td class="px-4 py-3 font-semibold text-stone-800">
                             {room.occupancy || room.roomType}
                           </td>
-                          <td class="px-4 py-3 text-slate-700">{formatINR(room.rent)}</td>
-                          <td class="px-4 py-3 text-slate-700">{formatINR(room.deposit)}</td>
+                          <td class="px-4 py-3 text-stone-700">{formatINR(room.rent)}</td>
+                          <td class="px-4 py-3 text-stone-700">{formatINR(room.deposit)}</td>
                           <td class="px-4 py-3">
                             {room.available ? (
                               <span class="inline-flex items-center gap-1 rounded-sm bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700">
                                 <Check class="h-3 w-3" /> Available
                               </span>
                             ) : (
-                              <span class="inline-flex items-center gap-1 rounded-sm bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500">
+                              <span class="inline-flex items-center gap-1 rounded-sm bg-stone-200 px-2 py-0.5 text-xs font-semibold text-stone-700">
                                 Occupied
                               </span>
                             )}
@@ -382,15 +355,15 @@ const listedOn = l
             {/* -------------------------------------------- amenities ---- */}
             {amenitiesWithLabels.length > 0 && (
               <section aria-labelledby="amenities-heading" class="mt-8">
-                <h2 id="amenities-heading" class="section-head text-lg font-bold text-slate-900">
-                  What's included
+                <h2 id="amenities-heading" class="font-display text-lg font-bold text-stone-900">
+                  What’s included
                 </h2>
                 <ul class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                   {amenitiesWithLabels.map((amenity) => {
                     const Icon = amenityIcon(amenity.slug);
                     return (
-                      <li class="flex items-center gap-2 border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700">
-                        <Icon class="h-4 w-4 shrink-0 text-brand-600" />
+                      <li class="flex items-center gap-2 border border-stone-200 bg-white px-3 py-3 text-sm font-medium text-stone-700">
+                        <Icon class="h-4 w-4 shrink-0 text-stone-700" />
                         {amenity.label}
                       </li>
                     );
@@ -401,15 +374,15 @@ const listedOn = l
 
             {/* ------------------------------------------- house rules ---- */}
             <section aria-labelledby="rules-heading" class="mt-8">
-              <h2 id="rules-heading" class="section-head text-lg font-bold text-slate-900">
+              <h2 id="rules-heading" class="font-display text-lg font-bold text-stone-900">
                 Food, rules &amp; timings
               </h2>
               <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div class="border border-slate-200 bg-white p-4">
-                  <p class="flex items-center gap-2 text-sm font-bold text-slate-800">
-                    <Utensils class="h-4 w-4 text-brand-600" /> Food
+                <div class="border border-stone-200 bg-white p-4">
+                  <p class="flex items-center gap-2 text-sm font-bold text-stone-800">
+                    <Utensils class="h-4 w-4 text-stone-700" /> Food
                   </p>
-                  <p class="mt-2 text-sm text-slate-600">
+                  <p class="mt-2 text-sm text-stone-600">
                     {food.available
                       ? `${food.type === 'veg' ? 'Pure veg' : food.type === 'non-veg' ? 'Non-veg' : 'Veg & non-veg'} meals included${
                           food.monthlyCost ? ` · ${formatINR(food.monthlyCost)}/month` : ''
@@ -417,18 +390,18 @@ const listedOn = l
                       : 'No mess on site — self-cooking or nearby options.'}
                   </p>
                 </div>
-                <div class="border border-slate-200 bg-white p-4">
-                  <p class="flex items-center gap-2 text-sm font-bold text-slate-800">
-                    <Clock3 class="h-4 w-4 text-brand-600" /> Curfew
+                <div class="border border-stone-200 bg-white p-4">
+                  <p class="flex items-center gap-2 text-sm font-bold text-stone-800">
+                    <Clock3 class="h-4 w-4 text-stone-700" /> Curfew
                   </p>
-                  <p class="mt-2 text-sm text-slate-600">{l.curfew || 'No curfew mentioned.'}</p>
+                  <p class="mt-2 text-sm text-stone-600">{l.curfew || 'No curfew mentioned.'}</p>
                 </div>
               </div>
               {l.rules.length > 0 && (
                 <ul class="mt-4 flex flex-col gap-2">
                   {l.rules.map((rule) => (
-                    <li class="flex items-start gap-2 text-sm text-slate-600">
-                      <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
+                    <li class="flex items-start gap-2 text-sm text-stone-600">
+                      <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-stone-700" />
                       {rule}
                     </li>
                   ))}
@@ -439,24 +412,24 @@ const listedOn = l
             {/* ----------------------------------------- experiences ---- */}
             <section aria-labelledby="experiences-heading" class="mt-8">
               <div class="flex flex-wrap items-end justify-between gap-2">
-                <h2 id="experiences-heading" class="section-head text-lg font-bold text-slate-900">
+                <h2 id="experiences-heading" class="font-display text-lg font-bold text-stone-900">
                   Student experiences
                 </h2>
-                <p class="text-sm font-medium text-slate-500">
-                  <span id="exp-count">—</span> · <span id="exp-avg">No ratings yet</span>
+                <p class="text-sm font-medium text-stone-500">
+                  <span id="exp-count">…</span> <span id="exp-avg">No ratings yet</span>
                 </p>
               </div>
 
               <div id="experiences-list" class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2"></div>
-              <p id="experiences-empty" class="mt-4 border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
+              <p id="experiences-empty" class="mt-4 border border-dashed border-stone-300 bg-stone-50 p-4 text-sm text-stone-500">
                 No comments yet. Be the first to share what living here is like.
               </p>
 
-              <form id="experience-form" class="mt-6 border border-slate-200 bg-white p-4">
-                <label for="exp-content" class="text-sm font-bold text-slate-800">
+              <form id="experience-form" class="mt-6 border border-stone-200 bg-white p-4">
+                <label for="exp-content" class="text-sm font-bold text-stone-800">
                   Share your experience
                 </label>
-                <p class="mt-0.5 text-xs text-slate-500">
+                <p class="mt-0.5 text-xs text-stone-500">
                   Posts straight away. Please avoid personal attacks and contact details.
                 </p>
                 <textarea
@@ -464,13 +437,13 @@ const listedOn = l
                   rows="3"
                   maxlength="2000"
                   placeholder="What is it actually like to live here? Food, wifi, water, owners…"
-                  class="mt-3 w-full resize-none rounded-sm border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:outline-none"
+                  class="mt-3 w-full resize-none rounded-sm border border-stone-400 bg-white px-3.5 py-2.5 text-sm text-stone-900 placeholder:text-stone-500 focus:border-stone-500 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-focus)] focus:ring-offset-1"
                 ></textarea>
                 <div class="mt-3 flex flex-wrap items-center gap-3">
-                  <label class="flex items-center gap-2 text-sm text-slate-600">
+                  <label class="flex items-center gap-2 text-sm text-stone-600">
                     Rating
-                    <select id="exp-rating" class="rounded-sm border border-slate-200 bg-white px-2 py-1.5 text-sm">
-                      <option value="">—</option>
+                    <select id="exp-rating" class="rounded-sm border border-stone-500 bg-white px-2 py-1.5 text-sm">
+                      <option value="">None</option>
                       <option value="5">5 ★</option>
                       <option value="4">4 ★</option>
                       <option value="3">3 ★</option>
@@ -489,91 +462,61 @@ const listedOn = l
 
           {/* ------------------------------------------------- aside ---- */}
           <aside class="lg:sticky lg:top-6 lg:self-start">
-            <div class="card pixel-corner relative p-5">
-              <div class="pixel-rule" aria-hidden="true">
-                <i /><i /><i /><i /><i />
-              </div>
-              <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Starting from
-              </p>
-              <p class="mt-1 text-3xl font-extrabold tracking-tight text-brand-700">
+            <div class="card p-5">
+              <p class="text-sm font-semibold text-stone-600">Starting from</p>
+              <p class="mt-1 font-display text-3xl font-extrabold tracking-tight text-stone-900">
                 {minRent !== null ? formatINR(minRent) : 'Ask owner'}
-                {minRent !== null && <span class="text-sm font-semibold text-slate-500">/month</span>}
+                {minRent !== null && <span class="text-sm font-semibold text-stone-600">/month</span>}
               </p>
-              <ul class="mt-4 flex flex-col gap-2 text-sm text-slate-600">
-                <li class="flex items-center gap-2">
-                  <Check class="h-4 w-4 text-emerald-600" />
-                  {availableRooms} of {l.rooms.length} room types available
-                </li>
-                <li class="flex items-center gap-2">
-                  <Check class="h-4 w-4 text-emerald-600" />
-                  {food.available ? 'Mess/food available' : 'No mess on site'}
-                </li>
-                <li class="flex items-center gap-2">
-                  <ShieldCheck class="h-4 w-4 text-brand-600" />
-                  No brokerage · owner listed
-                </li>
+              <ul class="mt-4 flex flex-col gap-2 text-sm text-stone-700">
+                <li class="flex items-center gap-2"><Check class="h-4 w-4 text-emerald-700" />{availableRooms} of {l.rooms.length} room types available</li>
+                <li class="flex items-center gap-2"><Check class="h-4 w-4 text-emerald-700" />{food.available ? 'Mess/food available' : 'No mess on site'}</li>
+                <li class="flex items-center gap-2"><ShieldCheck class="h-4 w-4 text-stone-700" />₹0 brokerage, owner listed</li>
               </ul>
 
-              <button
-                type="button"
-                id="enquiry-btn"
-                class="btn-primary mt-5 w-full px-6"
-              >
-                <MessageCircle class="h-4 w-4" />
-                Send enquiry
+              <!-- Send enquiry opens the ContactOwner flow (same intent). Handlers preserved in ContactOwner. -->
+              <button type="button" id="enquiry-btn" class="btn-primary mt-5 w-full px-6">
+                <MessageCircle class="h-4 w-4" />Send enquiry
               </button>
-              {/* Chat with the owner directly. The link carries the owner and
-                  the PG, and /messages opens that exact conversation (creating
-                  it if it does not exist yet). */}
-              <a
-                href={`/messages?owner=${encodeURIComponent(l.ownerId)}&listing=${encodeURIComponent(l.id)}`}
-                class="btn-secondary mt-2 w-full px-6"
-                id="message-owner-btn"
-              >
-                <MessagesSquare class="h-4 w-4" />
-                Message owner
+              <a href={`/messages?owner=${encodeURIComponent(l.ownerId)}&listing=${encodeURIComponent(l.id)}`} class="btn-secondary mt-2 w-full px-6" id="message-owner-btn">
+                <MessagesSquare class="h-4 w-4" />Message owner
               </a>
-              <p class="mt-3 text-xs leading-relaxed text-slate-500">
-                The owner sees your name{''}
-                and contact details only after you send an enquiry. PG Hunter never asks
-                for an advance payment.
-              </p>
             </div>
 
             <ContactOwner listingId={l.id} listingName={l.name} />
+            <!-- Sidebar controls: "Send enquiry" triggers ContactOwner's existing #enquiry-open/dialog handler (no handler duplication; preserved). "Message owner" is a separate navigation link. "Contact Owner" UI lives in ContactOwner below (same enquiry flow) — kept and made secondary to avoid duplicate primary CTAs. -->
 
-            <div class="card mt-4 border border-slate-200 p-5">
-              <h2 class="flex items-center gap-2 text-sm font-bold text-slate-900">
-                <Building2 class="h-4 w-4 text-brand-600" /> Listing details
+            <div class="card mt-4 border border-stone-200 p-5">
+              <h2 class="flex items-center gap-2 text-sm font-bold text-stone-900">
+                <Building2 class="h-4 w-4 text-stone-700" /> Listing details
               </h2>
               <dl class="mt-3 space-y-2.5 text-sm">
                 <div class="flex justify-between gap-3">
-                  <dt class="text-slate-500">Type</dt>
-                  <dd class="font-semibold capitalize text-slate-800">{l.propertyType}</dd>
+                  <dt class="text-stone-500">Type</dt>
+                  <dd class="font-semibold capitalize text-stone-800">{l.propertyType}</dd>
                 </div>
                 <div class="flex justify-between gap-3">
-                  <dt class="text-slate-500">Gender</dt>
-                  <dd class="font-semibold capitalize text-slate-800">
+                  <dt class="text-stone-500">Gender</dt>
+                  <dd class="font-semibold capitalize text-stone-800">
                     {l.gender === 'co-ed' ? 'Co-ed' : l.gender === 'boys' ? 'Boys' : 'Girls'}
                   </dd>
                 </div>
                 <div class="flex justify-between gap-3">
-                  <dt class="text-slate-500">Locality</dt>
-                  <dd class="font-semibold text-slate-800">{l.locality || '—'}</dd>
+                  <dt class="text-stone-500">Locality</dt>
+                  <dd class="font-semibold text-stone-800">{l.locality || '—'}</dd>
                 </div>
                 <div class="flex justify-between gap-3">
-                  <dt class="text-slate-500">City</dt>
-                  <dd class="font-semibold text-slate-800">{l.city || '—'}</dd>
+                  <dt class="text-stone-500">City</dt>
+                  <dd class="font-semibold text-stone-800">{l.city || '—'}</dd>
                 </div>
                 <div class="flex justify-between gap-3">
-                  <dt class="text-slate-500">Listed</dt>
-                  <dd class="font-semibold text-slate-800">{listedOn}</dd>
+                  <dt class="text-stone-500">Listed</dt>
+                  <dd class="font-semibold text-stone-800">{listedOn}</dd>
                 </div>
               </dl>
               <a
                 href="/pgs-near-you"
-                class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline"
+                class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-900 hover:underline"
               >
                 Compare similar PGs
               </a>
@@ -687,9 +630,24 @@ const listedOn = l
     likeBtn?.addEventListener('click', () => void handleReaction('like'));
     dislikeBtn?.addEventListener('click', () => void handleReaction('dislike'));
 
+    // Sidebar "Send enquiry" opens ContactOwner's dialog (handler preserved in ContactOwner).
+    document.getElementById('enquiry-btn')?.addEventListener('click', () => {
+      const open = document.getElementById('enquiry-open') as HTMLButtonElement | null;
+      if (open) open.click();
+      else (document.getElementById('enquiry-dialog') as HTMLDialogElement | null)?.showModal?.();
+    });
+
     /* ------------------------------------------------ gallery -------- */
     const gallery = document.getElementById('pg-gallery') as HTMLElement | null;
     if (gallery) {
+      // Seed/media URLs may fail; replace with an empty slot state.
+      gallery.querySelectorAll('img').forEach((img) => {
+        img.addEventListener('error', () => {
+          const fig = img.closest('figure');
+          if (!fig) return;
+          fig.innerHTML = '<div class="aspect-[16/10] w-full bg-stone-900 text-stone-300 flex items-center justify-center text-sm">Photo not available</div>';
+        }, { once: true });
+      });
       const total = gallery.children.length;
       const indexEl = gallery.parentElement?.querySelector('[data-gallery-index]') as HTMLElement | null;
       const prevBtn = document.querySelector<HTMLButtonElement>('[data-gallery-prev]');
@@ -751,7 +709,7 @@ const listedOn = l
       try {
         const data = await getExperiences(propertyId);
         expCount.textContent = `${data.count} experience${data.count === 1 ? '' : 's'}`;
-        expAvg.textContent = data.avgRating !== null ? `⭐ ${data.avgRating} avg` : 'No ratings yet';
+        expAvg.textContent = data.avgRating !== null ? `${data.avgRating} avg` : 'No ratings yet';
         if (data.experiences.length === 0) {
           expList.innerHTML = '';
           expEmpty.classList.remove('hidden');
@@ -761,17 +719,17 @@ const listedOn = l
         expList.innerHTML = data.experiences
           .map(
             (e) => `
-        <article class="border border-slate-200 bg-white p-4">
+        <article class="border border-stone-200 bg-white p-4">
           <div class="flex items-center justify-between gap-2">
-            <p class="text-sm font-bold text-slate-900">${escapeHtml(e.user_name ?? 'Student')}</p>
-            <span class="text-xs text-slate-500">${escapeHtml(
+            <p class="text-sm font-bold text-stone-900">${escapeHtml(e.user_name ?? 'Student')}</p>
+            <span class="text-xs text-stone-500">${escapeHtml(
               new Date(e.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
             )}</span>
           </div>
-          ${e.rating ? `<p class="mt-1 text-sm text-amber-500">${'★'.repeat(e.rating)}${'☆'.repeat(5 - e.rating)}</p>` : ''}
-          <p class="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-slate-700">${escapeHtml(e.content)}</p>
+          ${e.rating ? `<p class="mt-1 text-sm font-semibold text-amber-700">${'★'.repeat(e.rating)}${'☆'.repeat(5 - e.rating)}</p>` : ''}
+          <p class="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-stone-700">${escapeHtml(e.content)}</p>
           <div class="mt-3 flex justify-end">
-            <button data-report="${escapeAttr(e.id)}" class="text-xs font-medium text-slate-500 hover:text-rose-600">Report</button>
+            <button data-report="${escapeAttr(e.id)}" class="text-xs font-medium text-stone-500 hover:text-rose-600">Report</button>
           </div>
         </article>`
           )
@@ -804,7 +762,7 @@ const listedOn = l
           });
         });
       } catch {
-        if (expCount) expCount.textContent = '—';
+        if (expCount) expCount.textContent = '…';
       }
     };
 
@@ -825,7 +783,7 @@ const listedOn = l
         return;
       }
       expStatus.textContent = 'Submitting…';
-      expStatus.className = 'mt-3 rounded-sm bg-slate-100 px-3 py-2 text-sm font-medium text-slate-600';
+      expStatus.className = 'mt-3 rounded-sm bg-stone-100 px-3 py-2 text-sm font-medium text-stone-600';
       try {
         await submitExperience(propertyId, content, ratingVal);
         expStatus.textContent = 'Comment posted.';

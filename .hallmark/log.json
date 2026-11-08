@@ -1,5 +1,18 @@
 [
   {
+    "part": 3,
+    "date": "2026-11-08",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "pgs-near-you+listing-detail",
+    "theme": "brand/brief-locked",
+    "genre": "playful",
+    "shape": "kept",
+    "hero": "none (tools/detail)",
+    "signature": "n/a",
+    "prompt": "PG Hunter redesign Part 3: PGs Near You + listing detail"
+  },
+  {
     "part": 2,
     "date": "2026-11-08",
     "mode": "redesign",
