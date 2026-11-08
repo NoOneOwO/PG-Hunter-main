@@ -8,6 +8,7 @@ import { colleges } from '@/data/colleges';
 <BaseLayout>
   <section class="home-hero relative overflow-hidden border-b border-stone-200 bg-background">
     <div class="pointer-events-none absolute inset-0 home-hero-bg" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-0 home-hero-dots" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16">
       <div class="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10">
         <div class="min-w-0">
@@ -149,10 +150,21 @@ import { colleges } from '@/data/colleges';
     background-image:
       radial-gradient(ellipse 80% 60% at 15% 20%, rgb(250 204 21 / 0.10), transparent 55%),
       radial-gradient(ellipse 60% 50% at 85% 15%, rgb(28 25 23 / 0.04), transparent 50%),
-      linear-gradient(180deg, rgb(251 250 247 / 0.2), rgb(251 250 247 / 0)),
-      radial-gradient(circle at 1px 1px, rgb(120 113 108 / 0.12) 1px, transparent 0);
-    background-size: auto, auto, auto, 24px 24px;
+      linear-gradient(180deg, rgb(251 250 247 / 0.2), rgb(251 250 247 / 0));
   }
+  .home-hero-dots {
+    --mx: 50%;
+    --my: 35%;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgb(87 83 78 / 0.22) 1.15px, transparent 0),
+      radial-gradient(320px circle at var(--mx) var(--my), rgb(250 204 21 / 0.16), transparent 45%),
+      radial-gradient(circle at 1px 1px, rgb(28 25 23 / 0.10) 1.15px, transparent 0);
+    background-size: 24px 24px, auto, 24px 24px;
+    -webkit-mask-image: radial-gradient(420px circle at var(--mx) var(--my), rgba(0,0,0,1) 0%, rgba(0,0,0,0.78) 45%, rgba(0,0,0,0.55) 100%);
+    mask-image: radial-gradient(420px circle at var(--mx) var(--my), rgba(0,0,0,1) 0%, rgba(0,0,0,0.78) 45%, rgba(0,0,0,0.55) 100%);
+    transition: opacity 180ms ease;
+  }
+  .home-hero:not(:hover) .home-hero-dots { opacity: 0.92; }
 </style>
 
 <script>
@@ -161,6 +173,26 @@ import { colleges } from '@/data/colleges';
   const grid = document.getElementById('listings-grid');
   const empty = document.getElementById('listings-empty');
   const loading = document.getElementById('listings-loading');
+
+  // Interactive hero dots (desktop hover); degrades gracefully without JS.
+  const hero = document.querySelector<HTMLElement>('.home-hero');
+  const dots = hero?.querySelector<HTMLElement>('.home-hero-dots');
+  if (hero && dots && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    let raf = 0;
+    hero.addEventListener('pointermove', (e) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const r = hero.getBoundingClientRect();
+        dots.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
+        dots.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
+        raf = 0;
+      });
+    }, { passive: true });
+    hero.addEventListener('pointerleave', () => {
+      dots.style.setProperty('--mx', '50%');
+      dots.style.setProperty('--my', '35%');
+    });
+  }
 
   void (async () => {
     const { listings, total } = await fetchLiveListingsPage({ limit: 6 });

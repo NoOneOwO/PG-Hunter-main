@@ -62,8 +62,8 @@
 
 ## Home polish (post-Part 3, user request) — done
 - **Status:** done. Frontend running `http://localhost:4321/`.
-- Landing/Home hero background made more stylish (Hallmark-aligned): warm noticeboard dot-grid + subtle yellow/ink depth (`.home-hero-bg` in `src/pages/index.astro`), no banner image, no violet/lavender gradients. Wiring/content unchanged; middle-dot in college card locality replaced with comma.
-- Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-1440-full.png` (refreshed).
+- Landing/Home hero background: warm noticeboard dot-grid + subtle yellow/ink depth (no banner/violet). **Follow-up:** dots darkened slightly (still subtle) and made interactive on hover (cursor-following highlight/reveal, `pointer:fine` only; graceful without JS). Wiring/content unchanged.
+- Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-hero-1440x900.png` (refreshed).
 
 ## Next
 - **Stop.** Part 4 on approval: colleges/localities pages (per PROGRESS table) or as directed. No deletions planned.
