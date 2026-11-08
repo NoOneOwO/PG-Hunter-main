@@ -6,8 +6,9 @@ import { colleges } from '@/data/colleges';
 ---
 
 <BaseLayout>
-  <section class="border-b border-stone-200 bg-background">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16">
+  <section class="home-hero relative overflow-hidden border-b border-stone-200 bg-background">
+    <div class="pointer-events-none absolute inset-0 home-hero-bg" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16">
       <div class="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10">
         <div class="min-w-0">
           <h1 class="font-display text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
@@ -118,7 +119,7 @@ import { colleges } from '@/data/colleges';
         {colleges.map((c) => (
           <a href={`/colleges/${c.slug}`} class="card card-hover flex flex-col p-4" data-hover-lift>
             <span class="font-display text-base font-bold text-stone-900">{c.shortName}</span>
-            <span class="mt-1 text-sm text-stone-600">{c.locality} · {c.city}</span>
+            <span class="mt-1 text-sm text-stone-600">{c.locality}, {c.city}</span>
           </a>
         ))}
       </div>
@@ -144,6 +145,14 @@ import { colleges } from '@/data/colleges';
 <style>
   :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
   :where(button, a, [role="button"]):active { opacity: 0.96; }
+  .home-hero-bg {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 15% 20%, rgb(250 204 21 / 0.10), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 85% 15%, rgb(28 25 23 / 0.04), transparent 50%),
+      linear-gradient(180deg, rgb(251 250 247 / 0.2), rgb(251 250 247 / 0)),
+      radial-gradient(circle at 1px 1px, rgb(120 113 108 / 0.12) 1px, transparent 0);
+    background-size: auto, auto, auto, 24px 24px;
+  }
 </style>
 
 <script>

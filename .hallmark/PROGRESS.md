@@ -60,5 +60,10 @@
 - **Copy changes (before → after):** pgs-near-you budget `₹10k – ₹15k/₹15k – ₹20k` → `to`; empty/loading text tightened (same meaning). ContactOwner: `Contact Owner` CTA/labels → `Send enquiry` where appropriate; budget dashes → `to`; privacy text consolidated (consent/trust meaning preserved, **not reworded as terms**). Listing meta/title dashes removed; placeholder `—` → `…` in UI placeholders.
 - **Known issues (report only):** “Starting from” counts occupied room (label/text kept); “Pure veg meals included · ₹3,500/month” contradictory; “1 PGs found” pluralisation.
 
+## Home polish (post-Part 3, user request) — done
+- **Status:** done. Frontend running `http://localhost:4321/`.
+- Landing/Home hero background made more stylish (Hallmark-aligned): warm noticeboard dot-grid + subtle yellow/ink depth (`.home-hero-bg` in `src/pages/index.astro`), no banner image, no violet/lavender gradients. Wiring/content unchanged; middle-dot in college card locality replaced with comma.
+- Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-1440-full.png` (refreshed).
+
 ## Next
-- **Stop (Part 3 complete).** Part 4 on approval: colleges/localities pages (per PROGRESS table) or as directed. No deletions planned.
+- **Stop.** Part 4 on approval: colleges/localities pages (per PROGRESS table) or as directed. No deletions planned.
