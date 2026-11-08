@@ -89,5 +89,20 @@
 - **Copy changes (before → after, notable):** Login: `Works for both students and owners...` preserved; role/account copy preserved. Saved: `Save the PGs you like and compare them side by side. This feature needs an account so your shortlist follows you.` → `Save PGs you like and compare them. Log in so your shortlist follows you.` (meaning preserved). Messages: tightened description (privacy/feature meaning preserved). Owner dashboard: `Welcome back, <name> 👋` → `Welcome back, <name>`; `Your listings, enquiries and verification at a glance.` → `Status first: enquiries, availability, verification.` Owner/creator headers: removed eyebrow/pixel ornaments; labels tightened. **Trust/terms/consent not reworded.**
 - **Known issues (report only):** “Starting from” counts occupied room; “Pure veg meals included · ₹3,500/month”; “1 PGs found” pluralisation. Profile React island/fallback and some owner/creator dynamic template styling may retain legacy classes.
 
+## Stylify pass (user request: richer noticeboard, full) — done
+- **Status:** done. Frontend running `http://localhost:4321/`.
+- **User ask:** redesign most of what exists, more stylish, not overdone; brand stays (headline, logo, wordmark, yellow action, violet small accent).
+- **Direction:** Richer noticeboard (locked system pushed with depth): warmer paper/ink tokens, softer large shadows, filled colour mono-tiles, coloured chips, lever on the headline, one ink surface footer; no new colors beyond accents.
+- **Changes:**
+  - `@theme`/`:root`: warmer paper/card/background (#f5f1ea/#fffefb/...), deeper warm shadows, new stage tokens; **default Tailwind `slate` scale remapped to warm ink/paper equivalents** (shared tokens — admin not restyled, still renders, contrast holds; admin was NOT restyled).
+  - `PublicHeader.astro`: new-system tokens/warm background, active tab remains ink pill, slate classes → warm tokens.
+  - `Footer.astro`: ink surface (one deep contrast band), yellow accents, tracked-uppercase labels removed → sentence case, legacy classes gone.
+  - Home (`src/pages/index.astro`): richer hero — highlighted “bhai” marker wash, chip row, stage walkthrough on ink card (play stays play-first), ticker of existing brand copy, colleges grid shows coloured mono-tiles; portal shadow with token.
+  - `colleges/index`, `localities/index`, `localities/[slug]`: PixelScene banner/scrim and eyebrow/pixel ornaments removed; same warm system, coloured mono-tiles (no repeated icon), content visible default; slug rewired unchanged (live fetch intact).
+  - `owner/verification`: tracked-caps checklist group labels → sentence case bold (not reworded).
+- **Swept:** sloplint render on `/`, `/localities`; routes checked 200 (`/`, `/colleges`, `/localities`, `/pgs-near-you`, `/for-owners`, `/earn`, `/login`, `/saved`, `/messages`, `/owner`, `/owner/verification`, `/creator`). Remaining FAILs: 58 screen-budget on self-authored hero chips (owner's content kept — waived; 58 is a note). `compare.html` not generated (before record overwritten across captures).
+- **Copy changes (before → after):** none reworded; hero slot/labels unchanged (Play-first copy kept). Localities: `Pick your area and discover the best accommodation around it.` → `Pick your area and see PGs around it across {n} areas.`; `We're expanding...` → `We’re expanding...`; empty-state `Browse everything that is live right now` → `Browse what’s live now` (meaning preserved). College pb unchanged except mono-tile markup.
+- **Known issues (report only):** “Starting from” occupied room; “Pure veg meals included · ₹3,500/month”; “1 PGs found” pluralisation. ListingForm/Profile islands not fully surface-rewritten (slate tokens remap warms them safely). Admin not restyled (out of scope).
+
 ## Next
-- **Stop (Parts 5+6 complete).** Part 7 on approval if needed: deeper owner/creator form visual pass, Profile island sweep, localities pages, and final compare/handoff notes. No deletions planned. No push/remotes.
+- **Stop (Stylify pass complete).** Part 7 on approval if desired: deeper form/island visual re-architecture, Profile facts-once pass, authenticated sweeps. No deletions planned. No push/remotes.

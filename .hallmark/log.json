@@ -1,5 +1,18 @@
 [
   {
+    "part": "stylify",
+    "date": "2026-11-08",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "site-stylify-richer-noticeboard",
+    "theme": "brand/brief-locked",
+    "genre": "playful",
+    "shape": "kept-multipage",
+    "hero": "richer (stroke marker, chips, ink stage)",
+    "signature": "walkthrough shown play-first (kept)",
+    "prompt": "PG Hunter stylify pass: make most of the design richer noticeboard without compromising the brand"
+  },
+  {
     "part": "5+6",
     "date": "2026-11-08",
     "mode": "redesign",

@@ -1,6 +1,7 @@
 ---
+export const prerender = true;
+
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { MapPin } from '@lucide/astro';
 import { localityBySlug, localities } from '@/data/colleges';
 
 export function getStaticPaths() {
@@ -22,32 +23,26 @@ const searchTerms = [locality.name];
   title={`PGs in ${locality.name} — Student PGs, Rooms & Co-living | PG Hunter`}
   description={`Find verified PGs, rooms and co-living spaces in ${locality.name}, ${locality.city}. Compare rent, amenities and walkthroughs on PG Hunter.`}
 >
-  <section class="border-b border-slate-200 bg-brand-50">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
       <nav aria-label="Breadcrumb" class="text-sm">
-        <ol class="flex flex-wrap items-center gap-1.5 text-slate-500">
-          <li><a href="/" class="hover:text-brand-700">Home</a></li>
+        <ol class="flex flex-wrap items-center gap-1.5 text-stone-600">
+          <li><a href="/" class="font-medium text-[color:var(--color-violet)] hover:underline">Home</a></li>
           <li aria-hidden="true">/</li>
-          <li><a href="/localities" class="hover:text-brand-700">Localities</a></li>
+          <li><a href="/localities" class="font-medium text-[color:var(--color-violet)] hover:underline">Localities</a></li>
           <li aria-hidden="true">/</li>
-          <li aria-current="page" class="font-semibold text-slate-800">{locality.name}</li>
+          <li aria-current="page" class="font-semibold text-stone-900">{locality.name}</li>
         </ol>
       </nav>
 
-      <div class="mt-6 flex items-start gap-4">
-        <span class="flex h-14 w-14 shrink-0 items-center justify-center bg-brand-600 text-white">
-          <MapPin class="h-7 w-7" />
-        </span>
-        <div>
-          <p class="eyebrow">{locality.city}</p>
-          <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-          <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-            PGs in {locality.name}
-          </h1>
-          <p class="mt-2 text-sm text-slate-600 sm:text-base">
-            <span class="font-semibold text-slate-800"><span id="result-count">0</span> <span id="result-noun">PGs</span> found</span>, cheapest first.
-          </p>
-        </div>
+      <div class="mt-5">
+        <p class="text-sm font-semibold text-stone-600">{locality.city}</p>
+        <h1 class="mt-2 font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+          PGs in {locality.name}
+        </h1>
+        <p class="mt-2 text-sm text-stone-600 sm:text-base">
+          <span class="font-semibold text-stone-900"><span id="result-count">0</span> <span id="result-noun">PGs</span> found</span>, cheapest first.
+        </p>
       </div>
     </div>
   </section>
@@ -56,28 +51,30 @@ const searchTerms = [locality.name];
     id="locality-page"
     aria-label="Listings"
     data-search-terms={searchTerms.join('|')}
-    class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
+    class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
   >
-    <div id="locality-grid" data-reveal-group class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <div id="locality-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
 
-    <p id="locality-loading" class="text-sm font-medium text-slate-500" role="status">
+    <p id="locality-loading" class="text-sm font-medium text-stone-600" role="status">
       Loading live listings in {locality.name}…
     </p>
 
-    <div id="locality-empty" class="card pixel-corner relative hidden p-10 text-center">
-      <div class="pixel-rule justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <p class="mt-5 text-base font-bold text-slate-900">No PGs listed in {locality.name} yet</p>
-      <p class="mx-auto mt-1 max-w-md text-sm text-slate-500">
-        We're expanding area by area. Browse everything that is live right now, or list a
-        PG you own in {locality.name}.
+    <div id="locality-empty" class="card hidden p-8 text-center sm:p-10">
+      <p class="font-display text-base font-bold text-stone-900">No PGs listed in {locality.name} yet</p>
+      <p class="mx-auto mt-2 max-w-md text-sm text-stone-600">
+        We’re expanding area by area. Browse what’s live now, or list a PG you own in {locality.name}.
       </p>
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
         <a href="/pgs-near-you" class="btn-primary px-6">Browse all PGs</a>
         <a href="/for-owners" class="btn-secondary px-6">List your PG</a>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+</style>
 
 <script>
   // Live board only — the page is a saved search over the same listings the

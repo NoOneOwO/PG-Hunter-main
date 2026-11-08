@@ -20,38 +20,34 @@ const owners = [
 ];
 ---
 
-<footer class="border-t border-slate-200 bg-white">
+<footer class="border-t border-[color:var(--color-rule)] bg-[color:var(--color-surface-ink)] text-[color:var(--color-surface-ink-foreground)]">
   <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
     <div class="grid gap-10 md:grid-cols-4">
       <div class="md:col-span-2">
-        <a href="/" class="flex items-center gap-2.5">
+        <a href="/" class="flex items-center gap-2.5" aria-label="PG Hunter home">
           <LogoBadge class="h-8 w-8" />
-          <span class="text-lg font-extrabold tracking-tight text-slate-900">
-            PG<span class="text-brand-600">Hunter</span>
+          <span class="font-display text-lg font-extrabold tracking-tight text-[color:var(--color-stage-text)]">
+            PG<span class="text-accent-400">Hunter</span>
           </span>
         </a>
 
-        <p class="pixel-rule mt-5" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i>
-        </p>
-
-        <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-600">
+        <p class="mt-5 max-w-md text-sm leading-relaxed text-stone-300">
           Student-first accommodation discovery. Find PGs, rooms, hostels and co-living
           spaces near your college — with video walkthroughs, transparent pricing and
           no broker, no hidden charges.
         </p>
 
-        <ul class="mt-6 flex flex-col gap-2.5 text-sm text-slate-600">
-          <li class="flex items-center gap-2"><MapPin class="h-4 w-4 text-brand-600" /> New Delhi, India</li>
+        <ul class="mt-6 flex flex-col gap-2.5 text-sm text-stone-300">
+          <li class="flex items-center gap-2"><MapPin class="h-4 w-4 text-accent-400" aria-hidden="true" /> New Delhi, India</li>
           <li class="flex items-center gap-2">
-            <Mail class="h-4 w-4 shrink-0 text-brand-600" />
-            <a href="mailto:rishabh@pghunter.in" class="transition-colors hover:text-brand-700 hover:underline">
+            <Mail class="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+            <a href="mailto:rishabh@pghunter.in" class="transition-colors hover:text-white hover:underline">
               rishabh@pghunter.in
             </a>
           </li>
           <li class="flex items-center gap-2">
-            <Phone class="h-4 w-4 shrink-0 text-brand-600" />
-            <a href="tel:+917678335011" class="transition-colors hover:text-brand-700 hover:underline">
+            <Phone class="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+            <a href="tel:+917678335011" class="transition-colors hover:text-white hover:underline">
               +91 76783 35011
             </a>
           </li>
@@ -59,14 +55,11 @@ const owners = [
       </div>
 
       <nav aria-label="Discover">
-        <h2 class="text-xs font-bold tracking-[0.18em] text-slate-900 uppercase">Discover</h2>
+        <h2 class="text-sm font-bold text-stone-100">Discover</h2>
         <ul class="mt-4 flex flex-col gap-2.5 text-sm">
           {discover.map((item) => (
             <li>
-              <a
-                href={item.href}
-                class="border-l-2 border-transparent pl-3 text-slate-600 transition-colors hover:border-brand-500 hover:text-brand-700"
-              >
+              <a href={item.href} class="text-stone-300 transition-colors hover:text-white hover:underline">
                 {item.label}
               </a>
             </li>
@@ -75,29 +68,26 @@ const owners = [
       </nav>
 
       <nav id="footer-owners" aria-label="For Owners">
-        <h2 class="text-xs font-bold tracking-[0.18em] text-slate-900 uppercase">For Owners</h2>
+        <h2 class="text-sm font-bold text-stone-100">For Owners</h2>
         <ul class="mt-4 flex flex-col gap-2.5 text-sm">
           {owners.map((item) => (
             <li>
-              <a
-                href={item.href}
-                class="border-l-2 border-transparent pl-3 text-slate-600 transition-colors hover:border-brand-500 hover:text-brand-700"
-              >
+              <a href={item.href} class="text-stone-300 transition-colors hover:text-white hover:underline">
                 {item.label}
               </a>
             </li>
           ))}
         </ul>
 
-        <p id="footer-owner-cta" class="card pixel-corner relative mt-6 px-4 py-3.5 text-xs leading-relaxed text-slate-700">
-          Own a PG? <a href="/for-owners" class="font-semibold text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-800">List it on PG Hunter</a> — reach verified students near your property.
+        <p id="footer-owner-cta" class="mt-6 rounded-lg border border-white/10 bg-white/5 px-4 py-3.5 text-xs leading-relaxed text-stone-300">
+          Own a PG? <a href="/for-owners" class="font-semibold text-accent-400 underline underline-offset-2 hover:text-accent-300">List it on PG Hunter</a> — reach verified students near your property.
         </p>
       </nav>
     </div>
 
-    <div class="mt-12 flex flex-col gap-3 border-t border-slate-200 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+    <div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-stone-400 sm:flex-row sm:items-center sm:justify-between">
       <p>© {year} PG Hunter. All rights reserved.</p>
-      <p class="badge w-fit border border-brand-200 bg-brand-50 text-brand-700">
+      <p class="w-fit rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-stone-300">
         Every PG here is published by its owner — no samples, no brokers.
       </p>
     </div>

@@ -9,14 +9,13 @@ import { colleges } from '@/data/colleges';
   <section class="home-hero relative overflow-hidden bg-background">
     <div class="pointer-events-none absolute inset-0 home-hero-bg" aria-hidden="true"></div>
     <div class="pointer-events-none absolute inset-0 home-hero-dots" aria-hidden="true"></div>
-    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--background)]" aria-hidden="true"></div>
-    <div class="relative mx-auto max-w-7xl px-4 py-12 pb-16 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16 lg:pb-20">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10">
+    <div class="relative mx-auto max-w-7xl px-4 pt-10 pb-20 sm:px-6 lg:px-8 lg:min-h-[min(82vh,50rem)] lg:pt-16 lg:pb-24">
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-center lg:gap-12">
         <div class="min-w-0">
-          <h1 class="font-display text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
-            PG tera bhai dilaega
+          <h1 class="font-display text-[2.75rem] font-extrabold leading-[0.95] tracking-tight text-stone-950 sm:text-6xl lg:text-[4.25rem]">
+            PG tera <span class="pg-stroke">bhai</span> dilaega
           </h1>
-          <p class="mt-4 max-w-xl text-base leading-relaxed text-stone-700 sm:text-lg">
+          <p class="mt-5 max-w-xl text-base leading-relaxed text-stone-700 sm:text-lg">
             ₹0 brokerage, real walkthroughs, verified listings. Tu pehle dekh, phir decide kar.
           </p>
 
@@ -24,7 +23,13 @@ import { colleges } from '@/data/colleges';
             <SearchPanel />
           </div>
 
-          <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-stone-600">
+          <ul class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-stone-700" aria-label="What you get">
+            <li class="inline-flex items-center rounded-md border border-stone-950/10 bg-white/70 px-2.5 py-1.5">₹0 brokerage</li>
+            <li class="inline-flex items-center rounded-md border border-stone-950/10 bg-white/70 px-2.5 py-1.5">No advance payment</li>
+            <li class="inline-flex items-center rounded-md border border-stone-950/10 bg-white/70 px-2.5 py-1.5">Owner details after enquiry</li>
+          </ul>
+
+          <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-stone-600">
             <span class="font-semibold text-stone-800">Popular:</span>
             {colleges.slice(0, 5).map((c) => (
               <a href={`/colleges/${c.slug}`} class="font-medium text-[color:var(--color-violet)] underline decoration-stone-300 underline-offset-2 hover:decoration-[color:var(--color-violet)]">
@@ -34,34 +39,41 @@ import { colleges } from '@/data/colleges';
           </div>
         </div>
 
-        <aside class="min-w-0 lg:pt-2" aria-label="Walkthrough preview">
+        <aside class="min-w-0" aria-label="Walkthrough preview">
           <!-- Signature: walkthrough shown play-first (slot: real video/poster or empty state). -->
-          <div class="rounded-xl border border-stone-200 bg-white p-3 shadow-sm">
-            <div class="relative overflow-hidden rounded-lg bg-stone-900 text-white" data-slot="hero-walkthrough" data-alt="PG walkthrough preview">
+          <div class="stage overflow-hidden rounded-2xl shadow-[var(--shadow-stage)]">
+            <div class="relative" data-slot="hero-walkthrough" data-alt="PG walkthrough preview">
               <div class="aspect-[16/10] w-full">
-                <div class="flex h-full w-full flex-col justify-between bg-gradient-to-b from-stone-800 to-stone-900 p-4 sm:p-5">
-                  <div class="flex items-center gap-2 text-xs font-semibold text-stone-300">
-                    <ShieldCheck class="h-4 w-4 text-accent-300" aria-hidden="true" />
-                    <span>Real walkthrough, before you pay</span>
+                <div class="flex h-full w-full flex-col justify-between p-5 sm:p-6">
+                  <div class="flex items-center justify-between gap-2 text-xs font-semibold">
+                    <span class="stage-chip"><ShieldCheck class="h-4 w-4 text-accent-300" aria-hidden="true" /> Real walkthrough, before you pay</span>
+                    <span class="stage-chip hidden sm:inline-flex">Play-first</span>
                   </div>
-                  <div class="flex items-center gap-3">
-                    <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent-400 text-stone-900 shadow">
-                      <Play class="h-5 w-5 fill-current" aria-hidden="true" />
+                  <div class="flex items-center gap-4">
+                    <span class="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent-400 text-stone-950 shadow-[0_0_0_6px_var(--color-wash-deep)]">
+                      <Play class="h-6 w-6 fill-current" aria-hidden="true" />
                     </span>
                     <div class="min-w-0">
-                      <p class="text-sm font-semibold">Room, mess, building</p>
-                      <p class="text-xs text-stone-300">Play-first when a listing has video</p>
+                      <p class="font-display text-lg font-extrabold leading-tight text-[color:var(--color-stage-text)] sm:text-xl">Room, mess, building</p>
+                      <p class="mt-1 text-xs leading-relaxed text-stone-400">Walk before you rent. Trust, no pressure.</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="border-t border-white/10 bg-stone-950/40 px-4 py-3 text-xs text-stone-300">
-                <p>₹0 brokerage</p>
-                <p class="mt-1">No advance payment. Owner details after enquiry.</p>
+              <div class="flex items-center justify-between gap-3 border-t border-white/10 px-5 py-3 text-[11px] font-medium text-stone-400 sm:px-6">
+                <span class="font-semibold text-accent-400">₹0 brokerage</span>
+                <span class="text-right">No advance. Details after enquiry.</span>
               </div>
             </div>
           </div>
         </aside>
+      </div>
+
+      <div class="ticker mt-10 border-y border-stone-950/10 py-2 sm:mt-12" aria-hidden="true">
+        <div class="ticker-inner text-xs font-semibold text-stone-700">
+          <span>₹0 brokerage.&nbsp;&nbsp;Video walkthroughs.&nbsp;&nbsp;Verified listings.&nbsp;&nbsp;No advance payment.&nbsp;&nbsp;Owner details after enquiry.&nbsp;&nbsp;₹0 brokerage.&nbsp;&nbsp;Video walkthroughs.&nbsp;&nbsp;Verified listings.&nbsp;&nbsp;No advance payment.&nbsp;&nbsp;Owner details after enquiry.&nbsp;&nbsp;</span>
+          <span>₹0 brokerage.&nbsp;&nbsp;Video walkthroughs.&nbsp;&nbsp;Verified listings.&nbsp;&nbsp;No advance payment.&nbsp;&nbsp;Owner details after enquiry.&nbsp;&nbsp;₹0 brokerage.&nbsp;&nbsp;Video walkthroughs.&nbsp;&nbsp;Verified listings.&nbsp;&nbsp;No advance payment.&nbsp;&nbsp;Owner details after enquiry.&nbsp;&nbsp;</span>
+        </div>
       </div>
     </div>
   </section>
@@ -128,10 +140,13 @@ import { colleges } from '@/data/colleges';
       <h2 id="colleges-heading" class="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">Start where you study</h2>
       <p class="mt-2 text-sm text-stone-600 sm:text-base">Pick your campus, see what’s close.</p>
       <div data-reveal-group class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {colleges.map((c) => (
-          <a href={`/colleges/${c.slug}`} class="card card-hover flex flex-col p-4" data-hover-lift>
-            <span class="font-display text-base font-bold text-stone-900">{c.shortName}</span>
-            <span class="mt-1 text-sm text-stone-600">{c.locality}, {c.city}</span>
+        {colleges.map((c, index) => (
+          <a href={`/colleges/${c.slug}`} class="card card-hover flex items-center gap-3 p-4" data-hover-lift>
+            <span class={`mono-tile ${['mono-tile--amber','mono-tile--green','mono-tile--sky','mono-tile--coral','mono-tile--sand'][index % 5]}`} aria-hidden="true">{c.shortName.slice(0, 2)}</span>
+            <span class="min-w-0">
+              <span class="block font-display text-base font-bold leading-tight text-stone-900">{c.shortName}</span>
+              <span class="mt-0.5 block truncate text-sm text-stone-600">{c.locality}, {c.city}</span>
+            </span>
           </a>
         ))}
       </div>
@@ -157,17 +172,24 @@ import { colleges } from '@/data/colleges';
 <style>
   :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
   :where(button, a, [role="button"]):active { opacity: 0.96; }
+  .pg-stroke {
+    display: inline;
+    background-image: linear-gradient(180deg, transparent 58%, var(--color-wash-end) 58%, var(--color-wash-fast) 88%, transparent 88%);
+    padding: 0 0.06em 0.04em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
   .home-hero-bg {
     background-image:
-      radial-gradient(ellipse 80% 60% at 15% 20%, rgb(250 204 21 / 0.10), transparent 55%),
-      radial-gradient(ellipse 60% 50% at 85% 15%, rgb(28 25 23 / 0.04), transparent 50%),
-      linear-gradient(180deg, rgb(251 250 247 / 0.2), rgb(251 250 247 / 0));
+      radial-gradient(ellipse 85% 65% at 18% 18%, var(--color-wash-glow), transparent 58%),
+      radial-gradient(ellipse 55% 50% at 88% 12%, var(--color-sand-glow), transparent 55%),
+      linear-gradient(180deg, var(--color-hero-top) 0%, var(--background) 70%);
   }
   .home-hero-dots {
     --dx: 0px;
     --dy: 0px;
-    background-image: radial-gradient(circle at 1px 1px, rgb(87 83 78 / 0.24) 1.15px, transparent 0);
-    background-size: 24px 24px;
+    background-image: radial-gradient(circle at 1px 1px, var(--color-dots) 1.15px, transparent 0);
+    background-size: 22px 22px;
     transform: translate3d(var(--dx), var(--dy), 0);
     transition: transform 180ms ease-out;
     will-change: transform;
