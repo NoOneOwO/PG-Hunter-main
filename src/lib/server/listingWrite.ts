@@ -47,7 +47,7 @@ export const insertListing = async (
         (id, owner_id, name, property_type, gender, address, locality, city, latitude, longitude,
          description, rules, curfew, food, amenity_slugs, status, verification_status,
          contact_direct, created_by, admin_managed, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .bind(
       id,

@@ -96,12 +96,20 @@ export async function POST(context: APIContext) {
     if (!listing) return json({ error: 'That PG could not be found for this owner.' }, 404);
   }
 
-  const conversation = await findOrCreateConversation(db, {
-    studentId,
-    ownerId,
-    listingId,
-    enquiryLeadId,
-  });
+  let conversation;
+  try {
+    conversation = await findOrCreateConversation(db, {
+      studentId,
+      ownerId,
+      listingId,
+      enquiryLeadId,
+    });
+  } catch (err) {
+    return json(
+      { error: 'Could not start that conversation. If the lead or listing looks right, refresh and try again.' },
+      500
+    );
+  }
   const dto = (await listConversations(db, viewer.id)).find((c) => c.id === conversation.id) ?? null;
   return json({ conversation: dto, conversationId: conversation.id }, 201);
 }
