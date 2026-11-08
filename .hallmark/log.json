@@ -1,0 +1,15 @@
+[
+  {
+    "part": 2,
+    "date": "2026-11-08",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "site-system+home",
+    "theme": "brand/brief-locked",
+    "genre": "playful",
+    "shape": "kept-multipage",
+    "hero": "no-banner, search+headline+walkthrough-signature",
+    "signature": "walkthrough shown play-first (slot)",
+    "prompt": "PG Hunter redesign Part 2: system foundation + Home"
+  }
+]

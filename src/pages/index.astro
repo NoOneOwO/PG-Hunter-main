@@ -1,171 +1,103 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SearchPanel from '@/components/SearchPanel.astro';
-import TrustStrip from '@/components/TrustStrip.astro';
-import { ArrowRight, SlidersHorizontal, ArrowUpDown, Building2 } from '@lucide/astro';
-
-import HeroScene from '@/components/bits/HeroScene';
-import BlurText from '@/components/bits/BlurText';
-import CountUp from '@/components/bits/CountUp';
-import StarBorder from '@/components/bits/StarBorder';
-
-import { colleges, localities } from '@/data/colleges';
-
-const localityCount = localities.length;
+import { ArrowRight, Play, ShieldCheck } from '@lucide/astro';
+import { colleges } from '@/data/colleges';
 ---
 
 <BaseLayout>
-  <!-- ---------------------------------------------------------- hero -->
-  <section class="relative overflow-hidden border-b border-slate-200 bg-brand-50">
-    {/*
-      Layered hero: HeroScene paints a finished dusk skyline at build time and
-      the island then gives it life — windows coming on in a wave, drifting
-      clouds, and a three-plane parallax that follows the cursor. The scrim is
-      deliberately heavy on the left, where the headline and search panel sit,
-      so the copy stays at full contrast over the artwork (slate-900 on
-      brand-50).
-    */}
-    <HeroScene client:visible />
-    {/*
-      The scrim only covers the two-thirds that carries type (eyebrow, h1,
-      paragraph, stats, popular chips). Past that the artwork is left alone, so
-      the lit windows and the roof sign read at full strength instead of being
-      hazed over by a full-width veil.
-    */}
-    <div
-      class="pointer-events-none absolute inset-y-0 left-0 w-[68%] bg-gradient-to-r from-brand-50 via-brand-50/85 to-transparent"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-brand-50 to-transparent"
-      aria-hidden="true"
-    >
-    </div>
-
-    <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-      <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-14">
-        <div>
-          <span class="eyebrow">Student housing, minus the broker</span>
-          <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-
-          <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-            <BlurText client:load text="PG tera bhai dilaega" /> <span aria-hidden="true">💪</span>
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16">
+      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10">
+        <div class="min-w-0">
+          <h1 class="font-display text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+            PG tera bhai dilaega
           </h1>
-          <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            ₹0 brokerage. No hidden charges. Real walkthroughs of the room, the mess and
-            the building — before you pay a rupee.
+          <p class="mt-4 max-w-xl text-base leading-relaxed text-stone-700 sm:text-lg">
+            ₹0 brokerage, real walkthroughs, verified listings. Tu pehle dekh, phir decide kar.
           </p>
 
-          <dl class="mt-8 grid max-w-lg grid-cols-3 border border-slate-200 bg-white">
-            <div class="border-r border-slate-200 px-4 py-3">
-              <dt class="text-xs font-medium text-slate-500">Live listings</dt>
-              {/*
-                The count is whatever D1 is serving right now — it starts at 0
-                and the page script counts up to the real total, so a launch
-                with no listings yet reads as an empty board, not a fake one.
-              */}
-              <dd class="mt-0.5 text-xl font-extrabold tracking-tight text-slate-900">
-                <span id="stat-listings">0</span>
-              </dd>
-            </div>
-            <div class="border-r border-slate-200 px-4 py-3">
-              <dt class="text-xs font-medium text-slate-500">Colleges</dt>
-              <dd class="mt-0.5 text-xl font-extrabold tracking-tight text-slate-900">
-                <CountUp client:load to={colleges.length} />
-              </dd>
-            </div>
-            <div class="px-4 py-3">
-              <dt class="text-xs font-medium text-slate-500">Areas</dt>
-              <dd class="mt-0.5 text-xl font-extrabold tracking-tight text-slate-900">
-                <CountUp client:load to={localityCount} />
-              </dd>
-            </div>
-          </dl>
-        </div>
-
-        <div class="lg:pl-2">
-          <StarBorder duration={9} className="block">
+          <div class="mt-6 max-w-xl">
             <SearchPanel />
-          </StarBorder>
+          </div>
 
-          <div class="mt-4 flex flex-wrap items-center gap-2">
-            <span class="text-xs font-semibold tracking-wide text-slate-500 uppercase">Popular:</span>
+          <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-stone-600">
+            <span class="font-semibold text-stone-800">Popular:</span>
             {colleges.slice(0, 5).map((c) => (
-              <a
-                href={`/colleges/${c.slug}`}
-                class="inline-flex min-h-9 items-center border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-300 hover:text-brand-700"
-              >
+              <a href={`/colleges/${c.slug}`} class="font-medium text-[color:var(--color-violet)] underline decoration-stone-300 underline-offset-2 hover:decoration-[color:var(--color-violet)]">
                 {c.shortName}
               </a>
             ))}
           </div>
         </div>
+
+        <aside class="min-w-0 lg:pt-2" aria-label="Walkthrough preview">
+          <!-- Signature: walkthrough shown play-first (slot: real video/poster or empty state). -->
+          <div class="rounded-xl border border-stone-200 bg-white p-3 shadow-sm">
+            <div class="relative overflow-hidden rounded-lg bg-stone-900 text-white" data-slot="hero-walkthrough" data-alt="PG walkthrough preview">
+              <div class="aspect-[16/10] w-full">
+                <div class="flex h-full w-full flex-col justify-between bg-gradient-to-b from-stone-800 to-stone-900 p-4 sm:p-5">
+                  <div class="flex items-center gap-2 text-xs font-semibold text-stone-300">
+                    <ShieldCheck class="h-4 w-4 text-accent-300" aria-hidden="true" />
+                    <span>Real walkthrough, before you pay</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent-400 text-stone-900 shadow">
+                      <Play class="h-5 w-5 fill-current" aria-hidden="true" />
+                    </span>
+                    <div class="min-w-0">
+                      <p class="text-sm font-semibold">Room, mess, building</p>
+                      <p class="text-xs text-stone-300">Play-first when a listing has video</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="border-t border-white/10 bg-stone-950/40 px-4 py-3 text-xs text-stone-300">
+                <p>₹0 brokerage</p>
+                <p class="mt-1">No advance payment. Owner details after enquiry.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
 
-  <TrustStrip />
+  <section aria-labelledby="trust-heading" class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+    <h2 id="trust-heading" class="sr-only">Why use PG Hunter</h2>
+    <div class="rounded-xl border border-stone-200 bg-white p-5 sm:p-7">
+      <ul class="grid gap-4 text-sm text-stone-700 sm:grid-cols-2">
+        <li><strong class="font-semibold text-stone-900">Video walkthroughs</strong><p class="mt-1 text-stone-600">See room, mess, building first.</p></li>
+        <li><strong class="font-semibold text-stone-900">Owner interviews</strong><p class="mt-1 text-stone-600">Rules and food, straight up.</p></li>
+        <li><strong class="font-semibold text-stone-900">Verified listings</strong><p class="mt-1 text-stone-600">Real verification status shown.</p></li>
+        <li><strong class="font-semibold text-stone-900">Safety first</strong><p class="mt-1 text-stone-600">No pressure to pay early.</p></li>
+      </ul>
+    </div>
+  </section>
 
-  <!-- ---------------------------------------------- live listings -->
-  {/*
-    The only listing grid on the home page, and it is filled from D1. There is
-    no bundled catalogue to fall back on: an empty board is the correct state
-    until owners publish, and it says so instead of padding the page with
-    invented PGs.
-  */}
-  <section
-    id="listings"
-    aria-labelledby="listings-heading"
-    class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
-  >
+  <section id="listings" aria-labelledby="listings-heading" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-32">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <span class="eyebrow">Live listings</span>
-        <div class="pixel-rule mt-2.5" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <h2 id="listings-heading" class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        <h2 id="listings-heading" class="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
           PGs on PG Hunter
         </h2>
-        <p class="mt-1 text-sm font-medium text-slate-500">
-          Every card here is a real PG, published by its owner and taking enquiries today.
+        <p class="mt-2 max-w-2xl text-sm text-stone-600 sm:text-base">
+          Real listings from owners, with real verification status.
         </p>
       </div>
-
       <div class="flex flex-wrap items-center gap-2">
-        <a
-          href="/pgs-near-you"
-          class="inline-flex min-h-11 items-center gap-1.5 border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-300"
-        >
-          <SlidersHorizontal class="h-4 w-4" />
-          Filters
-        </a>
-        <a
-          href="/pgs-near-you"
-          class="inline-flex min-h-11 items-center gap-1.5 border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-300"
-        >
-          <ArrowUpDown class="h-4 w-4" />
-          Sort
-        </a>
+        <a href="/pgs-near-you" class="btn-secondary">Filters</a>
+        <a href="/pgs-near-you" class="btn-secondary">Sort</a>
       </div>
     </div>
 
-    <div
-      id="listings-grid"
-      data-reveal-group
-      class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-    ></div>
+    <div id="listings-grid" data-reveal-group class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <p id="listings-loading" class="mt-6 text-sm font-medium text-stone-600" role="status">Checking what’s live…</p>
 
-    {/* Neutral until D1 answers, so the page never flashes a wrong state. */}
-    <p id="listings-loading" class="mt-8 text-sm font-medium text-slate-500" role="status">
-      Checking what's live…
-    </p>
-
-    <div id="listings-empty" class="card pixel-corner relative mt-8 hidden px-6 py-12 text-center">
-      <div class="pixel-rule justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <p class="mt-5 text-lg font-bold text-slate-900">No PGs are listed yet</p>
-      <p class="mx-auto mt-1 max-w-md text-sm text-slate-500">
-        We're onboarding owners right now, one PG at a time. The moment a listing is
-        approved it appears here — every one of them real, with real photos and real rents.
+    <div id="listings-empty" class="card mt-6 hidden px-6 py-12 text-center">
+      <p class="font-display text-lg font-bold text-stone-900">No PGs are listed yet</p>
+      <p class="mx-auto mt-2 max-w-md text-sm text-stone-600">
+        Owners are joining now. When a listing is approved, it shows up here with real photos, price, and verification status.
       </p>
       <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
         <a href="/for-owners" class="btn-primary px-6">List your PG</a>
@@ -174,68 +106,45 @@ const localityCount = localities.length;
     </div>
 
     <div class="mt-8 flex justify-center">
-      <a href="/pgs-near-you" class="btn-primary px-8">
-        Browse all PGs
-        <ArrowRight class="h-4 w-4" />
-      </a>
+      <a href="/pgs-near-you" class="btn-primary px-8">Browse all PGs <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
     </div>
   </section>
 
-  <!-- ------------------------------------------------ college grid -->
-  <section aria-labelledby="colleges-heading" class="border-t border-slate-200 bg-slate-50">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <span class="eyebrow">Start where you study</span>
-      <div class="pixel-rule mt-2.5" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <h2 id="colleges-heading" class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-        Explore by college
-      </h2>
-      <p class="mt-1 text-sm font-medium text-slate-500">
-        Start with your campus and we'll find what's close.
-      </p>
-
-      <div data-reveal-group class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <section aria-labelledby="colleges-heading" class="border-y border-stone-200 bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
+      <h2 id="colleges-heading" class="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">Start where you study</h2>
+      <p class="mt-2 text-sm text-stone-600 sm:text-base">Pick your campus, see what’s close.</p>
+      <div data-reveal-group class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {colleges.map((c) => (
-          <a
-            href={`/colleges/${c.slug}`}
-            class="card card-hover flex items-center gap-4 p-4"
-            data-hover-lift
-          >
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center bg-brand-100 text-brand-700">
-              <Building2 class="h-5 w-5" />
-            </span>
-            <span>
-              <span class="block text-sm font-bold text-slate-900">{c.shortName}</span>
-              <span class="block text-xs text-slate-500">{c.locality} · {c.city}</span>
-            </span>
+          <a href={`/colleges/${c.slug}`} class="card card-hover flex flex-col p-4" data-hover-lift>
+            <span class="font-display text-base font-bold text-stone-900">{c.shortName}</span>
+            <span class="mt-1 text-sm text-stone-600">{c.locality} · {c.city}</span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- --------------------------------------------------- owner CTA -->
-  <section aria-labelledby="owners-heading">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div class="pixel-corner relative flex flex-col items-start gap-6 overflow-hidden border border-brand-700 bg-brand-600 p-8 text-white lg:flex-row lg:items-center lg:justify-between lg:p-10">
-        <div class="max-w-2xl">
-          <span class="text-xs font-semibold tracking-[0.18em] text-brand-200 uppercase">For property owners</span>
-          <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-          <h2 id="owners-heading" class="mt-4 text-2xl font-extrabold tracking-tight sm:text-3xl">
-            Fill your empty beds, not your time.
-          </h2>
-          <p class="mt-2 text-sm leading-relaxed text-brand-100 sm:text-base">
-            List your PG or rooms and receive enquiries from verified students near your
-            property. You stay in control of availability, pricing and your own listing.
-          </p>
-        </div>
-        <a href="/for-owners" class="btn-accent shrink-0 px-8">
-          For Owners
-          <ArrowRight class="h-4 w-4" />
-        </a>
+  <section aria-labelledby="owners-heading" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="flex min-h-[16rem] flex-col items-start justify-between gap-6 rounded-xl border border-stone-800 bg-stone-900 p-6 text-white sm:p-10 lg:flex-row lg:items-center">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-accent-300">For property owners</p>
+        <h2 id="owners-heading" class="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Fill your empty beds, not your time.</h2>
+        <p class="mt-2 text-sm leading-relaxed text-stone-300 sm:text-base">
+          Get enquiries from verified students. You control price and availability.
+        </p>
       </div>
+      <a href="/for-owners" class="btn-primary shrink-0 px-8">For Owners <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
     </div>
   </section>
+
+
 </BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+  :where(button, a, [role="button"]):active { opacity: 0.96; }
+</style>
 
 <script>
   import { fetchLiveListingsPage, renderLiveCards, wireLiveSaveButtons } from '@/lib/liveListings';
@@ -243,35 +152,12 @@ const localityCount = localities.length;
   const grid = document.getElementById('listings-grid');
   const empty = document.getElementById('listings-empty');
   const loading = document.getElementById('listings-loading');
-  const stat = document.getElementById('stat-listings');
-
-  /** Count the hero stat up to a live value, matching the CountUp entrance. */
-  const countUp = (node: HTMLElement, to: number) => {
-    const format = new Intl.NumberFormat('en-IN');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || to === 0) {
-      node.textContent = format.format(to);
-      return;
-    }
-    const started = performance.now();
-    const duration = 1200;
-    const step = (now: number) => {
-      const t = Math.min(1, (now - started) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      node.textContent = format.format(Math.round(to * eased));
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
 
   void (async () => {
     const { listings, total } = await fetchLiveListingsPage({ limit: 6 });
 
-    // The hero stat counts the whole board, not the six cards shown here.
-    if (stat) countUp(stat, total);
-
     if (loading) {
       if (total === 0) {
-        // The empty card below already says this, and better — don't say it twice.
         loading.classList.add('hidden');
       } else {
         loading.textContent = `${total} live ${total === 1 ? 'PG' : 'PGs'} right now`;

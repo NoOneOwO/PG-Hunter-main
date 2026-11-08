@@ -18,13 +18,13 @@ const suggestions = [
 >
   <label class="field focus-within:bg-white sm:col-span-2">
     <span class="sr-only">College or locality</span>
-    <Search class="h-5 w-5 shrink-0 text-brand-600" />
+    <Search class="h-5 w-5 shrink-0 text-stone-700" />
     <input
       type="search"
       name="q"
       list="college-localities"
-      placeholder="Search college or area — e.g. DTU, Rohini"
-      class="w-full bg-transparent outline-none"
+      placeholder="Search college or area, e.g. DTU, Rohini"
+      class="min-h-11 w-full bg-transparent py-2 outline-none"
       autocomplete="off"
     />
     <datalist id="college-localities">
@@ -34,25 +34,25 @@ const suggestions = [
 
   <label class="field">
     <span class="sr-only">Budget</span>
-    <select name="budget" class="w-full appearance-none bg-transparent outline-none">
-      <option value="">Budget — Any</option>
+    <select name="budget" class="min-h-11 w-full appearance-none bg-transparent py-2 outline-none">
+      <option value="">Budget: Any</option>
       <option value="under-10">Under ₹10k</option>
-      <option value="10-15">₹10k – ₹15k</option>
-      <option value="15-20">₹15k – ₹20k</option>
+      <option value="10-15">₹10k to ₹15k</option>
+      <option value="15-20">₹15k to ₹20k</option>
       <option value="20-plus">₹20k +</option>
     </select>
-    <ChevronDown class="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+    <ChevronDown class="h-4 w-4 shrink-0 text-stone-500" aria-hidden="true" />
   </label>
 
   <label class="field">
     <span class="sr-only">Room type</span>
-    <select name="roomType" class="w-full appearance-none bg-transparent outline-none">
-      <option value="">Room type — Any</option>
+    <select name="roomType" class="min-h-11 w-full appearance-none bg-transparent py-2 outline-none">
+      <option value="">Room type: Any</option>
       <option value="single">Single sharing</option>
       <option value="double">Double sharing</option>
       <option value="triple">Triple sharing</option>
     </select>
-    <ChevronDown class="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+    <ChevronDown class="h-4 w-4 shrink-0 text-stone-500" aria-hidden="true" />
   </label>
 
   <button type="submit" class="btn-primary h-11 w-full sm:col-span-2">Search PGs</button>
