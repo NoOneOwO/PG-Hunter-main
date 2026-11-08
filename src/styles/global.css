@@ -179,9 +179,10 @@
 
   @supports (animation-timeline: view()) {
     .section-head, .eyebrow, [data-reveal], [data-reveal-group] > * {
-      animation: pg-rise linear both;
+      animation: pg-rise linear;
       animation-timeline: view();
       animation-range: entry 0% cover 18%;
+      animation-fill-mode: none;
     }
   }
   .js-motion [data-reveal], .js-motion .section-head, .js-motion .eyebrow, .js-motion [data-reveal-group] > * { opacity: 0; }

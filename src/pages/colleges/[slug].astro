@@ -1,6 +1,7 @@
 ---
+export const prerender = true;
+
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { Building2 } from '@lucide/astro';
 import { collegeBySlug, colleges } from '@/data/colleges';
 
 export function getStaticPaths() {
@@ -26,32 +27,26 @@ const searchTerms = [college.shortName, college.locality];
   title={`PGs near ${college.shortName} — Student PGs, Rooms & Co-living | PG Hunter`}
   description={`Find verified PGs, rooms and co-living spaces near ${college.name} in ${college.locality}. Compare rent, amenities and walkthroughs on PG Hunter.`}
 >
-  <section class="border-b border-slate-200 bg-brand-50">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
       <nav aria-label="Breadcrumb" class="text-sm">
-        <ol class="flex flex-wrap items-center gap-1.5 text-slate-500">
-          <li><a href="/" class="hover:text-brand-700">Home</a></li>
+        <ol class="flex flex-wrap items-center gap-1.5 text-stone-600">
+          <li><a href="/" class="font-medium text-[color:var(--color-violet)] hover:underline">Home</a></li>
           <li aria-hidden="true">/</li>
-          <li><a href="/colleges" class="hover:text-brand-700">Colleges</a></li>
+          <li><a href="/colleges" class="font-medium text-[color:var(--color-violet)] hover:underline">Colleges</a></li>
           <li aria-hidden="true">/</li>
-          <li aria-current="page" class="font-semibold text-slate-800">{college.name}</li>
+          <li aria-current="page" class="font-semibold text-stone-900">{college.name}</li>
         </ol>
       </nav>
 
-      <div class="mt-6 flex items-start gap-4">
-        <span class="flex h-14 w-14 shrink-0 items-center justify-center bg-brand-600 text-white">
-          <Building2 class="h-7 w-7" />
-        </span>
-        <div>
-          <p class="eyebrow">{college.locality}, {college.city}</p>
-          <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-          <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-            PGs near {college.shortName}
-          </h1>
-          <p class="mt-2 text-sm text-slate-600 sm:text-base">
-            {college.name} — <span class="font-semibold text-slate-800"><span id="result-count">0</span> <span id="result-noun">PGs</span> found</span>
-          </p>
-        </div>
+      <div class="mt-5">
+        <p class="text-sm font-semibold text-stone-600">{college.locality}, {college.city}</p>
+        <h1 class="mt-2 font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+          PGs near {college.shortName}
+        </h1>
+        <p class="mt-2 text-sm text-stone-600 sm:text-base">
+          {college.name}. <span class="font-semibold text-stone-900"><span id="result-count">0</span> <span id="result-noun">PGs</span> found</span>
+        </p>
       </div>
     </div>
   </section>
@@ -60,28 +55,30 @@ const searchTerms = [college.shortName, college.locality];
     id="college-page"
     aria-label="Listings"
     data-search-terms={searchTerms.join('|')}
-    class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
+    class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
   >
-    <div id="college-grid" data-reveal-group class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <div id="college-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
 
-    <p id="college-loading" class="text-sm font-medium text-slate-500" role="status">
+    <p id="college-loading" class="text-sm font-medium text-stone-600" role="status">
       Loading live listings near {college.shortName}…
     </p>
 
-    <div id="college-empty" class="card pixel-corner relative hidden p-10 text-center">
-      <div class="pixel-rule justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <p class="mt-5 text-base font-bold text-slate-900">No PGs listed near {college.shortName} yet</p>
-      <p class="mx-auto mt-1 max-w-md text-sm text-slate-500">
-        We're expanding college by college. Browse everything that is live right now, or
-        list a PG you own near {college.locality}.
+    <div id="college-empty" class="card hidden p-8 text-center sm:p-10">
+      <p class="font-display text-base font-bold text-stone-900">No PGs listed near {college.shortName} yet</p>
+      <p class="mx-auto mt-2 max-w-md text-sm text-stone-600">
+        We’re expanding college by college. Browse what’s live now, or list a PG you own near {college.locality}.
       </p>
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
         <a href="/pgs-near-you" class="btn-primary px-6">Browse all PGs</a>
         <a href="/for-owners" class="btn-secondary px-6">List your PG</a>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+</style>
 
 <script>
   // A college page is only a saved search over the live board — nothing is

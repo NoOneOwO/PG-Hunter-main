@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PixelScene from '@/components/PixelScene.astro';
-import { Building2, ArrowRight } from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
 import { colleges } from '@/data/colleges';
 ---
 
@@ -9,64 +8,41 @@ import { colleges } from '@/data/colleges';
   title="Colleges — Find PGs Near Your College | PG Hunter"
   description="Explore student PGs, rooms and co-living spaces near every major college. Start with your campus."
 >
-  <section class="border-b border-slate-200 bg-brand-50">
-    {/*
-      Scene backdrop. As on the landing page it sits behind the whole band and
-      the copy floats over it; the scrim is directional so the headline side
-      stays legible while the artwork still reads on the far side.
-    */}
-    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-      <PixelScene scene="campus" pixel={9} maxCols={200} class="h-full w-full" />
-    </div>
-    <div
-      class="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-50 via-brand-50/82 to-brand-50/15"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-50 to-transparent"
-      aria-hidden="true"
-    >
-    </div>
-
-    <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <p class="eyebrow">{colleges.length} campuses</p>
-      <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <h1 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <h1 class="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
         Explore PGs by college
       </h1>
-      <p class="mt-2 max-w-xl text-sm text-slate-600 sm:text-base">
-        Pick your campus and discover the best accommodation around it.
+      <p class="mt-3 max-w-xl text-sm text-stone-600 sm:text-base">
+        Pick your campus and see PGs around it across {colleges.length} campuses.
       </p>
     </div>
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-    <div data-reveal-group class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {colleges.map((c) => (
         <a
           href={`/colleges/${c.slug}`}
-          class="card card-hover group flex items-center gap-4 p-5"
+          class="card card-hover group flex items-start justify-between gap-4 p-5"
         >
-          <span class="flex h-12 w-12 shrink-0 items-center justify-center bg-brand-50 text-brand-700">
-            <Building2 class="h-6 w-6" />
-          </span>
           <span class="min-w-0">
-            <span class="block truncate text-base font-bold text-slate-900 group-hover:text-brand-700">
+            <span class="inline-flex rounded-md bg-stone-100 px-2 py-1 text-xs font-bold text-stone-800">{c.shortName}</span>
+            <span class="mt-3 block font-display text-base font-bold text-stone-900 group-hover:text-stone-700">
               {c.name}
             </span>
-            {/*
-              No PG count here: at build time there is no board to count, and a
-              hard-coded number would be a lie the moment an owner publishes.
-              The campus page counts its own live results.
-            */}
-            <span class="block text-xs text-slate-500">
-              {c.locality} · {c.city}
+            <span class="mt-1 block text-sm text-stone-600">
+              {c.locality}, {c.city}
             </span>
           </span>
-          <ArrowRight class="ml-auto h-5 w-5 shrink-0 text-slate-300 transition-colors group-hover:text-brand-600" />
+          <ArrowRight class="mt-1 h-5 w-5 shrink-0 text-stone-400 transition-colors group-hover:text-stone-700" aria-hidden="true" />
         </a>
       ))}
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+  :where(button, a, [role="button"]):active { opacity: 0.96; }
+</style>

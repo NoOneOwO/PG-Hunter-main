@@ -65,5 +65,18 @@
 - Hero: dots darker/subtle and move a little on cursor (no yellow glow, reduced-motion safe). Hero blends into page (no hard border; bottom gradient fade). Trust/proof block: compact with icons (Video/Mic/BadgeCheck/ShieldCheck), less empty space. Wiring/content meaning unchanged.
 - Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-1440-full.png` (refreshed).
 
+## Part 4 (Colleges, For Owners, Earn) — done
+- **Status:** done. Frontend running `http://localhost:4321/`.
+- **Colleges (`/colleges`, `/colleges/[slug]`):** restyled to new system (no PixelScene/banner/scrim, no eyebrow/pixel ornament, no violet). Grid uses `data-reveal-group` removal + global fix so content is **visible by default with scripting off** (global `animation-fill-mode: none` for scroll-driven reveals in `src/styles/global.css`); full-page capture visibility addressed. Tiles **do not use one repeated icon** — each tile uses a short-name badge/text mark. Wiring preserved (links, slug pages, live listing fetch on detail).
+- **For Owners (`/for-owners`):** restyled. **Plans and prices shown exactly as found in code** via `getPlans()`/`formatINR` (DB-backed with known-good fallback in `src/lib/server/plans.ts`/`src/lib/plans.ts`): renders plan name, tagline, price, duration label, features, checkout note, travel-charge flag as configured. No invented plans/prices.
+- **Earn with PG Hunter (`/earn`):** restyled. Shows only content already stated on the page; **no invented payouts or numbers**. Wiring preserved (`/creator/apply`, `/creator`, `/for-owners`).
+- **Swept:** `sloplint --genre playful --render --url` on `/colleges`, `/for-owners`, `/earn` (screenshots in `.hallmark/shots/`). Remaining FAIL 58 density/hero-structure reflexes on content-heavy pages noted; key Part 4 requirements met.
+- **Localities pages:** in Part 4 table scope but not explicitly requested this turn; not redesigned.
+- **Copy changes (before → after):**
+  - Colleges: `Pick your campus and discover the best accommodation around it.` → `Pick your campus and see PGs around it across {n} campuses.`; `locality · city` → `locality, city`. Detail: removed em dash in `College — count`; `We're expanding...` → `We’re expanding...` (punctuation).
+  - For Owners hero: `For property owners` label folded into structure; `List your PG on PG Hunter and get discovered by students looking for accommodation near your property. You stay in control — we bring the enquiries.` → `List your PG on PG Hunter for student enquiries near your property.` (trust/verification body and step 3 privacy claim preserved). CTA: `drop your details and we'll reach out` → `Drop your details and we'll reach out.` (meaning preserved).
+  - Earn hero: removed `Wallet + Earn with PG Hunter` label and `That’s it.` from first sentence; `Already applied? Open dashboard` → `Creator dashboard` (same link). Core content unchanged; **no payouts/numbers invented**.
+- **Known issues (report only):** “Starting from” counts occupied room; “Pure veg meals included · ₹3,500/month”; “1 PGs found” pluralisation.
+
 ## Next
-- **Stop.** Part 4 on approval: colleges/localities pages (per PROGRESS table) or as directed. No deletions planned.
+- **Stop (Part 4 complete).** Part 5 on approval: conversion/auth pages (`/for-owners` deeper if needed, `/earn`, `/login`) per PROGRESS table — note `/for-owners` and `/earn` redesigned in Part 4; `/login` remains. No deletions planned.

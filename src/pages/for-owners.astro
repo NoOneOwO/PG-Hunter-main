@@ -1,131 +1,104 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import {
-  BadgeCheck,
-  MessagesSquare,
-  TrendingUp,
-  Video,
-  Building2,
-  ArrowRight,
-  Phone,
-} from '@lucide/astro';
+import { ArrowRight, Phone, Check } from '@lucide/astro';
+import { getPlans } from '@/lib/server/plans';
+import { formatINR } from '@/lib/format';
 
-const steps = [
-  { n: '1', title: 'Create your owner account', body: 'Sign up in a couple of minutes with your details.' },
-  { n: '2', title: 'Add your property', body: 'Rooms, rent, availability, amenities, rules, food and photos.' },
-  { n: '3', title: 'Get calls from real students', body: 'Logged-in students have your number texted to their phone — it never appears on the page, so scrapers get nothing.' },
-];
-
-const benefits = [
-  { Icon: Video, title: 'Video-first listings', body: 'Stand out with walkthrough videos and owner interviews that students actually watch.' },
-  { Icon: MessagesSquare, title: 'Qualified student leads', body: 'Every student who asks for your number is logged in and verified by SMS — without your number ever going public.' },
-  { Icon: TrendingUp, title: 'Full control', body: 'Manage rooms, rents, availability and media from your own dashboard whenever you want.' },
-  { Icon: BadgeCheck, title: 'Earn trust with verification', body: 'Listings verified by PG Hunter get a trust badge students look for.' },
-];
+const plans = await getPlans();
 ---
 
 <BaseLayout
   title="For Owners — List Your PG & Get Student Leads | PG Hunter"
   description="List your PG, rooms or co-living space on PG Hunter. Receive enquiries from students near your property. No broker, no hidden charges."
 >
-  <section class="border-b border-slate-200 bg-brand-50">
-    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-3xl text-center">
-        <span class="badge border border-brand-200 bg-white text-brand-800">
-          <Building2 class="h-3.5 w-3.5" /> For Owners
-        </span>
-        <div class="pixel-rule mt-5 justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <h1 class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-          Empty beds cost you money every month.
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-3xl">
+        <h1 class="font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-5xl">
+          Fill your empty beds, not your time.
         </h1>
-        <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-          List your PG on PG Hunter and get discovered by students looking for accommodation
-          near your property. You stay in control — we bring the enquiries.
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-stone-700 sm:text-lg">
+          List your PG on PG Hunter for student enquiries near your property.
         </p>
-        <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div class="mt-7 flex flex-wrap items-center gap-3">
           <a href="/login?role=owner&next=/owner/plans" class="btn-primary px-8">List your PG</a>
           <a href="mailto:rishabh@pghunter.in" class="btn-secondary px-8">
-            <Phone class="h-4 w-4" /> Talk to us
+            <Phone class="h-4 w-4" aria-hidden="true" /> Talk to us
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section aria-labelledby="how-heading" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <h2 id="how-heading" class="section-head text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-      How it works
-    </h2>
-    <div data-reveal-group class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {steps.map((s) => (
-        <div class="card pixel-corner relative p-6">
-          <span class="flex h-10 w-10 items-center justify-center bg-brand-600 text-lg font-extrabold text-white">
-            {s.n}
-          </span>
-          <h3 class="mt-4 text-base font-bold text-slate-900">{s.title}</h3>
-          <p class="mt-1 text-sm leading-relaxed text-slate-600">{s.body}</p>
-        </div>
+  <section aria-labelledby="plans-heading" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <h2 id="plans-heading" class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">Plans and prices</h2>
+    <p class="mt-2 max-w-2xl text-sm text-stone-600 sm:text-base">Shown exactly as configured in the app.</p>
+    <div class="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
+      {plans.map((plan) => (
+        <article class="card p-6">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h3 class="font-display text-xl font-extrabold text-stone-900">{plan.name}</h3>
+              <p class="mt-1 text-sm text-stone-600">{plan.tagline}</p>
+            </div>
+            <p class="font-display text-2xl font-extrabold text-stone-900">
+              {formatINR(plan.priceInr)}
+              {plan.priceInr > 0 && <span class="text-sm font-semibold text-stone-600">/{plan.durationLabel}</span>}
+              {plan.priceInr === 0 && <span class="text-sm font-semibold text-stone-600">/ {plan.durationLabel}</span>}
+            </p>
+          </div>
+          <ul class="mt-5 space-y-2 text-sm text-stone-700">
+            {plan.features.map((feature) => (
+              <li class="flex items-start gap-2"><Check class="mt-0.5 h-4 w-4 shrink-0 text-stone-700" aria-hidden="true" /><span>{feature}</span></li>
+            ))}
+          </ul>
+          {plan.checkoutNote && <p class="mt-4 rounded-md bg-stone-50 px-3 py-2 text-xs leading-relaxed text-stone-600">{plan.checkoutNote}</p>}
+          {plan.hasTravelCharge && <p class="mt-2 text-xs text-stone-600">Travel charge may apply.</p>}
+          <a href="/login?role=owner&next=/owner/plans" class="btn-secondary mt-5 w-full justify-center sm:w-auto">Choose {plan.name}</a>
+        </article>
       ))}
     </div>
   </section>
 
-  <section aria-labelledby="benefits-heading" class="border-t border-slate-200 bg-slate-50/60">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h2 id="benefits-heading" class="section-head text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-        Why list on PG Hunter
-      </h2>
-      <div data-reveal-group class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {benefits.map(({ Icon, title, body }) => (
-          <div class="card card-hover p-5">
-            <span class="flex h-11 w-11 items-center justify-center bg-brand-50 text-brand-700">
-              <Icon class="h-5 w-5" />
-            </span>
-            <h3 class="mt-4 text-sm font-bold text-slate-900">{title}</h3>
-            <p class="mt-1 text-sm leading-relaxed text-slate-600">{body}</p>
-          </div>
-        ))}
-      </div>
+  <section aria-labelledby="how-heading" class="border-y border-stone-200 bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <h2 id="how-heading" class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">How it works</h2>
+      <ol class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <li class="card p-5"><p class="font-display text-sm font-bold text-stone-500">1</p><h3 class="mt-2 text-base font-bold text-stone-900">Create your owner account</h3><p class="mt-1 text-sm leading-relaxed text-stone-600">Sign up in a couple of minutes with your details.</p></li>
+        <li class="card p-5"><p class="font-display text-sm font-bold text-stone-500">2</p><h3 class="mt-2 text-base font-bold text-stone-900">Add your property</h3><p class="mt-1 text-sm leading-relaxed text-stone-600">Rooms, rent, availability, amenities, rules, food and photos.</p></li>
+        <li class="card p-5"><p class="font-display text-sm font-bold text-stone-500">3</p><h3 class="mt-2 text-base font-bold text-stone-900">Get calls from real students</h3><p class="mt-1 text-sm leading-relaxed text-stone-600">Logged-in students have your number texted to their phone. It never appears on the page, so scrapers get nothing.</p></li>
+      </ol>
     </div>
   </section>
 
-  <section id="verification" aria-labelledby="verification-heading" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <h2 id="verification-heading" class="section-head text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-      Verification — honest by default
-    </h2>
-    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+  <section aria-labelledby="verification-heading" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <h2 id="verification-heading" class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">Verification, honest by default</h2>
+    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-stone-600 sm:text-base">
       Listing your property does not automatically make it "verified". Verification is earned
       through a real review process so students can trust what they see.
     </p>
-    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <div class="card p-5">
-        <h3 class="text-sm font-bold text-slate-900">Listed</h3>
-        <p class="mt-1 text-sm text-slate-600">Owner-submitted. Live publicly but not yet reviewed by us.</p>
-      </div>
-      <div class="card border-brand-200 bg-brand-50/50 p-5">
-        <h3 class="text-sm font-bold text-brand-800">PG Hunter Verified</h3>
-        <p class="mt-1 text-sm text-brand-900/70">Reviewed by the PG Hunter team against our checklist.</p>
-      </div>
-      <div class="card border-emerald-200 bg-emerald-50/50 p-5">
-        <h3 class="text-sm font-bold text-emerald-800">Rishabh IRL Verified</h3>
-        <p class="mt-1 text-sm text-emerald-900/70">Personally visited and verified by Rishabh on camera.</p>
-      </div>
+    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div class="card p-5"><h3 class="text-sm font-bold text-stone-900">Listed</h3><p class="mt-1 text-sm text-stone-600">Owner-submitted. Live publicly but not yet reviewed by us.</p></div>
+      <div class="card p-5"><h3 class="text-sm font-bold text-stone-900">PG Hunter Verified</h3><p class="mt-1 text-sm text-stone-600">Reviewed by the PG Hunter team against our checklist.</p></div>
+      <div class="card p-5"><h3 class="text-sm font-bold text-stone-900">Rishabh IRL Verified</h3><p class="mt-1 text-sm text-stone-600">Personally visited and verified by Rishabh on camera.</p></div>
     </div>
   </section>
 
-  <section class="border-t border-slate-200">
-    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div class="card pixel-corner relative flex flex-col items-start gap-6 bg-brand-600 p-8 text-white lg:flex-row lg:items-center lg:justify-between">
+  <section class="border-t border-stone-200">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="flex flex-col items-start justify-between gap-6 rounded-xl border border-stone-800 bg-stone-900 p-6 text-white sm:p-8 lg:flex-row lg:items-center">
         <div>
-          <h2 class="text-2xl font-extrabold tracking-tight sm:text-3xl">Ready to fill your beds?</h2>
-          <p class="mt-2 text-sm text-brand-100 sm:text-base">
-            Listings are currently being set up — drop your details and we'll reach out.
-          </p>
+          <h2 class="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">Ready to fill your beds?</h2>
+          <p class="mt-2 text-sm text-stone-300 sm:text-base">Listings are currently being set up. Drop your details and we'll reach out.</p>
         </div>
-        <a href="/login?role=owner&next=/owner/plans" class="btn-accent shrink-0 px-8">
-          Get started
-          <ArrowRight class="h-4 w-4" />
-        </a>
+        <a href="/login?role=owner&next=/owner/plans" class="btn-primary shrink-0 px-8">Get started <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+</style>
