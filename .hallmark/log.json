@@ -76,5 +76,23 @@
     "hero": "no-banner, search+headline+walkthrough-signature",
     "signature": "walkthrough shown play-first (slot)",
     "prompt": "PG Hunter redesign Part 2: system foundation + Home"
+  },
+  {
+    "part": 8,
+    "date": "2026-11-08",
+    "mode": "backend+deploy",
+    "scope": "api-sweep+worker-routing",
+    "summary": "82/82 API sweep; fixed listingWrite 22-col/21-placeholder insert; fixed /for-owners 404 (stale dist/server/wrangler.json run_worker_first snapshot) via npm run deploy; prod D1 migrations applied; deployed version 74f63544",
+    "deploy_version": "74f63544-540a-46e2-9ddd-ccc512290ec8",
+    "commits": [
+      "48ea184",
+      "dae44af",
+      "c5085a3"
+    ],
+    "test": {
+      "api_sweep": "82/82",
+      "unit": "162/162",
+      "astro_check": "0 errors"
+    }
   }
 ]
