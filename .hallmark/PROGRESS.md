@@ -62,7 +62,7 @@
 
 ## Home polish (post-Part 3, user request) — done
 - **Status:** done. Frontend running `http://localhost:4321/`.
-- Hero dots: darker (subtle), **no yellow cursor glow**; dots now **move a little** with cursor (`transform` parallax, `pointer:fine`, reduced-motion safe). Trust/proof block tightened (removed extra card/padding, compact 4-up grid) — wiring/content unchanged.
+- Hero: dots darker/subtle and move a little on cursor (no yellow glow, reduced-motion safe). Hero blends into page (no hard border; bottom gradient fade). Trust/proof block: compact with icons (Video/Mic/BadgeCheck/ShieldCheck), less empty space. Wiring/content meaning unchanged.
 - Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-1440-full.png` (refreshed).
 
 ## Next

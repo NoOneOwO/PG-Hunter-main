@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SearchPanel from '@/components/SearchPanel.astro';
-import { ArrowRight, Play, ShieldCheck } from '@lucide/astro';
+import { ArrowRight, Play, ShieldCheck, Video, Mic, BadgeCheck } from '@lucide/astro';
 import { colleges } from '@/data/colleges';
 ---
 
 <BaseLayout>
-  <section class="home-hero relative overflow-hidden border-b border-stone-200 bg-background">
+  <section class="home-hero relative overflow-hidden bg-background">
     <div class="pointer-events-none absolute inset-0 home-hero-bg" aria-hidden="true"></div>
     <div class="pointer-events-none absolute inset-0 home-hero-dots" aria-hidden="true"></div>
-    <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16">
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[var(--background)]" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-7xl px-4 py-12 pb-16 sm:px-6 lg:px-8 lg:min-h-[min(78vh,46rem)] lg:py-16 lg:pb-20">
       <div class="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10">
         <div class="min-w-0">
           <h1 class="font-display text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
@@ -65,13 +66,25 @@ import { colleges } from '@/data/colleges';
     </div>
   </section>
 
-  <section aria-labelledby="trust-heading" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+  <section aria-labelledby="trust-heading" class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
     <h2 id="trust-heading" class="sr-only">Why use PG Hunter</h2>
-    <ul class="grid gap-x-6 gap-y-3 text-sm text-stone-700 sm:grid-cols-2 lg:grid-cols-4">
-      <li><strong class="font-semibold text-stone-900">Video walkthroughs</strong> <span class="text-stone-600">See room, mess, building first.</span></li>
-      <li><strong class="font-semibold text-stone-900">Owner interviews</strong> <span class="text-stone-600">Rules and food, straight up.</span></li>
-      <li><strong class="font-semibold text-stone-900">Verified listings</strong> <span class="text-stone-600">Real verification status shown.</span></li>
-      <li><strong class="font-semibold text-stone-900">Safety first</strong> <span class="text-stone-600">No pressure to pay early.</span></li>
+    <ul class="grid gap-x-5 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-stone-800"><Video class="h-4 w-4" aria-hidden="true" /></span>
+        <div class="min-w-0 text-sm"><strong class="font-semibold text-stone-900">Video walkthroughs</strong><p class="mt-0.5 text-stone-600">See room, mess, building first.</p></div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-stone-800"><Mic class="h-4 w-4" aria-hidden="true" /></span>
+        <div class="min-w-0 text-sm"><strong class="font-semibold text-stone-900">Owner interviews</strong><p class="mt-0.5 text-stone-600">Rules and food, straight up.</p></div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-stone-800"><BadgeCheck class="h-4 w-4" aria-hidden="true" /></span>
+        <div class="min-w-0 text-sm"><strong class="font-semibold text-stone-900">Verified listings</strong><p class="mt-0.5 text-stone-600">Real verification status shown.</p></div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-stone-800"><ShieldCheck class="h-4 w-4" aria-hidden="true" /></span>
+        <div class="min-w-0 text-sm"><strong class="font-semibold text-stone-900">Safety first</strong><p class="mt-0.5 text-stone-600">No pressure to pay early.</p></div>
+      </li>
     </ul>
   </section>
 
