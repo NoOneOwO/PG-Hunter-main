@@ -62,8 +62,8 @@
 
 ## Home polish (post-Part 3, user request) — done
 - **Status:** done. Frontend running `http://localhost:4321/`.
-- Landing/Home hero background: warm noticeboard dot-grid + subtle yellow/ink depth (no banner/violet). **Follow-up:** dots darkened slightly (still subtle) and made interactive on hover (cursor-following highlight/reveal, `pointer:fine` only; graceful without JS). Wiring/content unchanged.
-- Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-hero-1440x900.png` (refreshed).
+- Hero dots: darker (subtle), **no yellow cursor glow**; dots now **move a little** with cursor (`transform` parallax, `pointer:fine`, reduced-motion safe). Trust/proof block tightened (removed extra card/padding, compact 4-up grid) — wiring/content unchanged.
+- Screenshot: `PG-Hunter-Edit/.hallmark/shots/localhost-4321-1440-full.png` (refreshed).
 
 ## Next
 - **Stop.** Part 4 on approval: colleges/localities pages (per PROGRESS table) or as directed. No deletions planned.
