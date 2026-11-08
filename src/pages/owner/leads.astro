@@ -5,15 +5,15 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
 ---
 
 <OwnerLayout title="Enquiries — PG Hunter" active="leads">
-  <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+  <div class="flex flex-wrap items-end justify-between gap-4" >
     <div>
-      <p class="eyebrow">Owner workspace</p>
-      <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <h1 class="mt-5 flex flex-wrap items-center gap-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+      
+      
+      <h1 class="mt-5 flex flex-wrap items-center gap-3 text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
         Enquiries
-        <span id="leads-unread" class="hidden rounded-full bg-brand-600 px-2.5 py-1 text-xs font-bold text-white"></span>
+        <span id="leads-unread" class="hidden rounded-full bg-stone-900 px-2.5 py-1 text-xs font-bold text-white"></span>
       </h1>
-      <p class="mt-1 text-sm font-medium text-slate-500">
+      <p class="mt-1 text-sm font-medium text-stone-600">
         Students who sent you an enquiry. Message them straight from an enquiry — they'll see it as a reply.
       </p>
     </div>
@@ -21,20 +21,20 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
 
   <div id="leads-loading" class="mx-auto max-w-md py-20 text-center" role="status">
     <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-brand-100 border-t-brand-600"></span>
-    <p class="mt-4 text-sm font-medium text-slate-500">Loading enquiries…</p>
+    <p class="mt-4 text-sm font-medium text-stone-600">Loading enquiries…</p>
   </div>
 
   <div id="leads-root" class="hidden">
     <div class="card mt-6 flex flex-col gap-3 p-4 sm:flex-row sm:items-end">
       <label class="flex-1">
-        <span class="block text-xs font-semibold uppercase tracking-wide text-slate-500">PG</span>
-        <select id="filter-listing" class="mt-1 w-full rounded-sm border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 focus:border-brand-400 focus:outline-none">
+        <span class="block text-xs font-semibold uppercase tracking-wide text-stone-600">PG</span>
+        <select id="filter-listing" class="mt-1 w-full rounded-sm border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 focus:border-stone-400 focus:outline-none">
           <option value="">All listings</option>
         </select>
       </label>
       <label class="flex-1">
-        <span class="block text-xs font-semibold uppercase tracking-wide text-slate-500">Status</span>
-        <select id="filter-status" class="mt-1 w-full rounded-sm border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 focus:border-brand-400 focus:outline-none">
+        <span class="block text-xs font-semibold uppercase tracking-wide text-stone-600">Status</span>
+        <select id="filter-status" class="mt-1 w-full rounded-sm border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 focus:border-stone-400 focus:outline-none">
           <option value="">All statuses</option>
           {LEAD_STATUSES.map((status) => <option value={status}>{leadStatusMeta[status].label}</option>)}
         </select>
@@ -45,11 +45,11 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
     </div>
 
     <div id="leads-empty" class="card mt-6 hidden p-12 text-center">
-      <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-sm bg-brand-100 text-brand-700">
+      <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-sm bg-brand-100 text-[color:var(--color-violet)]">
         <Inbox class="h-8 w-8" />
       </span>
-      <h2 class="mt-6 text-xl font-extrabold tracking-tight text-slate-900">No enquiries here yet</h2>
-      <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-600">
+      <h2 class="mt-6 text-xl font-extrabold tracking-tight text-stone-900">No enquiries here yet</h2>
+      <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-stone-600">
         When a student taps <span class="font-semibold">Contact Owner</span> on one of your live
         PGs, the enquiry lands here with their requirements. You'll also see a count in the
         Enquiries tab.
@@ -59,7 +59,7 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
 
     <div id="leads-list" class="card mt-6 divide-y divide-slate-100"></div>
 
-    <p class="mt-4 flex items-start gap-1.5 text-xs leading-relaxed text-slate-500">
+    <p class="mt-4 flex items-start gap-1.5 text-xs leading-relaxed text-stone-600">
       <Info class="mt-0.5 h-3.5 w-3.5 shrink-0" />
       Phone numbers appear only when the student ticked the consent box on their enquiry. Notes are
       private and visible only to you.
@@ -117,27 +117,27 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
           >
             WhatsApp
           </a>
-          <span class="text-[11px] font-medium text-slate-500">Shared with consent for this enquiry.</span>
+          <span class="text-[11px] font-medium text-stone-600">Shared with consent for this enquiry.</span>
         </div>`
-      : `<p class="mt-3 text-xs font-medium text-slate-400">
+      : `<p class="mt-3 text-xs font-medium text-stone-500">
           This student did not share a phone number. Reply in your own time — the enquiry stays here.
         </p>`;
 
     return `
-    <article class="px-5 py-5" data-lead-id="${lead.id}" data-reveal>
+    <article class="px-5 py-5" data-lead-id="${lead.id}" >
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div class="min-w-0">
-          <p class="text-sm font-bold text-slate-900">${escapeHtml(lead.student_name ?? 'Student')}</p>
-          <p class="mt-0.5 text-xs font-medium text-slate-500">
+          <p class="text-sm font-bold text-stone-900">${escapeHtml(lead.student_name ?? 'Student')}</p>
+          <p class="mt-0.5 text-xs font-medium text-stone-600">
             ${escapeHtml(lead.college ?? 'College not given')} · ${escapeHtml(lead.property_name ?? 'Your PG')}
           </p>
-          <p class="mt-0.5 text-[11px] font-medium text-slate-400">
+          <p class="mt-0.5 text-[11px] font-medium text-stone-500">
             ${escapeHtml(formatEnquiryTimestamp(lead.created_at))}
           </p>
         </div>
         <select
           data-lead-status="${lead.id}"
-          class="badge cursor-pointer border-0 outline-none ${leadStatusMeta[lead.status]?.classes ?? 'bg-slate-100 text-slate-600'}"
+          class="badge cursor-pointer border-0 outline-none ${leadStatusMeta[lead.status]?.classes ?? 'bg-stone-100 text-stone-600'}"
           aria-label="Update status for ${escapeAttr(lead.student_name ?? 'this student')}"
         >
           ${statusOptions(lead.status)}
@@ -145,12 +145,12 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
       </div>
 
       <div class="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
-        <span class="rounded-sm bg-slate-100 px-2.5 py-1 text-slate-600">Budget: ${escapeHtml(budgetLabel(lead.budget))}</span>
-        <span class="rounded-sm bg-slate-100 px-2.5 py-1 text-slate-600">Move-in: ${escapeHtml(moveInLabel(lead.move_in_month))}</span>
-        <span class="rounded-sm bg-slate-100 px-2.5 py-1 text-slate-600">Room: ${escapeHtml(enquiryRoomTypeLabel(lead.room_type))}</span>
+        <span class="rounded-sm bg-stone-100 px-2.5 py-1 text-stone-600">Budget: ${escapeHtml(budgetLabel(lead.budget))}</span>
+        <span class="rounded-sm bg-stone-100 px-2.5 py-1 text-stone-600">Move-in: ${escapeHtml(moveInLabel(lead.move_in_month))}</span>
+        <span class="rounded-sm bg-stone-100 px-2.5 py-1 text-stone-600">Room: ${escapeHtml(enquiryRoomTypeLabel(lead.room_type))}</span>
       </div>
 
-      ${lead.message ? `<p class="mt-3 whitespace-pre-wrap rounded-sm bg-slate-50 px-4 py-3 text-sm leading-relaxed text-slate-700">${escapeHtml(lead.message)}</p>` : ''}
+      ${lead.message ? `<p class="mt-3 whitespace-pre-wrap rounded-sm bg-stone-50 px-4 py-3 text-sm leading-relaxed text-stone-700">${escapeHtml(lead.message)}</p>` : ''}
 
       ${contactBlock}
 
@@ -161,11 +161,11 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
           Message student
         </a>
-        <span class="text-xs font-medium text-slate-400">Opens a chat about ${escapeHtml(lead.property_name ?? 'your PG')} — it lands in their inbox as a reply to this enquiry.</span>
+        <span class="text-xs font-medium text-stone-500">Opens a chat about ${escapeHtml(lead.property_name ?? 'your PG')} — it lands in their inbox as a reply to this enquiry.</span>
       </div>` : ''}
 
       <details class="mt-3" ${lead.owner_notes ? 'open' : ''}>
-        <summary class="cursor-pointer text-xs font-semibold text-brand-700">
+        <summary class="cursor-pointer text-xs font-semibold text-[color:var(--color-violet)]">
           Private notes${lead.owner_notes ? ' · saved' : ''}
         </summary>
         <label class="mt-2 block">
@@ -174,7 +174,7 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
             data-lead-notes="${lead.id}"
             rows="2"
             maxlength="1000"
-            class="w-full resize-none rounded-sm border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:border-brand-400 focus:outline-none"
+            class="w-full resize-none rounded-sm border border-stone-200 bg-white px-3 py-2 text-sm text-slate-800 placeholder:text-stone-500 focus:border-stone-400 focus:outline-none"
             placeholder="Visited on Saturday, wants ground floor…"
           >${escapeHtml(lead.owner_notes ?? '')}</textarea>
         </label>
@@ -182,7 +182,7 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
           <button type="button" data-lead-notes-save="${lead.id}" class="btn-secondary min-h-9 px-3 text-xs">
             Save note
           </button>
-          <span data-lead-notes-status="${lead.id}" class="text-xs font-medium text-slate-500" role="status"></span>
+          <span data-lead-notes-status="${lead.id}" class="text-xs font-medium text-stone-600" role="status"></span>
         </div>
       </details>
     </article>`;
@@ -203,7 +203,7 @@ import { LEAD_STATUSES, leadStatusMeta } from '@/lib/owner';
         try {
           await updateOwnerLead(Number(sel.dataset.leadStatus), { status: sel.value });
           lastGood = sel.value;
-          sel.className = `badge cursor-pointer border-0 outline-none ${leadStatusMeta[sel.value]?.classes ?? 'bg-slate-100 text-slate-600'}`;
+          sel.className = `badge cursor-pointer border-0 outline-none ${leadStatusMeta[sel.value]?.classes ?? 'bg-stone-100 text-stone-600'}`;
           await afterStatusChange();
         } catch (err) {
           sel.value = lastGood;

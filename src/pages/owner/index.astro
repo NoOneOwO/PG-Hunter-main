@@ -15,83 +15,81 @@ import { listingStatusMeta } from '@/lib/owner';
 // The control-centre tiles. Each points at a real, implemented owner section —
 // no tile exists for a feature that is not built (see TRUTH_POLICY).
 const manageTiles = [
-  { href: '/owner/listings', label: 'Listings', hint: 'Add and edit PGs', Icon: Building2, iconClass: 'bg-brand-50 text-brand-700' },
+  { href: '/owner/listings', label: 'Listings', hint: 'Add and edit PGs', Icon: Building2, iconClass: 'bg-stone-100 text-stone-800' },
   { href: '/owner/leads', label: 'Enquiries', hint: 'Student messages', Icon: Inbox, iconClass: 'bg-sky-50 text-sky-700' },
   { href: '/owner/verification', label: 'Verification', hint: 'Trust documents', Icon: BadgeCheck, iconClass: 'bg-accent-100 text-accent-500' },
   { href: '/owner/plans', label: 'Plans', hint: 'Basic or Verified', Icon: Wallet, iconClass: 'bg-emerald-50 text-emerald-700' },
-  { href: '/owner/profile', label: 'Profile', hint: 'Account details', Icon: UserRound, iconClass: 'bg-slate-100 text-slate-700' },
+  { href: '/owner/profile', label: 'Profile', hint: 'Account details', Icon: UserRound, iconClass: 'bg-stone-100 text-slate-700' },
 ];
 ---
 
 <OwnerLayout title="Owner Dashboard — PG Hunter" active="dashboard">
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <div>
-      <p class="eyebrow">Owner dashboard</p>
-      <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-        Welcome back, <span id="dash-name">owner</span> 👋
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div class="min-w-0">
+      <h1 class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+        Welcome back, <span id="dash-name">owner</span>
       </h1>
-      <p class="mt-1 text-sm font-medium text-slate-500">
-        Your listings, enquiries and verification at a glance.
+      <p class="mt-1 text-sm text-stone-600">
+        Status first: enquiries, availability, verification.
       </p>
     </div>
-    <a href="/owner/listings/new" class="btn-primary">
-      <Plus class="h-4 w-4" />
+    <a href="/owner/listings/new" class="btn-primary shrink-0">
+      <Plus class="h-4 w-4" aria-hidden="true" />
       Add PG
     </a>
   </div>
 
-  <div id="dash-loading" class="mx-auto max-w-md py-20 text-center" role="status">
-    <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-brand-100 border-t-brand-600"></span>
-    <p class="mt-4 text-sm font-medium text-slate-500">Loading your dashboard…</p>
+  <div id="dash-loading" class="mx-auto max-w-md py-16 text-center" role="status">
+    <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-stone-200 border-t-stone-800"></span>
+    <p class="mt-4 text-sm font-medium text-stone-600">Loading your dashboard…</p>
   </div>
 
   <div id="dash-root" class="hidden">
-    <div data-reveal-group class="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div class="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
       <a href="/owner/listings" class="card card-hover p-5" data-hover-lift>
-        <span class="flex h-10 w-10 items-center justify-center bg-brand-50 text-brand-700">
+        <span class="flex h-10 w-10 items-center justify-center bg-stone-100 text-stone-800">
           <Building2 class="h-5 w-5" />
         </span>
-        <p id="stat-listings" class="mt-4 text-3xl font-extrabold text-slate-900">–</p>
-        <p class="text-sm font-semibold text-slate-500">Total listings</p>
+        <p id="stat-listings" class="mt-4 text-3xl font-extrabold text-stone-900">–</p>
+        <p class="text-sm font-semibold text-stone-600">Total listings</p>
       </a>
       <a href="/owner/listings" class="card card-hover p-5" data-hover-lift>
         <span class="flex h-10 w-10 items-center justify-center bg-emerald-50 text-emerald-700">
           <TrendingUp class="h-5 w-5" />
         </span>
-        <p id="stat-active" class="mt-4 text-3xl font-extrabold text-slate-900">–</p>
-        <p class="text-sm font-semibold text-slate-500">Live on PG Hunter</p>
+        <p id="stat-active" class="mt-4 text-3xl font-extrabold text-stone-900">–</p>
+        <p class="text-sm font-semibold text-stone-600">Live on PG Hunter</p>
       </a>
       <a href="/owner/leads" class="card card-hover p-5" data-hover-lift>
         <span class="flex h-10 w-10 items-center justify-center bg-sky-50 text-sky-700">
           <Inbox class="h-5 w-5" />
         </span>
         <p class="mt-4 flex items-center gap-2">
-          <span id="stat-leads" class="text-3xl font-extrabold text-slate-900">–</span>
-          <span id="stat-newleads" class="badge hidden border border-brand-200 bg-brand-50 text-brand-800"></span>
+          <span id="stat-leads" class="text-3xl font-extrabold text-stone-900">–</span>
+          <span id="stat-newleads" class="badge hidden border border-stone-300 bg-stone-100 text-stone-800"></span>
         </p>
-        <p class="text-sm font-semibold text-slate-500">Enquiries received</p>
+        <p class="text-sm font-semibold text-stone-600">Enquiries received</p>
       </a>
       <a href="/owner/verification" class="card card-hover p-5" data-hover-lift>
         <span class="flex h-10 w-10 items-center justify-center bg-accent-100 text-accent-500">
           <BadgeCheck class="h-5 w-5" />
         </span>
-        <p id="stat-verification" class="mt-4 text-2xl font-extrabold text-slate-900">–</p>
-        <p class="text-sm font-semibold text-slate-500">Verification</p>
+        <p id="stat-verification" class="mt-4 text-2xl font-extrabold text-stone-900">–</p>
+        <p class="text-sm font-semibold text-stone-600">Verification</p>
       </a>
     </div>
 
-    <section class="mt-8" aria-labelledby="manage-heading" data-reveal>
-      <h2 id="manage-heading" class="text-base font-bold text-slate-900">Manage</h2>
-      <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5" data-reveal-group>
+    <section class="mt-8" aria-labelledby="manage-heading">
+      <h2 id="manage-heading" class="text-base font-bold text-stone-900">Manage</h2>
+      <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {manageTiles.map((tile) => (
           <a href={tile.href} class="card card-hover flex items-start gap-3 p-4" data-hover-lift>
             <span class:list={['flex h-10 w-10 shrink-0 items-center justify-center', tile.iconClass]}>
               <tile.Icon class="h-5 w-5" />
             </span>
             <span class="min-w-0">
-              <span class="block text-sm font-bold text-slate-900">{tile.label}</span>
-              <span class="mt-0.5 block text-xs font-medium text-slate-500">{tile.hint}</span>
+              <span class="block text-sm font-bold text-stone-900">{tile.label}</span>
+              <span class="mt-0.5 block text-xs font-medium text-stone-600">{tile.hint}</span>
             </span>
           </a>
         ))}
@@ -99,21 +97,21 @@ const manageTiles = [
     </section>
 
     <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-      <section class="card lg:col-span-2" aria-labelledby="analytics-heading" data-reveal>
-        <div class="border-b border-slate-100 px-5 py-4">
-          <h2 id="analytics-heading" class="text-base font-bold text-slate-900">Enquiries and reach</h2>
+      <section class="card lg:col-span-2" aria-labelledby="analytics-heading">
+        <div class="border-b border-stone-200 px-5 py-4">
+          <h2 id="analytics-heading" class="text-base font-bold text-stone-900">Enquiries and reach</h2>
         </div>
         <div class="grid grid-cols-1 gap-5 px-5 py-5 lg:grid-cols-2">
           <div>
             <div class="mb-3 flex items-center justify-between">
-              <p class="text-sm font-bold text-slate-800">Last 14 days</p>
+              <p class="text-sm font-bold text-stone-800">Last 14 days</p>
               <span class="badge border border-sky-200 bg-sky-50 text-sky-700">Enquiries</span>
             </div>
             <div id="enquiry-chart" class="h-44"></div>
           </div>
           <div>
             <div class="mb-3 flex items-center justify-between">
-              <p class="text-sm font-bold text-slate-800">PG reach</p>
+              <p class="text-sm font-bold text-stone-800">PG reach</p>
               <span id="stat-reach" class="badge border border-emerald-200 bg-emerald-50 text-emerald-700">0 views</span>
             </div>
             <div id="reach-chart" class="h-44"></div>
@@ -121,29 +119,29 @@ const manageTiles = [
         </div>
       </section>
 
-      <section class="card" aria-labelledby="pg-health-heading" data-reveal>
-        <div class="border-b border-slate-100 px-5 py-4">
-          <h2 id="pg-health-heading" class="text-base font-bold text-slate-900">PG stats</h2>
+      <section class="card" aria-labelledby="pg-health-heading">
+        <div class="border-b border-stone-200 px-5 py-4">
+          <h2 id="pg-health-heading" class="text-base font-bold text-stone-900">PG stats</h2>
         </div>
         <div class="space-y-4 px-5 py-5">
           <div id="status-bars" class="space-y-3"></div>
-          <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
-            <div class="rounded-sm border border-slate-200 bg-slate-50 p-3">
-              <p id="stat-rooms" class="text-xl font-extrabold text-slate-900">0</p>
-              <p class="text-xs font-semibold text-slate-500">Available rooms</p>
+          <div class="grid grid-cols-2 gap-3 border-t border-stone-200 pt-4">
+            <div class="rounded-sm border border-stone-200 bg-stone-50 p-3">
+              <p id="stat-rooms" class="text-xl font-extrabold text-stone-900">0</p>
+              <p class="text-xs font-semibold text-stone-600">Available rooms</p>
             </div>
-            <div class="rounded-sm border border-slate-200 bg-slate-50 p-3">
-              <p id="stat-photos" class="text-xl font-extrabold text-slate-900">0</p>
-              <p class="text-xs font-semibold text-slate-500">Photos uploaded</p>
+            <div class="rounded-sm border border-stone-200 bg-stone-50 p-3">
+              <p id="stat-photos" class="text-xl font-extrabold text-stone-900">0</p>
+              <p class="text-xs font-semibold text-stone-600">Photos uploaded</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="card lg:col-span-2" aria-labelledby="recent-listings-heading" data-reveal>
-        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <h2 id="recent-listings-heading" class="text-base font-bold text-slate-900">Your PGs</h2>
-          <a href="/owner/listings" class="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:underline">
+      <section class="card lg:col-span-2" aria-labelledby="recent-listings-heading">
+        <div class="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+          <h2 id="recent-listings-heading" class="text-base font-bold text-stone-900">Your PGs</h2>
+          <a href="/owner/listings" class="inline-flex items-center gap-1 text-sm font-semibold text-[color:var(--color-violet)] hover:underline">
             Manage
             <ArrowRight class="h-4 w-4" />
           </a>
@@ -151,10 +149,10 @@ const manageTiles = [
         <div id="recent-listings" class="divide-y divide-slate-100"></div>
       </section>
 
-      <section class="card" aria-labelledby="recent-leads-heading" data-reveal>
-        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <h2 id="recent-leads-heading" class="text-base font-bold text-slate-900">Latest enquiries</h2>
-          <a href="/owner/leads" class="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:underline">
+      <section class="card" aria-labelledby="recent-leads-heading">
+        <div class="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+          <h2 id="recent-leads-heading" class="text-base font-bold text-stone-900">Latest enquiries</h2>
+          <a href="/owner/leads" class="inline-flex items-center gap-1 text-sm font-semibold text-[color:var(--color-violet)] hover:underline">
             View all
             <ArrowRight class="h-4 w-4" />
           </a>
@@ -162,20 +160,20 @@ const manageTiles = [
         <div id="recent-leads" class="divide-y divide-slate-100"></div>
       </section>
 
-      <section class="card lg:col-span-3" aria-labelledby="top-pgs-heading" data-reveal>
-        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-          <h2 id="top-pgs-heading" class="text-base font-bold text-slate-900">Performance by PG</h2>
-          <span class="text-xs font-semibold text-slate-400">All time · top 5 by views</span>
+      <section class="card lg:col-span-3" aria-labelledby="top-pgs-heading">
+        <div class="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+          <h2 id="top-pgs-heading" class="text-base font-bold text-stone-900">Performance by PG</h2>
+          <span class="text-xs font-semibold text-stone-500">All time · top 5 by views</span>
         </div>
         <div id="top-listings" class="divide-y divide-slate-100">
-          <p class="px-5 py-6 text-center text-sm font-semibold text-slate-400">Loading…</p>
+          <p class="px-5 py-6 text-center text-sm font-semibold text-stone-500">Loading…</p>
         </div>
       </section>
     </div>
 
-    <section class="card mt-6" aria-labelledby="status-guide-heading" data-reveal>
-      <div class="border-b border-slate-100 px-5 py-4">
-        <h2 id="status-guide-heading" class="text-base font-bold text-slate-900">Listing statuses</h2>
+    <section class="card mt-6" aria-labelledby="status-guide-heading">
+      <div class="border-b border-stone-200 px-5 py-4">
+        <h2 id="status-guide-heading" class="text-base font-bold text-stone-900">Listing statuses</h2>
       </div>
       <div class="grid grid-cols-1 gap-4 px-5 py-5 sm:grid-cols-2 lg:grid-cols-4">
         {(Object.keys(listingStatusMeta) as (keyof typeof listingStatusMeta)[]).map((key) => (
@@ -184,7 +182,7 @@ const manageTiles = [
               <span class:list={['h-1.5 w-1.5 rounded-full', listingStatusMeta[key].dot]}></span>
               {listingStatusMeta[key].label}
             </span>
-            <p class="mt-2 text-xs leading-relaxed text-slate-500">{listingStatusMeta[key].hint}</p>
+            <p class="mt-2 text-xs leading-relaxed text-stone-600">{listingStatusMeta[key].hint}</p>
           </div>
         ))}
       </div>
@@ -234,12 +232,12 @@ const manageTiles = [
       ? `<p class="mt-1 flex items-center gap-1 text-xs text-rose-600"><span class="inline-flex h-3 w-3 items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>${escapeHtml(l.rejectionReason)}</p>` : '';
     return `
     <div class="flex items-center gap-4 px-5 py-4">
-      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-brand-50 text-brand-700">
+      <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-stone-100 text-stone-800">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
       </span>
       <div class="min-w-0 flex-1">
-        <a href="/owner/listings/${encodeURIComponent(l.id)}/edit" class="truncate text-sm font-bold text-slate-900 hover:text-brand-700">${escapeHtml(l.name)}</a>
-        <p class="mt-0.5 text-xs font-medium text-slate-500">${escapeHtml(rentRangeOf(l))} · ${escapeHtml(formatRelativeDate(l.updatedAt))}</p>
+        <a href="/owner/listings/${encodeURIComponent(l.id)}/edit" class="truncate text-sm font-bold text-stone-900 hover:text-stone-900">${escapeHtml(l.name)}</a>
+        <p class="mt-0.5 text-xs font-medium text-stone-600">${escapeHtml(rentRangeOf(l))} · ${escapeHtml(formatRelativeDate(l.updatedAt))}</p>
         ${rejection}
       </div>
       <div class="hidden sm:block">${statusBadge(l.status)}</div>
@@ -249,18 +247,18 @@ const manageTiles = [
   const leadRow = (lead: any) => `
     <div class="px-5 py-4">
       <div class="flex items-center justify-between gap-2">
-        <p class="truncate text-sm font-bold text-slate-900">${escapeHtml(lead.student_name ?? 'Enquiry')}</p>
+        <p class="truncate text-sm font-bold text-stone-900">${escapeHtml(lead.student_name ?? 'Enquiry')}</p>
         <span class="badge bg-brand-100 text-brand-800">${escapeHtml(leadStatusLabel(lead.status))}</span>
       </div>
-      <p class="mt-0.5 truncate text-xs font-medium text-slate-500">${escapeHtml(lead.property_name ?? 'Your PG')} · ${escapeHtml(formatRelativeDate(lead.created_at))}</p>
-      ${lead.student_id ? `<a href="/owner/messages?student=${encodeURIComponent(String(lead.student_id))}&listing=${encodeURIComponent(String(lead.property_id))}&enquiry=${encodeURIComponent(String(lead.id))}" class="mt-2 inline-flex items-center gap-1 text-xs font-bold text-brand-700 hover:underline">
+      <p class="mt-0.5 truncate text-xs font-medium text-stone-600">${escapeHtml(lead.property_name ?? 'Your PG')} · ${escapeHtml(formatRelativeDate(lead.created_at))}</p>
+      ${lead.student_id ? `<a href="/owner/messages?student=${encodeURIComponent(String(lead.student_id))}&listing=${encodeURIComponent(String(lead.property_id))}&enquiry=${encodeURIComponent(String(lead.id))}" class="mt-2 inline-flex items-center gap-1 text-xs font-bold text-[color:var(--color-violet)] hover:underline">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
         Message student</a>` : ''}
     </div>`;
 
   const empty = (text: string) => `
     <div class="px-5 py-8 text-center">
-      <p class="text-sm font-semibold text-slate-500">${text}</p>
+      <p class="text-sm font-semibold text-stone-600">${text}</p>
     </div>`;
 
   const verificationLabel = (status: 'none' | 'pending' | 'approved') =>
@@ -304,11 +302,11 @@ const manageTiles = [
         const width = Math.max(6, (row.count / max) * 100);
         return `
           <div>
-            <div class="mb-1 flex items-center justify-between text-xs font-semibold text-slate-500">
+            <div class="mb-1 flex items-center justify-between text-xs font-semibold text-stone-600">
               <span>${meta.label}</span><span>${row.count}</span>
             </div>
-            <div class="h-2 overflow-hidden bg-slate-100">
-              <div class="h-full bg-brand-600" style="width: ${width}%"></div>
+            <div class="h-2 overflow-hidden bg-stone-100">
+              <div class="h-full bg-stone-800" style="width: ${width}%"></div>
             </div>
           </div>`;
       })
@@ -320,7 +318,7 @@ const manageTiles = [
     const el = document.getElementById('top-listings');
     if (!el) return;
     if (rows.length === 0) {
-      el.innerHTML = `<p class="px-5 py-6 text-center text-sm font-semibold text-slate-400">No PGs yet — add a listing to start tracking performance.</p>`;
+      el.innerHTML = `<p class="px-5 py-6 text-center text-sm font-semibold text-stone-500">No PGs yet — add a listing to start tracking performance.</p>`;
       return;
     }
     const max = Math.max(1, ...rows.map((r) => Number(r.views) || 0));
@@ -331,14 +329,14 @@ const manageTiles = [
         const width = Math.max(4, Math.round((views / max) * 100));
         return `
         <div class="flex flex-wrap items-center gap-3 px-5 py-4">
-          <span class="w-5 text-xs font-extrabold text-slate-400">${i + 1}</span>
+          <span class="w-5 text-xs font-extrabold text-stone-500">${i + 1}</span>
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-              <p class="truncate text-sm font-bold text-slate-900">${escapeHtml(r.name)}</p>
-              <p class="text-xs font-semibold text-slate-500">${enquiries} ${enquiries === 1 ? 'enquiry' : 'enquiries'} · ${views} ${views === 1 ? 'view' : 'views'}</p>
+              <p class="truncate text-sm font-bold text-stone-900">${escapeHtml(r.name)}</p>
+              <p class="text-xs font-semibold text-stone-600">${enquiries} ${enquiries === 1 ? 'enquiry' : 'enquiries'} · ${views} ${views === 1 ? 'view' : 'views'}</p>
             </div>
-            <div class="mt-1.5 h-1.5 max-w-sm overflow-hidden bg-slate-100">
-              <div class="h-full bg-brand-600" style="width: ${width}%"></div>
+            <div class="mt-1.5 h-1.5 max-w-sm overflow-hidden bg-stone-100">
+              <div class="h-full bg-stone-800" style="width: ${width}%"></div>
             </div>
           </div>
           <a href="/owner/listings/${encodeURIComponent(r.id)}/edit" class="btn-secondary min-h-9 px-3 text-xs">

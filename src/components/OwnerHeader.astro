@@ -22,13 +22,13 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/95 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-stone-200 bg-white/95 backdrop-blur">
   <div class="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
     <a href="/owner" class="flex items-center gap-2" aria-label="PG Hunter owner dashboard">
       <LogoBadge class="h-8 w-8" />
-      <span class="text-lg font-extrabold tracking-tight text-slate-900">
-        PG<span class="text-brand-600">Hunter</span>
-        <span class="ml-1 rounded-md bg-brand-50 px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-brand-700">
+      <span class="text-lg font-extrabold tracking-tight text-stone-900">
+        PG<span class="text-[color:var(--color-violet)]">Hunter</span>
+        <span class="ml-1 rounded-md bg-stone-100 px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-stone-800">
           Owner
         </span>
       </span>
@@ -41,8 +41,8 @@ const navItems = [
           class:list={[
             'inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold transition-colors',
             active === item.key
-              ? 'bg-brand-50 text-brand-700'
-              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+              ? 'bg-stone-100 text-stone-800'
+              : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900',
           ]}
           aria-current={active === item.key ? 'page' : undefined}
         >
@@ -51,7 +51,7 @@ const navItems = [
           {item.key === 'leads' && (
             <span
               data-unread-badge
-              class="hidden min-w-5 rounded-full bg-brand-600 px-1.5 py-0.5 text-center text-[10px] font-bold text-white"
+              class="hidden min-w-5 rounded-full bg-stone-900 px-1.5 py-0.5 text-center text-[10px] font-bold text-white"
               aria-label="new enquiries"
             />
           )}
@@ -60,7 +60,7 @@ const navItems = [
       <button
         type="button"
         data-logout
-        class="inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold text-slate-600 transition-colors hover:bg-rose-50 hover:text-rose-600"
+        class="inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold text-stone-600 transition-colors hover:bg-rose-50 hover:text-rose-600"
       >
         <LogOut class="h-4 w-4" /> Log out
       </button>
@@ -70,25 +70,25 @@ const navItems = [
       <a
         href="/"
         title="View public site"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-slate-200 text-slate-600 transition-colors hover:bg-slate-50"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-stone-200 text-stone-600 transition-colors hover:bg-stone-50"
         aria-label="View public site"
       >
         <ExternalLink class="h-5 w-5" />
       </a>
       <a
         href="/owner/profile"
-        class="inline-flex h-11 items-center gap-2 rounded-sm border border-slate-200 py-1 pl-1 pr-3 transition-colors hover:bg-slate-50"
+        class="inline-flex h-11 items-center gap-2 rounded-sm border border-stone-200 py-1 pl-1 pr-3 transition-colors hover:bg-stone-50"
         aria-label="Your profile"
       >
-        <span class="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-brand-600 text-xs font-extrabold text-white">
+        <span class="relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-stone-900 text-xs font-extrabold text-white">
           <img id="owner-avatar-img" alt="" class="absolute inset-0 hidden h-full w-full object-cover" referrerpolicy="no-referrer" />
           <span id="owner-avatar">?</span>
         </span>
-        <span id="owner-name" class="hidden max-w-28 truncate text-sm font-semibold text-slate-800 sm:block"></span>
+        <span id="owner-name" class="hidden max-w-28 truncate text-sm font-semibold text-stone-800 sm:block"></span>
       </a>
       <button
         id="owner-menu-toggle"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-sm text-slate-700 transition-colors hover:bg-slate-50 lg:hidden"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-sm text-stone-700 transition-colors hover:bg-stone-50 lg:hidden"
         aria-expanded="false"
         aria-controls="owner-mobile-menu"
         aria-label="Open menu"
@@ -101,7 +101,7 @@ const navItems = [
 
   <nav
     id="owner-mobile-menu"
-    class="hidden border-t border-slate-100 bg-white px-4 pb-4 pt-2 lg:hidden"
+    class="hidden border-t border-stone-200 bg-white px-4 pb-4 pt-2 lg:hidden"
     aria-label="Owner mobile"
   >
     <div class="mx-auto flex max-w-7xl flex-col gap-1">
@@ -110,13 +110,13 @@ const navItems = [
           href={item.href}
           class:list={[
             'flex min-h-11 items-center gap-2 rounded-sm px-3 text-sm font-semibold',
-            active === item.key ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-50',
+            active === item.key ? 'bg-stone-100 text-stone-800' : 'text-stone-700 hover:bg-stone-50',
           ]}
         >          <item.Icon class="h-4 w-4" /> {item.label}
           {item.key === 'leads' && (
             <span
               data-unread-badge
-              class="hidden min-w-5 rounded-full bg-brand-600 px-1.5 py-0.5 text-center text-[10px] font-bold text-white"
+              class="hidden min-w-5 rounded-full bg-stone-900 px-1.5 py-0.5 text-center text-[10px] font-bold text-white"
               aria-label="new enquiries"
             />
           )}
@@ -129,7 +129,7 @@ const navItems = [
       >
         <LogOut class="h-4 w-4" /> Log out
       </button>
-      <a href="/" class="mt-1 flex min-h-11 items-center gap-2 rounded-sm px-3 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+      <a href="/" class="mt-1 flex min-h-11 items-center gap-2 rounded-sm px-3 text-sm font-semibold text-stone-600 hover:bg-stone-50">
         <ExternalLink class="h-4 w-4" /> View public site
       </a>
     </div>

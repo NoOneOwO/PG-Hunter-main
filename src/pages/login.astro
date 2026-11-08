@@ -19,18 +19,20 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
   title="Login / Sign up — PG Hunter"
   description="Log in or create a free account on PG Hunter to save PGs and get owner numbers sent to your phone."
 >
-  <section class="mx-auto max-w-md px-4 py-10 sm:px-6">
+  <section class="mx-auto w-full max-w-md px-4 py-8 sm:px-6 sm:py-10">
     <!-- Step 1 — choose how you will use PG Hunter.
          Server-rendered visible so the question is the first thing anyone
          sees; the script swaps in the auth card when ?role= is present. -->
     <div id="role-step">
-      <div class="card pixel-corner relative p-8">
-        <LogoBadge class="h-10 w-10" alt="PG Hunter" />
-        <div class="pixel-rule mt-5" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-900">
+      <div class="card p-6 sm:p-8">
+        <div class="flex items-center gap-3">
+          <LogoBadge class="h-10 w-10" alt="PG Hunter" />
+          <p class="text-sm font-semibold text-stone-600">PG Hunter</p>
+        </div>
+        <h1 class="mt-5 font-display text-2xl font-extrabold tracking-tight text-stone-900">
           How will you use PG Hunter?
         </h1>
-        <p class="mt-1 text-sm text-slate-500">
+        <p class="mt-2 text-sm leading-relaxed text-stone-600">
           Pick the account that fits. You can switch later.
         </p>
 
@@ -38,17 +40,17 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
           <a
             id="role-student"
             href="/login?role=student"
-            class="group flex items-start gap-3 rounded-sm border border-slate-200 p-4 transition-colors hover:border-brand-500 hover:bg-brand-50/60"
+            class="group flex items-start gap-3 rounded-lg border border-stone-200 bg-white p-4 transition-colors hover:border-stone-400 hover:bg-stone-50"
           >
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-brand-50 text-brand-700 group-hover:bg-brand-100">
-              <GraduationCap class="h-5 w-5" />
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-stone-800">
+              <GraduationCap class="h-5 w-5" aria-hidden="true" />
             </span>
             <span class="min-w-0 flex-1">
               <span class="flex items-center justify-between gap-2">
-                <span class="text-base font-bold text-slate-900">I'm a Student</span>
-                <ArrowRight class="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-brand-600" />
+                <span class="text-base font-bold text-stone-900">I'm a Student</span>
+                <ArrowRight class="h-4 w-4 shrink-0 text-stone-400 transition-colors group-hover:text-stone-700" aria-hidden="true" />
               </span>
-              <span class="mt-0.5 block text-sm leading-relaxed text-slate-500">
+              <span class="mt-1 block text-sm leading-relaxed text-stone-600">
                 Find PGs, save listings, explore accommodation, and join the PG Hunter creator program.
               </span>
             </span>
@@ -57,24 +59,24 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
           <a
             id="role-owner"
             href="/login?role=owner"
-            class="group flex items-start gap-3 rounded-sm border border-slate-200 p-4 transition-colors hover:border-brand-500 hover:bg-brand-50/60"
+            class="group flex items-start gap-3 rounded-lg border border-stone-200 bg-white p-4 transition-colors hover:border-stone-400 hover:bg-stone-50"
           >
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-brand-50 text-brand-700 group-hover:bg-brand-100">
-              <Building2 class="h-5 w-5" />
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-stone-100 text-stone-800">
+              <Building2 class="h-5 w-5" aria-hidden="true" />
             </span>
             <span class="min-w-0 flex-1">
               <span class="flex items-center justify-between gap-2">
-                <span class="text-base font-bold text-slate-900">I'm a PG Owner</span>
-                <ArrowRight class="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-brand-600" />
+                <span class="text-base font-bold text-stone-900">I'm a PG Owner</span>
+                <ArrowRight class="h-4 w-4 shrink-0 text-stone-400 transition-colors group-hover:text-stone-700" aria-hidden="true" />
               </span>
-              <span class="mt-0.5 block text-sm leading-relaxed text-slate-500">
+              <span class="mt-1 block text-sm leading-relaxed text-stone-600">
                 List and manage properties, reach students, and manage listing plans.
               </span>
             </span>
           </a>
         </div>
 
-        <p class="mt-5 text-center text-xs text-slate-500">
+        <p class="mt-5 text-center text-xs leading-relaxed text-stone-600">
           Already have an account? Pick the account type you signed up with, then log in.
         </p>
       </div>
@@ -82,24 +84,23 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
 
     <!-- Step 2 — log in or sign up as the chosen account type. -->
     <div id="auth-step" class="hidden">
-      <div class="card pixel-corner relative p-8">
+      <div class="card p-6 sm:p-8">
         <div class="flex items-center justify-between gap-3">
           <LogoBadge class="h-10 w-10" alt="PG Hunter" />
           <a
             id="role-change"
             href="/login"
-            class="inline-flex items-center gap-1.5 rounded-sm border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-50"
+            class="inline-flex items-center gap-1.5 rounded-md border border-stone-200 px-2.5 py-1.5 text-xs font-semibold text-stone-700 transition-colors hover:bg-stone-50"
           >
-            <ShieldCheck class="h-3.5 w-3.5 text-brand-600" />
+            <ShieldCheck class="h-3.5 w-3.5 text-stone-700" aria-hidden="true" />
             <span id="role-change-label">Student</span>
-            <span class="text-slate-400">· Change</span>
+            <span class="text-stone-400">· Change</span>
           </a>
         </div>
-        <div class="pixel-rule mt-5" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <h1 id="auth-title" class="mt-5 text-2xl font-extrabold tracking-tight text-slate-900">
+        <h1 id="auth-title" class="mt-5 font-display text-2xl font-extrabold tracking-tight text-stone-900">
           Welcome back
         </h1>
-        <p id="auth-subtitle" class="mt-1 text-sm text-slate-500">
+        <p id="auth-subtitle" class="mt-2 text-sm leading-relaxed text-stone-600">
           Log in to save PGs and get owner numbers sent to your phone.
         </p>
 
@@ -107,48 +108,48 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
              than the door the user came through. Explain, never escalate. -->
         <div
           id="role-mismatch"
-          class="mt-4 hidden rounded-sm border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+          class="mt-4 hidden rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"
           role="alert"
         >
           <p class="flex items-center gap-2 font-semibold">
-            <TriangleAlert class="h-4 w-4 shrink-0" />
+            <TriangleAlert class="h-4 w-4 shrink-0" aria-hidden="true" />
             <span id="mismatch-title">Different account type</span>
           </p>
           <p id="mismatch-detail" class="mt-1 leading-relaxed"></p>
           <div class="mt-3 flex flex-wrap gap-2">
-            <button id="mismatch-continue" type="button" class="btn-primary min-h-10 px-4 text-xs">
+            <button id="mismatch-continue" type="button" class="btn-primary min-h-10 px-4 text-sm">
               Continue
             </button>
-            <a href="/login" id="mismatch-back" class="btn-secondary min-h-10 px-4 text-xs">
+            <a href="/login" id="mismatch-back" class="btn-secondary min-h-10 px-4 text-sm">
               Choose a different account
             </a>
           </div>
         </div>
 
-        <div id="auth-error" class="mt-4 hidden rounded-sm border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-sm font-medium text-rose-700" role="alert"></div>
-        <div id="auth-success" class="mt-4 hidden rounded-sm border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-medium text-emerald-700" role="status"></div>
+        <div id="auth-error" class="mt-4 hidden rounded-md border border-rose-200 bg-rose-50 px-3.5 py-2.5 text-sm font-medium text-rose-800" role="alert"></div>
+        <div id="auth-success" class="mt-4 hidden rounded-md border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm font-medium text-emerald-800" role="status"></div>
 
         <!-- Google is the primary, server-side OAuth — presented first per Phase 2 -->
         <button id="google-btn" type="button" class="btn-secondary mt-6 w-full">
           <Fragment set:html={googleMark} />
           Continue with Google
         </button>
-        <p class="mt-2 text-center text-xs text-slate-500">Works for both students and owners. New accounts respect your selected role.</p>
+        <p class="mt-2 text-center text-xs text-stone-600">Works for both students and owners. New accounts respect your selected role.</p>
 
-        <div class="my-6 flex items-center gap-3 text-xs font-medium tracking-[0.18em] text-slate-400 uppercase">
-          <span class="h-px flex-1 bg-slate-200" aria-hidden="true"></span>
+        <div class="my-6 flex items-center gap-3 text-xs font-semibold text-stone-500">
+          <span class="h-px flex-1 bg-stone-200" aria-hidden="true"></span>
           or
-          <span class="h-px flex-1 bg-slate-200" aria-hidden="true"></span>
+          <span class="h-px flex-1 bg-stone-200" aria-hidden="true"></span>
         </div>
 
-        <div class="grid grid-cols-2 gap-px border border-slate-200 bg-slate-200" role="tablist" aria-label="Account access">
+        <div class="grid grid-cols-2 gap-1 rounded-lg border border-stone-200 bg-stone-100 p-1" role="tablist" aria-label="Account access">
           <button
             id="tab-login"
             type="button"
             role="tab"
             aria-selected="true"
             data-tab="login"
-            class="bg-white py-2.5 text-sm font-semibold text-slate-900 transition-colors"
+            class="rounded-md bg-white py-2.5 text-sm font-semibold text-stone-900 shadow-sm transition-colors"
           >
             Log in
           </button>
@@ -158,7 +159,7 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
             role="tab"
             aria-selected="false"
             data-tab="signup"
-            class="py-2.5 text-sm font-semibold text-slate-500 transition-colors"
+            class="rounded-md py-2.5 text-sm font-semibold text-stone-600 transition-colors"
           >
             Sign up free
           </button>
@@ -166,7 +167,7 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
 
         <form id="login-form" class="mt-6 flex flex-col gap-4">
           <label class="field">
-            <Mail class="h-5 w-5 shrink-0 text-brand-600" />
+            <Mail class="h-5 w-5 shrink-0 text-stone-600" aria-hidden="true" />
             <span class="sr-only">Email</span>
             <input
               type="email"
@@ -178,7 +179,7 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
             />
           </label>
           <label class="field">
-            <Lock class="h-5 w-5 shrink-0 text-brand-600" />
+            <Lock class="h-5 w-5 shrink-0 text-stone-600" aria-hidden="true" />
             <span class="sr-only">Password</span>
             <input
               type="password"
@@ -191,13 +192,13 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
           </label>
           <button type="submit" class="btn-primary w-full">
             Login
-            <ArrowRight class="h-4 w-4" />
+            <ArrowRight class="h-4 w-4" aria-hidden="true" />
           </button>
         </form>
 
         <form id="signup-form" class="mt-6 hidden flex flex-col gap-4">
           <label class="field">
-            <UserRound class="h-5 w-5 shrink-0 text-brand-600" />
+            <UserRound class="h-5 w-5 shrink-0 text-stone-600" aria-hidden="true" />
             <span class="sr-only">Full name</span>
             <input
               type="text"
@@ -209,7 +210,7 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
             />
           </label>
           <label class="field">
-            <Mail class="h-5 w-5 shrink-0 text-brand-600" />
+            <Mail class="h-5 w-5 shrink-0 text-stone-600" aria-hidden="true" />
             <span class="sr-only">Email</span>
             <input
               type="email"
@@ -221,7 +222,7 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
             />
           </label>
           <label class="field">
-            <Lock class="h-5 w-5 shrink-0 text-brand-600" />
+            <Lock class="h-5 w-5 shrink-0 text-stone-600" aria-hidden="true" />
             <span class="sr-only">Password</span>
             <input
               type="password"
@@ -234,28 +235,28 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
             />
           </label>
           <div class="mt-1 grid grid-cols-2 gap-2" role="radiogroup" aria-label="Account type">
-            <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-slate-200 px-3.5 text-sm font-semibold text-slate-700 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-700">
+            <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-stone-200 bg-white px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-stone-900 has-[:checked]:bg-stone-900 has-[:checked]:text-white">
               <input type="radio" name="role" value="student" class="sr-only" checked />
-              <GraduationCap class="h-4 w-4" />
+              <GraduationCap class="h-4 w-4" aria-hidden="true" />
               Student
             </label>
-            <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-slate-200 px-3.5 text-sm font-semibold text-slate-700 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-700">
+            <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-stone-200 bg-white px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-stone-900 has-[:checked]:bg-stone-900 has-[:checked]:text-white">
               <input type="radio" name="role" value="owner" class="sr-only" />
-              <Building2 class="h-4 w-4" />
+              <Building2 class="h-4 w-4" aria-hidden="true" />
               Owner
             </label>
           </div>
           <button type="submit" class="btn-primary w-full">
             Create free account
-            <ArrowRight class="h-4 w-4" />
+            <ArrowRight class="h-4 w-4" aria-hidden="true" />
           </button>
         </form>
 
-        <p class="mt-6 text-center text-sm text-slate-500">
+        <p class="mt-6 text-center text-sm text-stone-600">
           <span id="switch-hint">Don't have an account?</span>{' '}
-          <a href="#switch" id="switch-link" class="font-semibold text-brand-700 hover:underline">Sign up free</a>
+          <a href="#switch" id="switch-link" class="font-semibold text-[color:var(--color-violet)] hover:underline">Sign up free</a>
         </p>
-        <p class="mt-3 rounded-sm border border-slate-200 bg-slate-50 px-3 py-2.5 text-center text-xs text-slate-500">
+        <p class="mt-3 rounded-md border border-stone-200 bg-stone-50 px-3 py-2.5 text-center text-xs leading-relaxed text-stone-600">
           Your account and shortlist are stored securely on Cloudflare.
         </p>
       </div>
@@ -358,11 +359,13 @@ const googleMark = `<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
     tabLogin.setAttribute('aria-selected', String(!isSignup));
     tabSignup.setAttribute('aria-selected', String(isSignup));
     tabLogin.classList.toggle('bg-white', !isSignup);
-    tabLogin.classList.toggle('text-slate-900', !isSignup);
-    tabLogin.classList.toggle('text-slate-500', isSignup);
+    tabLogin.classList.toggle('text-stone-900', !isSignup);
+    tabLogin.classList.toggle('shadow-sm', !isSignup);
+    tabLogin.classList.toggle('text-stone-600', isSignup);
     tabSignup.classList.toggle('bg-white', isSignup);
-    tabSignup.classList.toggle('text-slate-900', isSignup);
-    tabSignup.classList.toggle('text-slate-500', !isSignup);
+    tabSignup.classList.toggle('text-stone-900', isSignup);
+    tabSignup.classList.toggle('shadow-sm', isSignup);
+    tabSignup.classList.toggle('text-stone-600', !isSignup);
     switchLink.textContent = isSignup ? 'Log in' : 'Sign up free';
     switchHint.textContent = isSignup ? 'Already have an account?' : "Don't have an account?";
     clearMessages();

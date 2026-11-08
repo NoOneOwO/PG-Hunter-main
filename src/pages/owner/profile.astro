@@ -7,12 +7,12 @@ const collegeOptions = colleges.map((c) => ({ slug: c.slug, shortName: c.shortNa
 ---
 
 <OwnerLayout title="Profile — Owner Dashboard — PG Hunter" active="profile">
-  <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+  <div class="flex flex-wrap items-end justify-between gap-4" >
     <div>
-      <p class="eyebrow">Owner workspace</p>
-      <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Your account</h1>
-      <p class="mt-1 text-sm font-medium text-slate-500">Owner information, contact details and verification. This stays inside your owner workspace — you never lose the dashboard nav.</p>
+      
+      
+      <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">Your account</h1>
+      <p class="mt-1 text-sm font-medium text-stone-600">Owner information, contact details and verification. This stays inside your owner workspace — you never lose the dashboard nav.</p>
     </div>
     <a href="/owner/verification" class="btn-secondary">
       <ShieldCheck class="h-4 w-4" /> Verification
@@ -21,23 +21,23 @@ const collegeOptions = colleges.map((c) => ({ slug: c.slug, shortName: c.shortNa
 
   <div id="profile-loading" class="mx-auto max-w-md py-16 text-center" role="status">
     <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-brand-100 border-t-brand-600"></span>
-    <p class="mt-4 text-sm font-medium text-slate-500">Loading your profile…</p>
+    <p class="mt-4 text-sm font-medium text-stone-600">Loading your profile…</p>
   </div>
 
   <div id="profile-root" class="hidden">
-    <div class="mt-6 card border border-slate-200 p-6 sm:p-8" data-reveal>
+    <div class="mt-6 card border border-stone-200 p-6 sm:p-8" >
       <div class="flex flex-wrap items-center gap-4">
-        <span class="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-brand-600 text-2xl font-extrabold text-white">
+        <span class="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-stone-900 text-2xl font-extrabold text-white">
           <img id="profile-avatar-img" alt="" class="absolute inset-0 hidden h-full w-full object-cover" referrerpolicy="no-referrer" />
           <span id="profile-avatar">?</span>
         </span>
         <div class="min-w-0 flex-1">
-          <h2 id="profile-name" class="truncate text-2xl font-extrabold tracking-tight text-slate-900">—</h2>
-          <p id="profile-email" class="truncate text-sm text-slate-500">—</p>
+          <h2 id="profile-name" class="truncate text-2xl font-extrabold tracking-tight text-stone-900">—</h2>
+          <p id="profile-email" class="truncate text-sm text-stone-600">—</p>
           <p class="mt-1.5 flex flex-wrap items-center gap-2 text-xs">
             <span id="profile-role" class="badge bg-brand-100 text-brand-800">Owner</span>
-            <span id="profile-provider" class="badge bg-slate-100 text-slate-600">Email</span>
-            <span id="profile-since" class="font-medium text-slate-400"></span>
+            <span id="profile-provider" class="badge bg-stone-100 text-stone-600">Email</span>
+            <span id="profile-since" class="font-medium text-stone-500"></span>
           </p>
         </div>
         <a href="/owner/listings" class="btn-secondary">
@@ -48,7 +48,7 @@ const collegeOptions = colleges.map((c) => ({ slug: c.slug, shortName: c.shortNa
       {/* Profile picture. The bytes go to R2 through /api/profile/avatar, the
           same endpoint the student profile uses — owners were only missing the
           control, not the storage. */}
-      <div class="mt-5 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-5">
+      <div class="mt-5 flex flex-wrap items-center gap-3 border-t border-stone-100 pt-5">
         <button id="avatar-upload-btn" type="button" class="btn-secondary">
           <ImageUp class="h-4 w-4" /> Change photo
         </button>
@@ -56,36 +56,36 @@ const collegeOptions = colleges.map((c) => ({ slug: c.slug, shortName: c.shortNa
           <Trash2 class="h-4 w-4" /> Remove
         </button>
         <input id="avatar-input" type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" />
-        <p class="text-xs text-slate-500">JPEG, PNG or WebP up to 5 MB. Shown on your listings and enquiries.</p>
+        <p class="text-xs text-stone-600">JPEG, PNG or WebP up to 5 MB. Shown on your listings and enquiries.</p>
         <p id="avatar-status" class="hidden w-full text-xs font-medium" role="status"></p>
       </div>
 
-      <form id="profile-form" class="mt-8 grid grid-cols-1 gap-4 border-t border-slate-100 pt-6 sm:grid-cols-2">
+      <form id="profile-form" class="mt-8 grid grid-cols-1 gap-4 border-t border-stone-100 pt-6 sm:grid-cols-2">
         <div>
-          <label for="profile-name-input" class="mb-1.5 block text-sm font-semibold text-slate-700">Full name</label>
+          <label for="profile-name-input" class="mb-1.5 block text-sm font-semibold text-stone-700">Full name</label>
           <label class="field">
-            <UserRound class="h-5 w-5 shrink-0 text-brand-600" />
+            <UserRound class="h-5 w-5 shrink-0 text-stone-700" />
             <span class="sr-only">Full name</span>
             <input id="profile-name-input" type="text" name="name" autocomplete="name" class="w-full bg-transparent outline-none" required />
           </label>
         </div>
         <div>
-          <label for="profile-phone-input" class="mb-1.5 block text-sm font-semibold text-slate-700">Phone <span class="font-normal text-slate-400">(optional)</span></label>
+          <label for="profile-phone-input" class="mb-1.5 block text-sm font-semibold text-stone-700">Phone <span class="font-normal text-stone-500">(optional)</span></label>
           <label class="field">
-            <Phone class="h-5 w-5 shrink-0 text-brand-600" />
+            <Phone class="h-5 w-5 shrink-0 text-stone-700" />
             <span class="sr-only">Phone</span>
             <input id="profile-phone-input" type="tel" name="phone" placeholder="+91 …" autocomplete="tel" class="w-full bg-transparent outline-none" />
           </label>
         </div>
         <div class="sm:col-span-2">
-          <label for="profile-college-select" class="mb-1.5 block text-sm font-semibold text-slate-700">Your city / college area</label>
+          <label for="profile-college-select" class="mb-1.5 block text-sm font-semibold text-stone-700">Your city / college area</label>
           <select id="profile-college-select" name="college" class="field appearance-none">
             <option value="">Not linked to a college</option>
             {collegeOptions.map((c) => (
               <option value={c.slug}>{c.name}</option>
             ))}
           </select>
-          <p class="mt-1.5 text-xs text-slate-500">Helps us surface nearby enquiries. Visible only to you.</p>
+          <p class="mt-1.5 text-xs text-stone-600">Helps us surface nearby enquiries. Visible only to you.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3 sm:col-span-2">
           <button type="submit" class="btn-primary">
@@ -99,20 +99,20 @@ const collegeOptions = colleges.map((c) => ({ slug: c.slug, shortName: c.shortNa
       </form>
     </div>
 
-    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3" data-reveal-group>
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3" -group>
       <section class="card p-6 lg:col-span-2">
-        <h3 class="flex items-center gap-2 text-sm font-bold text-slate-900"><Mail class="h-4 w-4 text-brand-600" /> Contact & account</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Your enquiries show your name and phone to interested students. Keep them up to date. Verification documents are reviewed separately under <a href="/owner/verification" class="font-semibold text-brand-700 hover:underline">Verification</a>.</p>
+        <h3 class="flex items-center gap-2 text-sm font-bold text-stone-900"><Mail class="h-4 w-4 text-stone-700" /> Contact & account</h3>
+        <p class="mt-2 text-sm leading-relaxed text-stone-600">Your enquiries show your name and phone to interested students. Keep them up to date. Verification documents are reviewed separately under <a href="/owner/verification" class="font-semibold text-[color:var(--color-violet)] hover:underline">Verification</a>.</p>
       </section>
       <section class="card p-6">
-        <h3 class="text-sm font-bold text-slate-900">Need help?</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Questions about listings or enquiries? Contact support.</p>
+        <h3 class="text-sm font-bold text-stone-900">Need help?</h3>
+        <p class="mt-2 text-sm leading-relaxed text-stone-600">Questions about listings or enquiries? Contact support.</p>
         <a href="mailto:rishabh@pghunter.in" class="btn-secondary mt-4 w-full justify-center">Support</a>
       </section>
     </div>
 
-    <div class="mt-6 flex items-center justify-between gap-4 border-t border-slate-100 pt-6">
-      <p class="text-xs text-slate-400">Signed in to your owner workspace.</p>
+    <div class="mt-6 flex items-center justify-between gap-4 border-t border-stone-100 pt-6">
+      <p class="text-xs text-stone-500">Signed in to your owner workspace.</p>
       <button id="logout-btn" type="button" class="btn-secondary text-rose-600 hover:bg-rose-50">
         <LogOut class="h-4 w-4" /> Log out
       </button>

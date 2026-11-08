@@ -55,49 +55,49 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
 
 <OwnerLayout title="Annual Listing — Checkout | PG Hunter" active="plans">
   <div class="mx-auto max-w-5xl">
-    <a href="/owner/plans" class="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 hover:text-brand-700">
+    <a href="/owner/plans" class="inline-flex items-center gap-1 text-sm font-semibold text-stone-600 hover:text-[color:var(--color-violet)]">
       <span aria-hidden="true">←</span> Back to plans
     </a>
 
-    <div class="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-[1.6fr_1fr]" data-reveal-group>
+    <div class="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-[1.6fr_1fr]" -group>
       <!-- Left: what you get -->
       <div>
-        <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        <h1 class="text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
           Annual Listing
         </h1>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+        <p class="mt-2 text-sm leading-relaxed text-stone-600 sm:text-base">
           List your PG for a full year. We physically visit it, photograph it, shoot a
           walkthrough video and verify it on camera — so students trust what they see.
         </p>
 
         <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div class="card p-5">
-            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-brand-700">
+            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-[color:var(--color-violet)]">
               <MapPin class="h-5 w-5" />
             </span>
-            <h3 class="mt-4 text-sm font-bold text-slate-900">Physical visit</h3>
-            <p class="mt-1 text-sm text-slate-600">A team member visits your PG in person to inspect it.</p>
+            <h3 class="mt-4 text-sm font-bold text-stone-900">Physical visit</h3>
+            <p class="mt-1 text-sm text-stone-600">A team member visits your PG in person to inspect it.</p>
           </div>
           <div class="card p-5">
-            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-brand-700">
+            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-[color:var(--color-violet)]">
               <Camera class="h-5 w-5" />
             </span>
-            <h3 class="mt-4 text-sm font-bold text-slate-900">Photography</h3>
-            <p class="mt-1 text-sm text-slate-600">Professional photos of rooms, common areas and the property.</p>
+            <h3 class="mt-4 text-sm font-bold text-stone-900">Photography</h3>
+            <p class="mt-1 text-sm text-stone-600">Professional photos of rooms, common areas and the property.</p>
           </div>
           <div class="card p-5">
-            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-brand-700">
+            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-[color:var(--color-violet)]">
               <Video class="h-5 w-5" />
             </span>
-            <h3 class="mt-4 text-sm font-bold text-slate-900">Video walkthrough</h3>
-            <p class="mt-1 text-sm text-slate-600">A walkthrough video students can watch before they visit.</p>
+            <h3 class="mt-4 text-sm font-bold text-stone-900">Video walkthrough</h3>
+            <p class="mt-1 text-sm text-stone-600">A walkthrough video students can watch before they visit.</p>
           </div>
           <div class="card p-5">
-            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-brand-700">
+            <span class="flex h-11 w-11 items-center justify-center rounded-sm bg-brand-100 text-[color:var(--color-violet)]">
               <CalendarCheck class="h-5 w-5" />
             </span>
-            <h3 class="mt-4 text-sm font-bold text-slate-900">1-year validity</h3>
-            <p class="mt-1 text-sm text-slate-600">Your Verified badge stays active on the listing for 1 year.</p>
+            <h3 class="mt-4 text-sm font-bold text-stone-900">1-year validity</h3>
+            <p class="mt-1 text-sm text-stone-600">Your Verified badge stays active on the listing for 1 year.</p>
           </div>
         </div>
 
@@ -115,49 +115,49 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
 
       <!-- Right: price summary + payment -->
       <aside class="lg:sticky lg:top-24 lg:self-start">
-        <div class="card border border-slate-200 p-6">
-          <h2 class="text-base font-bold text-slate-900">Price summary</h2>
-          <p class="mt-1 text-xs text-slate-500">{verified.name}, valid for {verified.durationLabel}.</p>
+        <div class="card border border-stone-200 p-6">
+          <h2 class="text-base font-bold text-stone-900">Price summary</h2>
+          <p class="mt-1 text-xs text-stone-600">{verified.name}, valid for {verified.durationLabel}.</p>
           <dl class="mt-4 space-y-3 text-sm">
             <div class="flex items-center justify-between gap-3">
-              <dt class="text-slate-500">Annual Listing fee ({verified.durationLabel})</dt>
-              <dd class="font-semibold text-slate-900">{formatINR(verified.priceInr)}</dd>
+              <dt class="text-stone-600">Annual Listing fee ({verified.durationLabel})</dt>
+              <dd class="font-semibold text-stone-900">{formatINR(verified.priceInr)}</dd>
             </div>
             <div class="flex items-center justify-between gap-3">
-              <dt class="flex items-center gap-1 text-slate-500">
+              <dt class="flex items-center gap-1 text-stone-600">
                 Travel charge
-                <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-100" title="Calculated based on your location at booking">
+                <span class="inline-flex h-4 w-4 items-center justify-center rounded-full bg-stone-100" title="Calculated based on your location at booking">
                   <Info class="h-3 w-3" />
                 </span>
               </dt>
-              <dd class="text-slate-400">Calculated at booking</dd>
+              <dd class="text-stone-500">Calculated at booking</dd>
             </div>
-            <div class="border-t border-slate-200 pt-3">
+            <div class="border-t border-stone-200 pt-3">
               <div class="flex items-center justify-between gap-3">
-                <dt class="font-bold text-slate-900">Total</dt>
-                <dd class="text-lg font-extrabold text-brand-700">
+                <dt class="font-bold text-stone-900">Total</dt>
+                <dd class="text-lg font-extrabold text-[color:var(--color-violet)]">
                   {formatINR(verified.priceInr)}
-                  {verified.hasTravelCharge && <span class="text-xs font-medium text-slate-400">+ travel*</span>}
+                  {verified.hasTravelCharge && <span class="text-xs font-medium text-stone-500">+ travel*</span>}
                 </dd>
               </div>
-              <p class="mt-1 text-xs text-slate-500">*Travel charge placeholder — final amount shown before payment.</p>
+              <p class="mt-1 text-xs text-stone-600">*Travel charge placeholder — final amount shown before payment.</p>
             </div>
           </dl>
 
           <!-- Prior payment state -->
           {latest ? (
-            <div class="mt-5 border border-slate-200 p-4">
-              <p class="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500">
+            <div class="mt-5 border border-stone-200 p-4">
+              <p class="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-stone-600">
                 Your last payment
                 <span class={`badge ${paymentStatusMeta[latest.status].classes}`}>
                   <span class={`h-1.5 w-1.5 rounded-full ${paymentStatusMeta[latest.status].dot}`}></span>
                   {paymentStatusMeta[latest.status].label}
                 </span>
               </p>
-              <p class="mt-2 text-sm text-slate-700">
+              <p class="mt-2 text-sm text-stone-700">
                 {formatINR(latest.amountInr)} · ref <span class="font-semibold">{latest.reference}</span>
               </p>
-              <p class="mt-0.5 text-xs text-slate-500">
+              <p class="mt-0.5 text-xs text-stone-600">
                 Submitted {new Date(latest.submittedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                 {latest.reviewNote ? ` · ${latest.reviewNote}` : ''}
               </p>
@@ -167,7 +167,7 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
           <!-- Payment options -->
           {!user ? (
             <div class="mt-5">
-              <div role="note" class="rounded-sm bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
+              <div role="note" class="rounded-sm bg-stone-50 px-4 py-3 text-sm font-medium text-stone-700">
                 Sign in as an owner to pay and submit your UPI reference.
               </div>
               <a href={loginHref} class="btn-primary mt-4 w-full">
@@ -199,15 +199,15 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
                 </div>
               ) : null}
 
-              <div class="rounded-sm border border-slate-200 bg-slate-50 p-4">
-                <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Pay by UPI</p>
-                <p class="mt-2 text-sm text-slate-700">
-                  Send <span class="font-extrabold text-slate-900">{formatINR(verified.priceInr)}</span>
+              <div class="rounded-sm border border-stone-200 bg-stone-50 p-4">
+                <p class="text-xs font-bold uppercase tracking-wide text-stone-600">Pay by UPI</p>
+                <p class="mt-2 text-sm text-stone-700">
+                  Send <span class="font-extrabold text-stone-900">{formatINR(verified.priceInr)}</span>
                   {upi.payeeName ? <> to <span class="font-semibold">{upi.payeeName}</span></> : null}
                   on UPI id
                 </p>
-                <p class="mt-1 select-all break-all font-mono text-sm font-bold text-brand-700">{upi.upiId}</p>
-                <p class="mt-2 text-xs leading-relaxed text-slate-500">
+                <p class="mt-1 select-all break-all font-mono text-sm font-bold text-[color:var(--color-violet)]">{upi.upiId}</p>
+                <p class="mt-2 text-xs leading-relaxed text-stone-600">
                   After paying, copy the UPI reference / UTR (12-digit number or the transaction id)
                   from your payment app and enter it below.
                 </p>
@@ -225,7 +225,7 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
                     maxlength="64"
                     autocomplete="off"
                     placeholder="e.g. 4023 1122 8899"
-                    class="w-full border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-brand-400"
+                    class="w-full border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400"
                   />
                   <span id="reference-error" class="hidden text-xs font-medium text-rose-600"></span>
                 </div>
@@ -239,7 +239,7 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
                     rows="2"
                     maxlength="500"
                     placeholder="Anything we should know about this payment."
-                    class="w-full resize-none border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-brand-400"
+                    class="w-full resize-none border border-stone-200 bg-white px-3 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400"
                   ></textarea>
                 </div>
                 <p id="payment-error" class="hidden border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700" role="alert"></p>
@@ -247,7 +247,7 @@ const loginHref = `/login?next=${encodeURIComponent(listingId ? `/owner/plans/ve
                   Submit payment for confirmation
                   <ArrowRight class="h-4 w-4" />
                 </button>
-                <p class="text-center text-xs leading-relaxed text-slate-500">
+                <p class="text-center text-xs leading-relaxed text-stone-600">
                   Your plan activates once the team confirms the payment. Nothing is marked paid
                   automatically.
                 </p>

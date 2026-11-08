@@ -25,13 +25,13 @@ const {
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/png" href="/logo.png" />
-    <meta name="theme-color" content="#7a42e6" />
+    <meta name="theme-color" content="#1c1917" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Noto+Sans:wght@400;500;600;700&display=swap"
     />
 
     {/* Same no-flash gate for entrances as BaseLayout — see global.css. */}
@@ -52,26 +52,26 @@ const {
       }
     </script>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+  <body class="min-h-screen bg-background text-stone-900 antialiased">
     <OwnerHeader active={active} />
 
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div id="owner-loading" class="mx-auto max-w-md py-24 text-center" role="status">
-        <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-brand-100 border-t-brand-600"></span>
-        <p class="mt-4 text-sm font-medium text-slate-500">Loading your owner space…</p>
+    <main class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div id="owner-loading" class="mx-auto max-w-md py-20 text-center" role="status">
+        <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-stone-200 border-t-stone-800"></span>
+        <p class="mt-4 text-sm font-medium text-stone-600">Loading your owner space…</p>
       </div>
       <div id="owner-root" class="hidden">
         <slot />
       </div>
     </main>
 
-    <footer class="border-t border-slate-200/70 bg-white">
-      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+    <footer class="border-t border-stone-200 bg-white">
+      <div class="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-stone-600 sm:flex-row sm:px-6 lg:px-8">
         <p>© {new Date().getFullYear()} PG Hunter · Owner space</p>
         <div class="flex items-center gap-4">
-          <a href="/for-owners" class="hover:text-brand-700">For Owners</a>
-          <a href="/pgs-near-you" class="hover:text-brand-700">Browse PGs</a>
-          <a href="mailto:rishabh@pghunter.in" class="hover:text-brand-700">Support</a>
+          <a href="/for-owners" class="font-medium text-[color:var(--color-violet)] hover:underline">For Owners</a>
+          <a href="/pgs-near-you" class="font-medium text-[color:var(--color-violet)] hover:underline">Browse PGs</a>
+          <a href="mailto:rishabh@pghunter.in" class="font-medium text-[color:var(--color-violet)] hover:underline">Support</a>
         </div>
       </div>
     </footer>

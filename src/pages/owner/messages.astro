@@ -32,6 +32,8 @@ const viewer = await currentUser(Astro as any);
  * PGs, most recent first, one row per student.
  */
 const starters: ChatStarter[] = [];
+let deepLinkStarter: ChatStarter | null = null;
+
 if (viewer && (viewer.role === 'owner' || Boolean(viewer.is_admin))) {
   const res = await getDb()
     .prepare(
@@ -66,6 +68,42 @@ if (viewer && (viewer.role === 'owner' || Boolean(viewer.is_admin))) {
       listingId: row.listing_id ?? undefined,
     });
   }
+
+  // If the owner arrived from an enquiry row, make sure that student is in the
+  // starter list even when the raw leads query returned nothing for them on the
+  // current render (e.g. stale/deployed data, or the lead row is on a listing the
+  // query did not quite expose yet). The chat page is allowed to force-open one
+  // specific conversation from the URL; it is not allowed to invent an arbitrary one.
+  if (startStudentId && startEnquiryLeadId > 0) {
+    const lead = await getDb()
+      .prepare('SELECT id, property_id, student_id FROM leads WHERE id = ?')
+      .bind(startEnquiryLeadId)
+      .first<{ id: number; property_id: string; student_id: string | null }>()
+      .catch(() => null);
+
+    if (
+      lead &&
+      lead.student_id === startStudentId &&
+      (!lead.property_id || lead.property_id === startListingId)
+    ) {
+      const listing = lead.property_id
+        ? await getDb()
+            .prepare('SELECT id, name FROM owner_listings WHERE id = ? AND owner_id = ?')
+            .bind(lead.property_id, viewer.id)
+            .first<{ id: string; name: string }>()
+            .catch(() => null)
+        : null;
+
+      if (listing) {
+        deepLinkStarter = {
+          title: 'Selected student',
+          subtitle: listing.name ? `enquired about ${listing.name}` : 'enquired about your PG',
+          studentId: lead.student_id,
+          listingId: lead.property_id,
+        };
+      }
+    }
+  }
 }
 ---
 
@@ -74,23 +112,20 @@ if (viewer && (viewer.role === 'owner' || Boolean(viewer.is_admin))) {
   description="Chat with students about your PGs — photos, videos, documents and voice notes."
   active="messages"
 >
-  <div data-reveal>
-    <p class="eyebrow">Owner workspace</p>
-    <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-    <h1 class="mt-5 flex items-center gap-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-      <MessageSquare class="h-6 w-6 text-brand-600" /> Messages
+  <div>
+    <h1 class="flex items-center gap-2 font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+      <MessageSquare class="h-6 w-6 text-stone-700" aria-hidden="true" /> Messages
     </h1>
-    <p class="mt-1 max-w-2xl text-sm font-medium text-slate-500">
-      Answer students directly instead of trading phone calls — share photos of the room, a short video, the
-      rent agreement or a voice note. Only you and that student can read the conversation.
+    <p class="mt-1 max-w-2xl text-sm text-stone-600">
+      Answer students directly. Share photos, video, documents or a voice note. Only you and that student can read the conversation.
     </p>
   </div>
 
-  <div class="mt-6">
+  <div class="mt-4 sm:mt-6">
     <ChatApp
       client:load
       role="owner"
-      starters={starters}
+      starters={[...(deepLinkStarter ? [deepLinkStarter, ...starters] : starters), ...starters.filter((s) => s.studentId !== startStudentId)]}
       startStudentId={startStudentId || undefined}
       startListingId={startListingId || undefined}
       startEnquiryLeadId={

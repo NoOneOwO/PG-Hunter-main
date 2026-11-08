@@ -120,7 +120,7 @@ const Avatar = ({
   const showImage = src && !failed;
   return (
     <span
-      className={`relative flex ${box} shrink-0 items-center justify-center overflow-hidden rounded-sm bg-brand-600 font-extrabold text-white`}
+      className={`relative flex ${box} shrink-0 items-center justify-center overflow-hidden rounded-sm bg-stone-900 font-extrabold text-white`}
     >
       {showImage ? (
         <img
@@ -148,7 +148,7 @@ const AttachmentView = ({ message }: { message: ChatMessage }) => {
         href={attachment.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-1 block max-w-xs overflow-hidden rounded-sm border border-slate-200 bg-white"
+        className="mt-1 block max-w-xs overflow-hidden rounded-sm border border-stone-200 bg-white"
       >
         <img
           src={attachment.url}
@@ -166,7 +166,7 @@ const AttachmentView = ({ message }: { message: ChatMessage }) => {
         src={attachment.url}
         controls
         preload="metadata"
-        className="mt-1 max-h-80 w-full max-w-sm rounded-sm border border-slate-200 bg-black"
+        className="mt-1 max-h-80 w-full max-w-sm rounded-sm border border-stone-200 bg-black"
       />
     );
   }
@@ -189,14 +189,14 @@ const AttachmentView = ({ message }: { message: ChatMessage }) => {
       href={attachment.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-1 flex items-center gap-2 rounded-sm border border-slate-200 bg-white px-3 py-2 text-slate-700 hover:border-brand-300"
+      className="mt-1 flex items-center gap-2 rounded-sm border border-stone-200 bg-white px-3 py-2 text-stone-700 hover:border-stone-400"
     >
-      <FileText className="h-5 w-5 shrink-0 text-brand-600" />
+      <FileText className="h-5 w-5 shrink-0 text-stone-700" />
       <span className="min-w-0">
         <span className="block truncate text-xs font-semibold">{attachment.name}</span>
-        <span className="block text-[11px] text-slate-500">{formatBytes(attachment.size)}</span>
+        <span className="block text-[11px] text-stone-500">{formatBytes(attachment.size)}</span>
       </span>
-      <ExternalLink className="ml-1 h-3.5 w-3.5 shrink-0 text-slate-400" />
+      <ExternalLink className="ml-1 h-3.5 w-3.5 shrink-0 text-stone-400" />
     </a>
   );
 };
@@ -282,11 +282,18 @@ export default function ChatApp({
     void refreshList();
   }, [refreshList]);
 
+  // Owner deep link: /owner/messages?student=...&listing=...&enquiry=...
+  // should open the conversation as soon as the component mounts, even when the
+  // server-starter list is still loading or came back empty.
   React.useEffect(() => {
     if (autoStartedRef.current) return;
-    const wantsStart = startOwnerId || startStudentId;
-    if (!wantsStart) return;
     autoStartedRef.current = true;
+
+    // On the owner side, the URL itself is authoritative for the one conversation
+    // to open; the starters list is only the broader "who else can I message" UI.
+    const wantsStart =
+      role === 'owner' ? Boolean(startStudentId) : Boolean(startOwnerId || startStudentId);
+    if (!wantsStart) return;
 
     void (async () => {
       try {
@@ -301,7 +308,14 @@ export default function ChatApp({
         setError((err as Error).message);
       }
     })();
-  }, [openConversation, startEnquiryLeadId, startListingId, startOwnerId, startStudentId]);
+  }, [
+    openConversation,
+    role,
+    startEnquiryLeadId,
+    startListingId,
+    startOwnerId,
+    startStudentId,
+  ]);
 
   /* ---- polling ------------------------------------------------------ */
   React.useEffect(() => {
@@ -486,12 +500,12 @@ export default function ChatApp({
         }`}
         aria-label="Conversations"
       >
-        <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-3">
-          <h2 className="flex items-center gap-2 text-sm font-bold text-slate-900">
-            <MessageSquare className="h-4 w-4 text-brand-600" />
+        <div className="flex items-center justify-between gap-2 border-b border-stone-100 px-4 py-3">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-stone-900">
+            <MessageSquare className="h-4 w-4 text-stone-700" />
             Conversations
             {totalUnread > 0 && (
-              <span className="badge bg-brand-600 px-1.5 py-0.5 text-[10px] text-white">
+              <span className="badge bg-stone-900 px-1.5 py-0.5 text-[10px] text-white">
                 {totalUnread}
               </span>
             )}
@@ -511,8 +525,8 @@ export default function ChatApp({
         </div>
 
         {showStarters && (
-          <div className="max-h-56 overflow-y-auto border-b border-slate-100 bg-slate-50 px-3 py-3">
-            <p className="px-1 pb-2 text-[11px] font-semibold tracking-wide text-slate-500 uppercase">
+          <div className="max-h-56 overflow-y-auto border-b border-stone-100 bg-stone-50 px-3 py-3">
+            <p className="px-1 pb-2 text-[11px] font-semibold tracking-wide text-stone-500 uppercase">
               {role === "student" ? "Message an owner about" : "Message a student about"}
             </p>
             <ul className="flex flex-col gap-1">
@@ -521,15 +535,15 @@ export default function ChatApp({
                   <button
                     type="button"
                     onClick={() => openStarter(starter)}
-                    className="flex w-full items-center gap-2 rounded-sm border border-slate-200 bg-white px-3 py-2 text-left transition-colors hover:border-brand-300"
+                    className="flex w-full items-center gap-2 rounded-sm border border-stone-200 bg-white px-3 py-2 text-left transition-colors hover:border-stone-400"
                   >
-                    <Building2 className="h-4 w-4 shrink-0 text-brand-600" />
+                    <Building2 className="h-4 w-4 shrink-0 text-stone-700" />
                     <span className="min-w-0">
-                      <span className="block truncate text-xs font-semibold text-slate-800">
+                      <span className="block truncate text-xs font-semibold text-stone-800">
                         {starter.title}
                       </span>
                       {starter.subtitle && (
-                        <span className="block truncate text-[11px] text-slate-500">
+                        <span className="block truncate text-[11px] text-stone-500">
                           {starter.subtitle}
                         </span>
                       )}
@@ -542,7 +556,7 @@ export default function ChatApp({
         )}
 
         <label className="field mx-4 mt-3 mb-2 !min-h-9">
-          <Search className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+          <Search className="h-3.5 w-3.5 shrink-0 text-stone-400" />
           <span className="sr-only">Search conversations</span>
           <input
             value={search}
@@ -566,7 +580,7 @@ export default function ChatApp({
               ))}
             </div>
           ) : filtered.length === 0 ? (
-            <p className="px-5 py-10 text-center text-xs text-slate-500">
+            <p className="px-5 py-10 text-center text-xs text-stone-500">
               {conversations.length === 0
                 ? role === "student"
                   ? "No conversations yet. Open a PG and tap “Message owner”, or start one from “New”."
@@ -580,18 +594,18 @@ export default function ChatApp({
                   <button
                     type="button"
                     onClick={() => void openConversation(conversation.id)}
-                    className={`flex w-full items-center gap-3 border-b border-slate-100 px-4 py-3 text-left transition-colors hover:bg-brand-50/60 ${
-                      activeId === conversation.id ? "bg-brand-50/80" : ""
+                    className={`flex w-full items-center gap-3 border-b border-stone-100 px-4 py-3 text-left transition-colors hover:bg-stone-50 ${
+                      activeId === conversation.id ? "bg-stone-100" : ""
                     }`}
                   >
                     <Avatar name={conversation.counterpart.name} src={conversation.counterpart.avatar} />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
-                        <span className="truncate text-sm font-bold text-slate-900">
+                        <span className="truncate text-sm font-bold text-stone-900">
                           {conversation.counterpart.name}
                         </span>
                         {conversation.unread > 0 && (
-                          <span className="ml-auto shrink-0 rounded-full bg-brand-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                          <span className="ml-auto shrink-0 rounded-full bg-stone-900 px-1.5 py-0.5 text-[10px] font-bold text-white">
                             {conversation.unread}
                           </span>
                         )}
@@ -602,17 +616,17 @@ export default function ChatApp({
                           {enquiryReplyLabel(conversation.listingName)}
                         </span>
                       ) : conversation.listingName ? (
-                        <span className="mt-0.5 flex items-center gap-1 truncate text-[11px] font-semibold text-brand-700">
+                        <span className="mt-0.5 flex items-center gap-1 truncate text-[11px] font-semibold text-[color:var(--color-violet)]">
                           <Building2 className="h-3 w-3" /> {conversation.listingName}
                         </span>
                       ) : null}
-                      <span className="mt-0.5 block truncate text-xs text-slate-500">
+                      <span className="mt-0.5 block truncate text-xs text-stone-500">
                         {conversation.lastMessage
                           ? `${conversation.lastMessage.fromMe ? "You: " : ""}${conversation.lastMessage.preview}`
                           : "Say hello"}
                       </span>
                     </span>
-                    <span className="shrink-0 self-start text-[10px] font-medium text-slate-400">
+                    <span className="shrink-0 self-start text-[10px] font-medium text-stone-400">
                       {timeLabel(conversation.updatedAt)}
                     </span>
                   </button>
@@ -631,16 +645,20 @@ export default function ChatApp({
         aria-label="Conversation"
       >
         {!activeId ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-2 px-6 text-center">
-            <MessageSquare className="h-7 w-7 text-slate-300" />
-            <p className="text-sm font-semibold text-slate-600">Pick a conversation</p>
-            <p className="max-w-xs text-xs text-slate-500">
-              Messages, photos, videos, documents and voice notes stay between you and the other person.
-            </p>
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-10 text-center">
+            <span className="flex h-14 w-14 items-center justify-center rounded-xl border border-stone-200 bg-stone-50 text-stone-600">
+              <MessageSquare className="h-6 w-6" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="font-display text-base font-bold text-stone-900">No conversation selected</p>
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-stone-600">
+                Pick a chat from the list, or start a new one. Messages, photos, videos, documents and voice notes stay between you and the other person.
+              </p>
+            </div>
           </div>
         ) : (
           <>
-            <header className="flex items-center gap-3 border-b border-slate-100 px-4 py-3">
+            <header className="flex items-center gap-3 border-b border-stone-100 px-4 py-3">
               <button
                 type="button"
                 onClick={() => {
@@ -649,7 +667,7 @@ export default function ChatApp({
                   setMessages([]);
                   void refreshList();
                 }}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-slate-500 hover:bg-slate-100 lg:hidden"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-sm text-stone-500 hover:bg-stone-100 lg:hidden"
                 aria-label="Back to conversations"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -658,7 +676,7 @@ export default function ChatApp({
                 <Avatar name={counterpartLabel.name} src={counterpartLabel.avatar} size="sm" />
               )}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold text-slate-900">
+                <p className="truncate text-sm font-bold text-stone-900">
                   {counterpartLabel?.name ?? "Conversation"}
                 </p>
                 {thread?.conversation.enquiryReply && role === "student" ? (
@@ -667,7 +685,7 @@ export default function ChatApp({
                     {enquiryReplyLabel(thread.conversation.listingName)}
                   </p>
                 ) : thread?.conversation.listingName ? (
-                  <p className="flex items-center gap-1 truncate text-[11px] font-semibold text-brand-700">
+                  <p className="flex items-center gap-1 truncate text-[11px] font-semibold text-[color:var(--color-violet)]">
                     <Building2 className="h-3 w-3" /> {thread.conversation.listingName}
                   </p>
                 ) : null}
@@ -677,7 +695,7 @@ export default function ChatApp({
                   href={`/pgs/live/${encodeURIComponent(thread.conversation.listingId)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-9 items-center gap-1 text-xs font-semibold text-brand-700 hover:underline"
+                  className="inline-flex min-h-9 items-center gap-1 text-xs font-semibold text-[color:var(--color-violet)] hover:underline"
                 >
                   View PG <ExternalLink className="h-3.5 w-3.5" />
                 </a>
@@ -692,7 +710,7 @@ export default function ChatApp({
                   ))}
                 </div>
               ) : messages.length === 0 ? (
-                <p className="py-12 text-center text-xs text-slate-500">
+                <p className="py-12 text-center text-xs text-stone-500">
                   No messages yet — say hello and introduce yourself.
                 </p>
               ) : (
@@ -703,7 +721,7 @@ export default function ChatApp({
                   return (
                     <React.Fragment key={message.id}>
                       {showDay && (
-                        <p className="py-1 text-center text-[10px] font-semibold tracking-wide text-slate-400 uppercase">
+                        <p className="py-1 text-center text-[10px] font-semibold tracking-wide text-stone-400 uppercase">
                           {day}
                         </p>
                       )}
@@ -713,8 +731,8 @@ export default function ChatApp({
                         <div
                           className={`max-w-[85%] rounded-sm px-3.5 py-2.5 text-sm shadow-sm ${
                             message.fromMe
-                              ? "bg-brand-600 text-white"
-                              : "border border-slate-200 bg-white text-slate-800"
+                              ? "bg-stone-900 text-white"
+                              : "border border-stone-200 bg-white text-stone-800"
                           }`}
                         >
                           {message.body && (
@@ -722,7 +740,7 @@ export default function ChatApp({
                           )}
                           <AttachmentView message={message} />
                         </div>
-                        <span className="mt-1 text-[10px] font-medium text-slate-400">
+                        <span className="mt-1 text-[10px] font-medium text-stone-400">
                           {clockLabel(new Date(message.createdAt).getTime() / 1000) === "0:00"
                             ? timeLabel(message.createdAt)
                             : timeLabel(message.createdAt)}
@@ -741,11 +759,11 @@ export default function ChatApp({
             )}
 
             {thread && !thread.conversation.canWrite ? (
-              <p className="border-t border-slate-100 px-4 py-3 text-xs font-medium text-slate-500">
+              <p className="border-t border-stone-100 px-4 py-3 text-xs font-medium text-stone-500">
                 Support view — you can read this conversation but only the student and the owner can reply.
               </p>
             ) : (
-              <div className="border-t border-slate-100 px-3 py-3">
+              <div className="border-t border-stone-100 px-3 py-3">
                 {recording && (
                   <p className="mb-2 flex items-center gap-2 rounded-sm bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
                     <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-rose-500" />
@@ -753,15 +771,15 @@ export default function ChatApp({
                   </p>
                 )}
 
-                <div className="flex items-end gap-2">
-                  <div className="flex items-center gap-1">
+                <div className="flex min-w-0 flex-wrap items-end gap-2 sm:flex-nowrap">
+                  <div className="flex shrink-0 items-center gap-1">
                     <button
                       type="button"
                       title="Send a photo"
                       aria-label="Send a photo"
                       disabled={Boolean(busy)}
                       onClick={() => pickFile("image")}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-slate-100 disabled:opacity-40"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-stone-600 transition-colors hover:bg-stone-100 disabled:opacity-40"
                     >
                       <ImageIcon className="h-4 w-4" />
                     </button>
@@ -771,7 +789,7 @@ export default function ChatApp({
                       aria-label="Send a video"
                       disabled={Boolean(busy)}
                       onClick={() => pickFile("video")}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-slate-100 disabled:opacity-40"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-stone-600 transition-colors hover:bg-stone-100 disabled:opacity-40"
                     >
                       <VideoIcon className="h-4 w-4" />
                     </button>
@@ -781,7 +799,7 @@ export default function ChatApp({
                       aria-label="Send a document"
                       disabled={Boolean(busy)}
                       onClick={() => pickFile("document")}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-sm text-slate-500 transition-colors hover:bg-slate-100 disabled:opacity-40"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-stone-600 transition-colors hover:bg-stone-100 disabled:opacity-40"
                     >
                       <Paperclip className="h-4 w-4" />
                     </button>
@@ -791,10 +809,10 @@ export default function ChatApp({
                       aria-label={recording ? "Stop recording" : "Record a voice note"}
                       disabled={Boolean(busy)}
                       onClick={() => (recording ? stopRecording(true) : void startRecording())}
-                      className={`inline-flex h-10 w-10 items-center justify-center rounded-sm transition-colors disabled:opacity-40 ${
+                      className={`inline-flex h-10 w-10 items-center justify-center rounded-md transition-colors disabled:opacity-40 ${
                         recording
-                          ? "bg-rose-50 text-rose-600"
-                          : "text-slate-500 hover:bg-slate-100"
+                          ? "bg-rose-50 text-rose-700"
+                          : "text-stone-600 hover:bg-stone-100"
                       }`}
                     >
                       {recording ? <Square className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -813,14 +831,14 @@ export default function ChatApp({
                     rows={1}
                     maxLength={2000}
                     placeholder="Write a message…"
-                    className="min-h-10 flex-1 resize-none py-2.5 text-sm"
+                    className="min-h-10 min-w-0 flex-1 resize-none py-2.5 text-sm"
                   />
 
                   <Button
                     type="button"
                     onClick={() => void sendText()}
                     disabled={Boolean(busy) || draft.trim().length === 0}
-                    className="h-10 gap-1.5 px-4"
+                    className="h-10 shrink-0 gap-1.5 px-4"
                   >
                     {busy === "text" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -832,7 +850,7 @@ export default function ChatApp({
                 </div>
 
                 {busy && busy !== "text" && (
-                  <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                  <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-stone-500">
                     <Loader2 className="h-3 w-3 animate-spin" /> Uploading {busy}…
                   </p>
                 )}

@@ -43,11 +43,11 @@ import {
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
         <span class="eyebrow"><Wallet class="h-3.5 w-3.5" /> Campus Creator</span>
-        <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        
+        <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
           Creator dashboard
         </h1>
-        <p class="mt-1 text-sm font-medium text-slate-500">
+        <p class="mt-1 text-sm font-medium text-stone-600">
           Your application, the PGs assigned to you, and what you have earned.
         </p>
       </div>
@@ -66,21 +66,21 @@ import {
     <div id="creator-loading" class="mt-8 card p-6" role="status">
       <div class="flex items-center gap-3">
         <span class="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-brand-100 border-t-brand-600"></span>
-        <p class="text-sm font-medium text-slate-500">Loading your creator space…</p>
+        <p class="text-sm font-medium text-stone-600">Loading your creator space…</p>
       </div>
     </div>
 
     <!-- Not registered yet -->
     <div id="creator-none" class="hidden">
       <div class="card pixel-corner relative mt-8 px-6 py-14 text-center">
-        <div class="pixel-rule justify-center" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <span class="mx-auto mt-6 flex h-14 w-14 items-center justify-center bg-brand-50 text-brand-700">
+        
+        <span class="mx-auto mt-6 flex h-14 w-14 items-center justify-center bg-brand-50 text-[color:var(--color-violet)]">
           <Sparkles class="h-6 w-6" />
         </span>
-        <h2 class="mt-5 text-xl font-extrabold tracking-tight text-slate-900">
+        <h2 class="mt-5 text-xl font-extrabold tracking-tight text-stone-900">
           You are not a creator yet
         </h2>
-        <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-600">
+        <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-stone-600">
           Apply once, and this page becomes your workspace: assigned PGs, submissions and
           payouts. It is free and takes about two minutes.
         </p>
@@ -104,12 +104,12 @@ import {
           </span>
           <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-2">
-              <span id="status-badge" class="badge bg-slate-100 text-slate-600">—</span>
-              <p id="status-title" class="text-base font-extrabold tracking-tight text-slate-900">
+              <span id="status-badge" class="badge bg-stone-100 text-stone-600">—</span>
+              <p id="status-title" class="text-base font-extrabold tracking-tight text-stone-900">
                 Application status
               </p>
             </div>
-            <p id="status-detail" class="mt-1.5 text-sm leading-relaxed text-slate-600"></p>
+            <p id="status-detail" class="mt-1.5 text-sm leading-relaxed text-stone-600"></p>
             <p id="status-note" class="mt-3 hidden border px-3 py-2 text-sm"></p>
             <a id="status-cta" href="/creator/apply" class="btn-primary mt-4 hidden px-6">
               Fix and resubmit
@@ -120,48 +120,48 @@ import {
       </div>
 
       <!-- Earnings + work -->
-      <div data-reveal-group class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div -group class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div class="card p-5">
           <span class="flex h-10 w-10 items-center justify-center bg-emerald-50 text-emerald-700">
             <IndianRupee class="h-5 w-5" />
           </span>
-          <p id="stat-lifetime" class="mt-4 text-3xl font-extrabold text-slate-900">₹0</p>
-          <p class="text-sm font-semibold text-slate-500">Approved earnings</p>
-          <p id="stat-lifetime-note" class="mt-1 text-xs text-slate-400">From approved assignments</p>
+          <p id="stat-lifetime" class="mt-4 text-3xl font-extrabold text-stone-900">₹0</p>
+          <p class="text-sm font-semibold text-stone-600">Approved earnings</p>
+          <p id="stat-lifetime-note" class="mt-1 text-xs text-stone-500">From approved assignments</p>
         </div>
         <div class="card p-5">
           <span class="flex h-10 w-10 items-center justify-center bg-amber-50 text-amber-700">
             <Wallet class="h-5 w-5" />
           </span>
-          <p id="stat-pending" class="mt-4 text-3xl font-extrabold text-slate-900">₹0</p>
-          <p class="text-sm font-semibold text-slate-500">Awaiting payout</p>
-          <p id="stat-paid" class="mt-1 text-xs text-slate-400">₹0 paid so far</p>
+          <p id="stat-pending" class="mt-4 text-3xl font-extrabold text-stone-900">₹0</p>
+          <p class="text-sm font-semibold text-stone-600">Awaiting payout</p>
+          <p id="stat-paid" class="mt-1 text-xs text-stone-500">₹0 paid so far</p>
         </div>
         <div class="card p-5">
           <span class="flex h-10 w-10 items-center justify-center bg-sky-50 text-sky-700">
             <TrendingUp class="h-5 w-5" />
           </span>
-          <p id="stat-pipeline" class="mt-4 text-3xl font-extrabold text-slate-900">₹0</p>
-          <p class="text-sm font-semibold text-slate-500">In the pipeline</p>
-          <p id="stat-open" class="mt-1 text-xs text-slate-400">Nothing assigned right now</p>
+          <p id="stat-pipeline" class="mt-4 text-3xl font-extrabold text-stone-900">₹0</p>
+          <p class="text-sm font-semibold text-stone-600">In the pipeline</p>
+          <p id="stat-open" class="mt-1 text-xs text-stone-500">Nothing assigned right now</p>
         </div>
         <div class="card p-5">
-          <span class="flex h-10 w-10 items-center justify-center bg-brand-50 text-brand-700">
+          <span class="flex h-10 w-10 items-center justify-center bg-brand-50 text-[color:var(--color-violet)]">
             <Users class="h-5 w-5" />
           </span>
-          <p id="stat-referrals" class="mt-4 text-3xl font-extrabold text-slate-900">0</p>
-          <p class="text-sm font-semibold text-slate-500">Owner referrals</p>
-          <p id="stat-referrals-note" class="mt-1 text-xs text-slate-400">Share your link to add more</p>
+          <p id="stat-referrals" class="mt-4 text-3xl font-extrabold text-stone-900">0</p>
+          <p class="text-sm font-semibold text-stone-600">Owner referrals</p>
+          <p id="stat-referrals-note" class="mt-1 text-xs text-stone-500">Share your link to add more</p>
         </div>
       </div>
 
       <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
         <!-- Assignments -->
-        <section class="card" aria-labelledby="assignments-heading" data-reveal>
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-5 py-4">
+        <section class="card" aria-labelledby="assignments-heading" >
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-stone-100 px-5 py-4">
             <div>
-              <h2 id="assignments-heading" class="text-base font-bold text-slate-900">Your assignments</h2>
-              <p id="assignments-summary" class="mt-0.5 text-xs font-medium text-slate-500">—</p>
+              <h2 id="assignments-heading" class="text-base font-bold text-stone-900">Your assignments</h2>
+              <p id="assignments-summary" class="mt-0.5 text-xs font-medium text-stone-600">—</p>
             </div>
             <span class="badge bg-brand-100 text-brand-800">
               <ClipboardList class="h-3.5 w-3.5" /> <span id="assignments-count">0</span> total
@@ -169,11 +169,11 @@ import {
           </div>
           <div id="assignments" class="divide-y divide-slate-100"></div>
           <div id="assignments-empty" class="hidden px-5 py-12 text-center">
-            <span class="mx-auto flex h-12 w-12 items-center justify-center bg-slate-100 text-slate-500">
+            <span class="mx-auto flex h-12 w-12 items-center justify-center bg-stone-100 text-stone-600">
               <ClipboardList class="h-5 w-5" />
             </span>
             <p class="mt-4 text-sm font-bold text-slate-800">No assignments yet</p>
-            <p id="assignments-empty-detail" class="mx-auto mt-1 max-w-sm text-sm leading-relaxed text-slate-500">
+            <p id="assignments-empty-detail" class="mx-auto mt-1 max-w-sm text-sm leading-relaxed text-stone-600">
               Once an admin assigns you a PG, it appears here with its brief, deadline and payout.
             </p>
           </div>
@@ -182,18 +182,18 @@ import {
         <!-- Sidebar -->
         <aside class="flex flex-col gap-6">
           <!-- Share -->
-          <section class="card pixel-corner relative p-6" aria-labelledby="share-heading" data-reveal>
-            <h2 id="share-heading" class="flex items-center gap-2 text-sm font-bold text-slate-900">
-              <Share2 class="h-4 w-4 text-brand-600" /> Your creator link
+          <section class="card pixel-corner relative p-6" aria-labelledby="share-heading" >
+            <h2 id="share-heading" class="flex items-center gap-2 text-sm font-bold text-stone-900">
+              <Share2 class="h-4 w-4 text-stone-700" /> Your creator link
             </h2>
-            <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            <p class="mt-2 text-sm leading-relaxed text-stone-600">
               Share this with a PG owner. When they sign up and list, it is counted as your
               referral on this dashboard.
             </p>
-            <p class="mt-4 text-xs font-semibold tracking-[0.14em] text-slate-500 uppercase">Your code</p>
-            <p id="referral-code" class="mt-1 font-mono text-lg font-extrabold tracking-wide text-brand-700">—</p>
+            <p class="mt-4 text-xs font-semibold tracking-[0.14em] text-stone-600 uppercase">Your code</p>
+            <p id="referral-code" class="mt-1 font-mono text-lg font-extrabold tracking-wide text-[color:var(--color-violet)]">—</p>
 
-            <label for="referral-link" class="mt-4 block text-xs font-semibold text-slate-700">
+            <label for="referral-link" class="mt-4 block text-xs font-semibold text-stone-700">
               Share link
             </label>
             <div class="mt-1.5 flex items-stretch gap-2">
@@ -214,41 +214,41 @@ import {
               <a id="share-whatsapp" href="#" target="_blank" rel="noopener" class="btn-secondary min-h-10 px-4 text-xs">
                 Share on WhatsApp
               </a>
-              <span id="referral-summary" class="text-xs font-medium text-slate-500">0 owners so far</span>
+              <span id="referral-summary" class="text-xs font-medium text-stone-600">0 owners so far</span>
             </div>
           </section>
 
           <!-- Profile -->
-          <section class="card p-6" aria-labelledby="profile-heading" data-reveal>
+          <section class="card p-6" aria-labelledby="profile-heading" >
             <div class="flex items-start justify-between gap-3">
-              <h2 id="profile-heading" class="flex items-center gap-2 text-sm font-bold text-slate-900">
-                <Camera class="h-4 w-4 text-brand-600" /> Your creator profile
+              <h2 id="profile-heading" class="flex items-center gap-2 text-sm font-bold text-stone-900">
+                <Camera class="h-4 w-4 text-stone-700" /> Your creator profile
               </h2>
-              <a href="/creator/apply" class="inline-flex items-center gap-1 text-xs font-semibold text-brand-700 hover:underline">
+              <a href="/creator/apply" class="inline-flex items-center gap-1 text-xs font-semibold text-[color:var(--color-violet)] hover:underline">
                 Edit
               </a>
             </div>
             <dl class="mt-4 space-y-3 text-sm">
               <div class="flex justify-between gap-3">
-                <dt class="text-slate-500">Name</dt>
+                <dt class="text-stone-600">Name</dt>
                 <dd id="profile-name" class="min-w-0 truncate text-right font-semibold text-slate-800">—</dd>
               </div>
               <div class="flex justify-between gap-3">
-                <dt class="text-slate-500">Covers</dt>
+                <dt class="text-stone-600">Covers</dt>
                 <dd id="profile-covers" class="min-w-0 text-right font-semibold text-slate-800">—</dd>
               </div>
               <div class="flex justify-between gap-3">
-                <dt class="text-slate-500">Shoots</dt>
+                <dt class="text-stone-600">Shoots</dt>
                 <dd id="profile-skill" class="text-right font-semibold text-slate-800">—</dd>
               </div>
               <div class="flex justify-between gap-3">
-                <dt class="text-slate-500">Payout UPI</dt>
+                <dt class="text-stone-600">Payout UPI</dt>
                 <dd id="profile-upi" class="text-right font-semibold text-slate-800">—</dd>
               </div>
               <div id="profile-portfolio-row" class="flex justify-between gap-3">
-                <dt class="text-slate-500">Portfolio</dt>
+                <dt class="text-stone-600">Portfolio</dt>
                 <dd class="min-w-0 text-right">
-                  <a id="profile-portfolio" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-semibold text-brand-700 hover:underline">
+                  <a id="profile-portfolio" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-semibold text-[color:var(--color-violet)] hover:underline">
                     <Link2 class="h-3.5 w-3.5" /> Open
                   </a>
                 </dd>
@@ -265,16 +265,16 @@ import {
           </section>
 
           <!-- Activity -->
-          <section class="card" aria-labelledby="activity-heading" data-reveal>
-            <div class="border-b border-slate-100 px-5 py-4">
-              <h2 id="activity-heading" class="flex items-center gap-2 text-sm font-bold text-slate-900">
-                <BadgeCheck class="h-4 w-4 text-brand-600" /> Activity
+          <section class="card" aria-labelledby="activity-heading" >
+            <div class="border-b border-stone-100 px-5 py-4">
+              <h2 id="activity-heading" class="flex items-center gap-2 text-sm font-bold text-stone-900">
+                <BadgeCheck class="h-4 w-4 text-stone-700" /> Activity
               </h2>
             </div>
             <ol id="activity" class="divide-y divide-slate-100"></ol>
             <div id="activity-empty" class="hidden px-5 py-10 text-center">
-              <p class="text-sm font-semibold text-slate-600">Nothing yet</p>
-              <p class="mt-1 text-xs text-slate-500">
+              <p class="text-sm font-semibold text-stone-600">Nothing yet</p>
+              <p class="mt-1 text-xs text-stone-600">
                 Your application, assignments and payouts will show up here.
               </p>
             </div>
@@ -282,12 +282,12 @@ import {
         </aside>
       </div>
 
-      <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-6">
-        <p class="text-xs text-slate-400">
+      <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-stone-100 pt-6">
+        <p class="text-xs text-stone-500">
           Questions about an assignment or a payout? Write to
-          <a href="mailto:rishabh@pghunter.in" class="font-semibold text-brand-700 hover:underline">rishabh@pghunter.in</a>.
+          <a href="mailto:rishabh@pghunter.in" class="font-semibold text-[color:var(--color-violet)] hover:underline">rishabh@pghunter.in</a>.
         </p>
-        <a href="/earn" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline">
+        <a href="/earn" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--color-violet)] hover:underline">
           <Mail class="h-4 w-4" /> Read the content rules
         </a>
       </div>
@@ -381,7 +381,7 @@ import {
       note.className =
         profile.status === 'rejected'
           ? 'mt-3 border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700'
-          : 'mt-3 border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600';
+          : 'mt-3 border border-stone-200 bg-white px-3 py-2 text-sm text-stone-600';
       note.classList.remove('hidden');
     }
     if (profile.status === 'rejected') {
@@ -491,15 +491,15 @@ import {
         ? `<span class="badge bg-emerald-100 text-emerald-800">Paid ${escapeHtml(formatWhen(assignment.paidAt))}</span>`
         : '<span class="badge bg-amber-100 text-amber-800">Payout pending</span>';
     } else {
-      action = '<span class="text-xs font-medium text-slate-500">Awaiting admin review</span>';
+      action = '<span class="text-xs font-medium text-stone-600">Awaiting admin review</span>';
     }
 
     return `
       <article class="px-5 py-5" data-assignment="${escapeAttr(assignment.id)}">
         <div class="flex flex-wrap items-start justify-between gap-3">
           <div class="min-w-0">
-            <p class="truncate text-sm font-bold text-slate-900">${escapeHtml(assignment.pgName || assignment.title)}</p>
-            <p class="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-slate-500">
+            <p class="truncate text-sm font-bold text-stone-900">${escapeHtml(assignment.pgName || assignment.title)}</p>
+            <p class="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-stone-600">
               ${place ? `<span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>${escapeHtml(place)}</span>` : ''}
               <span class="inline-flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4"/><path d="M3 10h18"/></svg>${escapeHtml(formatDue(assignment.dueAt))}</span>
             </p>
@@ -509,7 +509,7 @@ import {
           </span>
         </div>
 
-        ${assignment.brief ? `<p class="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-slate-600">${escapeHtml(assignment.brief)}</p>` : ''}
+        ${assignment.brief ? `<p class="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-stone-600">${escapeHtml(assignment.brief)}</p>` : ''}
 
         ${
           assignment.status === 'rejected' && assignment.rejectedReason
@@ -519,18 +519,18 @@ import {
 
         ${
           assignment.submissionUrl
-            ? `<p class="mt-3 text-xs text-slate-500">Submitted: <a href="${escapeAttr(safeUrl(assignment.submissionUrl) ?? '#')}" target="_blank" rel="noopener" class="font-semibold text-brand-700 hover:underline">your upload</a>${assignment.submissionNote ? ` · ${escapeHtml(assignment.submissionNote)}` : ''}</p>`
+            ? `<p class="mt-3 text-xs text-stone-600">Submitted: <a href="${escapeAttr(safeUrl(assignment.submissionUrl) ?? '#')}" target="_blank" rel="noopener" class="font-semibold text-[color:var(--color-violet)] hover:underline">your upload</a>${assignment.submissionNote ? ` · ${escapeHtml(assignment.submissionNote)}` : ''}</p>`
             : ''
         }
 
         <div class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span class="text-base font-extrabold text-slate-900">${escapeHtml(formatINR(assignment.payout))}</span>
-          <span class="text-xs font-medium text-slate-500">payout on approval</span>
+          <span class="text-base font-extrabold text-stone-900">${escapeHtml(formatINR(assignment.payout))}</span>
+          <span class="text-xs font-medium text-stone-600">payout on approval</span>
           <div class="ml-auto">${action}</div>
         </div>
 
-        <form data-submit-form="${escapeAttr(assignment.id)}" class="mt-4 hidden border-t border-slate-100 pt-4">
-          <label class="block text-xs font-semibold text-slate-700" for="sub-url-${escapeAttr(assignment.id)}">
+        <form data-submit-form="${escapeAttr(assignment.id)}" class="mt-4 hidden border-t border-stone-100 pt-4">
+          <label class="block text-xs font-semibold text-stone-700" for="sub-url-${escapeAttr(assignment.id)}">
             Link to your upload
           </label>
           <input
@@ -540,18 +540,18 @@ import {
             class="field mt-1.5 w-full text-sm"
             placeholder="https://drive.google.com/…"
           />
-          <label class="mt-3 block text-xs font-semibold text-slate-700" for="sub-note-${escapeAttr(assignment.id)}">
-            Note for the reviewer <span class="font-normal text-slate-400">(optional)</span>
+          <label class="mt-3 block text-xs font-semibold text-stone-700" for="sub-note-${escapeAttr(assignment.id)}">
+            Note for the reviewer <span class="font-normal text-stone-500">(optional)</span>
           </label>
           <textarea
             id="sub-note-${escapeAttr(assignment.id)}"
             name="note"
             rows="2"
             maxlength="1000"
-            class="mt-1.5 w-full resize-none rounded-sm border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-400 focus:outline-none"
+            class="mt-1.5 w-full resize-none rounded-sm border border-stone-200 bg-white px-3.5 py-2.5 text-sm text-stone-900 placeholder:text-stone-500 focus:border-stone-400 focus:outline-none"
             placeholder="Anything the reviewer should know about this shoot."
           ></textarea>
-          <p class="mt-1.5 text-[11px] leading-relaxed text-slate-500">
+          <p class="mt-1.5 text-[11px] leading-relaxed text-stone-600">
             Keep the raw files in your own storage and share a link the reviewer can open.
           </p>
           <div class="mt-3 flex flex-wrap items-center gap-2">
@@ -595,12 +595,12 @@ import {
       .map(
         (item) => `
         <li class="flex items-start gap-3 px-5 py-4">
-          <span class="mt-1.5 h-2 w-2 shrink-0 bg-brand-600" aria-hidden="true"></span>
+          <span class="mt-1.5 h-2 w-2 shrink-0 bg-stone-900" aria-hidden="true"></span>
           <span class="min-w-0 flex-1">
-            <span class="block text-sm font-semibold text-slate-900">${escapeHtml(item.title)}</span>
-            <span class="mt-0.5 block truncate text-xs text-slate-500">${escapeHtml(item.detail)}</span>
+            <span class="block text-sm font-semibold text-stone-900">${escapeHtml(item.title)}</span>
+            <span class="mt-0.5 block truncate text-xs text-stone-600">${escapeHtml(item.detail)}</span>
           </span>
-          <span class="shrink-0 text-xs font-medium text-slate-400">${escapeHtml(formatWhen(item.at))}</span>
+          <span class="shrink-0 text-xs font-medium text-stone-500">${escapeHtml(formatWhen(item.at))}</span>
         </li>`
       )
       .join('');

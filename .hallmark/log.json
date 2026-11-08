@@ -1,5 +1,18 @@
 [
   {
+    "part": "5+6",
+    "date": "2026-11-08",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "auth+student-owner-creator-app-screens",
+    "theme": "brand/brief-locked",
+    "genre": "playful",
+    "shape": "kept",
+    "hero": "none (app screens)",
+    "signature": "n/a",
+    "prompt": "PG Hunter redesign Parts 5+6 combined: login/auth, profile/saved/messages, owner routes, creator"
+  },
+  {
     "part": 4,
     "date": "2026-11-08",
     "mode": "redesign",

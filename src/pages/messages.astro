@@ -55,34 +55,31 @@ const starters: ChatStarter[] = liveRes.results.map((row: any) => ({
   description="Chat with PG owners about rooms, rent and visits — with photos, videos and voice notes."
   noindex
 >
-  <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-    <div data-reveal>
-      <p class="eyebrow">Your conversations</p>
-      <div class="pixel-rule mt-3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <h1 class="mt-5 flex items-center gap-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-        <MessageSquare class="h-6 w-6 text-brand-600" /> Messages
+  <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+    <div>
+      <h1 class="flex items-center gap-2 font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+        <MessageSquare class="h-6 w-6 text-stone-700" aria-hidden="true" /> Messages
       </h1>
-      <p class="mt-1 max-w-2xl text-sm font-medium text-slate-500">
-        Talk to owners directly — ask about rent, availability or a visit, and share photos, videos or a
-        voice note. Only you and that owner can read the conversation.
+      <p class="mt-1 max-w-2xl text-sm text-stone-600">
+        Talk to owners directly. Share photos, videos, documents or a voice note. Only you and that owner can read the conversation.
       </p>
     </div>
 
     <div id="messages-loading" class="mx-auto max-w-md py-16 text-center" role="status">
-      <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-brand-100 border-t-brand-600"></span>
-      <p class="mt-4 text-sm font-medium text-slate-500">Loading your messages…</p>
+      <span class="mx-auto flex h-12 w-12 animate-spin items-center justify-center rounded-full border-4 border-stone-200 border-t-stone-800"></span>
+      <p class="mt-4 text-sm font-medium text-stone-600">Loading your messages…</p>
     </div>
 
-    <div id="messages-gate" class="card mx-auto mt-8 hidden max-w-md p-8 text-center">
-      <LogIn class="mx-auto h-6 w-6 text-brand-600" />
-      <h2 class="mt-3 text-lg font-extrabold text-slate-900">Log in to see your messages</h2>
-      <p class="mt-1 text-sm text-slate-500">
-        Conversations are private to your account, so we need to know who you are first.
+    <div id="messages-gate" class="card mx-auto mt-6 hidden max-w-md p-6 text-center sm:p-8">
+      <LogIn class="mx-auto h-6 w-6 text-stone-700" aria-hidden="true" />
+      <h2 class="mt-3 font-display text-lg font-extrabold text-stone-900">Log in to see your messages</h2>
+      <p class="mt-2 text-sm text-stone-600">
+        Conversations are private to your account.
       </p>
       <a href="/login" class="btn-primary mt-5 justify-center">Log in or sign up</a>
     </div>
 
-    <div id="messages-root" class="mt-6 hidden">
+    <div id="messages-root" class="mt-4 hidden sm:mt-6">
       <ChatApp
         client:load
         role="student"
