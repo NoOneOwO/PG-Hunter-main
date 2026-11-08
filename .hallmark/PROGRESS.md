@@ -104,5 +104,24 @@
 - **Copy changes (before → after):** none reworded; hero slot/labels unchanged (Play-first copy kept). Localities: `Pick your area and discover the best accommodation around it.` → `Pick your area and see PGs around it across {n} areas.`; `We're expanding...` → `We’re expanding...`; empty-state `Browse everything that is live right now` → `Browse what’s live now` (meaning preserved). College pb unchanged except mono-tile markup.
 - **Known issues (report only):** “Starting from” occupied room; “Pure veg meals included · ₹3,500/month”; “1 PGs found” pluralisation. ListingForm/Profile islands not fully surface-rewritten (slate tokens remap warms them safely). Admin not restyled (out of scope).
 
+## Part 7 (Creator routes as app screens + final checks) — done
+- **Status:** done. Frontend running `http://localhost:4321/`. Branch `redesign/hallmark`, local only.
+- **Creator routes (in scope beyond landing):** `/creator` and `/creator/apply` redesigned as **app screens** (no hero stage, shared container, dense sections, one container width matching header/page/footer). Wiring preserved: every `id`, `data-*`, handler, fetch/revalidate route, and script flow (status banner, assignments actions, share-link copy/whatsApp, profile gaps, activity feed, apply validation/resubmit flow via `validateCreatorApplication`) intact. Not-a-creator state now shows the pixel skyline empty state (fills empty state).
+- **Login:** added focus-visible/active style block (matches other pages; sloplint 26a closed on /login).
+- **`src/pages/pgs/live/[id].astro`:** fixed a literal U+2026 ellipsis in a spread (`Math.min(…rooms.map…)`) — a pre-existing parse/type error, now `Math.min(...rooms.map(...))`; required for `npm run check` to pass. No content/wiring change.
+- **Final checks:**
+  - `npm run check`: **0 errors** (1 pre-existing hint: unused `GradientBackdrop` import).
+  - `npm run build`: passes (33 pages, `_headers` 3 inline script hash(es) injected).
+  - `npm run test`: **162/162 pass**.
+  - `/admin`, `/admin/settings`: no **contrast FAIL** (sloplint --render). Admin **not restyled** (out of scope); remaining findings: eyebrow/tracking/middle-dots/focus-visible — all preexisting, reported not fixed.
+  - `sloplint --kept` on `/login` (the only route whose `--before` record persists): **kept links 19/19 · fields 4/4 · headings 4/4 · figures 2/2**. `compare.html` at `.hallmark/compare.html`.
+  - Other 10 routes swept with `--render` (HOME/pgs-near-you/colleges/dtu/localities/rohini/for-owners/earn/saved/messages): findings recorded; no route removed, nothing deleted.
+- **Copy changes (creator routes, before → after):**
+  - Dashboard subtitle: `Your application, the PGs assigned to you, and what you have earned.` → `Your application, assignments and what you have earned.`
+  - WhatsApp share message: `...List your PG on PG Hunter — here's my invite link: ...` → `...List your PG on PG Hunter. Here's my invite link: ...`
+  - `An admin reads every application — decisions usually land in your dashboard, and we` → `...application. Decisions usually land...`
+  - All trust/consent/terms/verification text preserved verbatim; `id`s/handlers unchanged.
+- **Known issues (report only):** “Starting from” counts occupied room; “Pure veg meals included · ₹3,500/month”; “1 PGs found” pluralisation; creator placeholder glyphs (`—`) flagged by sloplint FAIL 19 are dynamic empty-state placeholders, not dead em-dashes in copy — left as-is.
+
 ## Next
-- **Stop (Stylify pass complete).** Part 7 on approval if desired: deeper form/island visual re-architecture, Profile facts-once pass, authenticated sweeps. No deletions planned. No push/remotes.
+- **Stop (Part 7 complete). No parts remaining unless you ask.** Local-only; no push/remotes; `src/pages/api/chat/index.ts` and `design-audit/` left uncommitted (preexisting). No deletions executed.

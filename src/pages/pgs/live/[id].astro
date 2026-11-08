@@ -80,7 +80,7 @@ const photoSrc = (photo: { url: string | null; externalId: string }): string =>
   photo.url ?? photo.externalId;
 const videos = l ? l.media.filter((m) => m.type === 'video' && m.provider === 'youtube') : [];
 const availableRooms = l ? l.rooms.filter((r) => r.available).length : 0;
-const minRent = l && l.rooms.length ? Math.min(…l.rooms.map((r) => r.rent)) : null;
+const minRent = l && l.rooms.length ? Math.min(...l.rooms.map((r) => r.rent)) : null;
 const food = l?.food ?? { available: false };
 const amenitiesWithLabels = l
   ? l.amenitySlugs.map((slug) => ({ slug, label: amenityBySlug(slug)?.label ?? slug }))

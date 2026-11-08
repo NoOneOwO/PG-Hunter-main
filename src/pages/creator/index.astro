@@ -27,7 +27,6 @@ import {
   Mail,
   Pencil,
   Share2,
-  Sparkles,
   TrendingUp,
   Users,
   Wallet,
@@ -39,45 +38,42 @@ import {
   description="Your PG Hunter Campus Creator status, assignments, earnings and share link."
   noindex
 >
-  <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <span class="eyebrow"><Wallet class="h-3.5 w-3.5" /> Campus Creator</span>
-        
-        <h1 class="mt-5 text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+  <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 sm:py-8">
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div class="min-w-0">
+        <h1 class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
           Creator dashboard
         </h1>
-        <p class="mt-1 text-sm font-medium text-stone-600">
-          Your application, the PGs assigned to you, and what you have earned.
+        <p class="mt-1 text-sm text-stone-600">
+          Your application, assignments and what you have earned.
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
         <a href="/earn" class="btn-secondary">Programme details</a>
         <a href="/creator/apply" class="btn-secondary">
-          <Pencil class="h-4 w-4" /> My details
+          <Pencil class="h-4 w-4" aria-hidden="true" /> My details
         </a>
-        <button id="creator-logout" type="button" class="btn-secondary text-rose-600 hover:bg-rose-50">
-          <LogOut class="h-4 w-4" /> Log out
+        <button id="creator-logout" type="button" class="btn-secondary text-rose-700 hover:bg-rose-50">
+          <LogOut class="h-4 w-4" aria-hidden="true" /> Log out
         </button>
       </div>
     </div>
 
     <!-- Loading -->
-    <div id="creator-loading" class="mt-8 card p-6" role="status">
+    <div id="creator-loading" class="card mt-6 p-6" role="status">
       <div class="flex items-center gap-3">
-        <span class="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-brand-100 border-t-brand-600"></span>
+        <span class="h-5 w-5 shrink-0 animate-spin motion-reduce:animate-none rounded-full border-2 border-stone-200 border-t-stone-800"></span>
         <p class="text-sm font-medium text-stone-600">Loading your creator space…</p>
       </div>
     </div>
 
     <!-- Not registered yet -->
     <div id="creator-none" class="hidden">
-      <div class="card pixel-corner relative mt-8 px-6 py-14 text-center">
-        
-        <span class="mx-auto mt-6 flex h-14 w-14 items-center justify-center bg-brand-50 text-[color:var(--color-violet)]">
-          <Sparkles class="h-6 w-6" />
+      <div class="card mt-6 px-6 py-12 text-center sm:py-14">
+        <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-xl border border-stone-200 bg-stone-50">
+          <svg class="h-10 w-10 text-stone-500" viewBox="0 0 64 40" fill="currentColor" aria-hidden="true"><rect x="4" y="18" width="12" height="18" opacity="0.4"/><rect x="18" y="10" width="14" height="26"/><rect x="34" y="14" width="10" height="22" opacity="0.65"/><rect x="46" y="6" width="14" height="30" opacity="0.5"/><rect x="22" y="16" width="3" height="3" fill="#f5f1ea"/><rect x="27" y="16" width="3" height="3" fill="#f5f1ea"/><rect x="22" y="22" width="3" height="3" fill="#f5f1ea"/><rect x="27" y="22" width="3" height="3" fill="#f5f1ea"/></svg>
         </span>
-        <h2 class="mt-5 text-xl font-extrabold tracking-tight text-stone-900">
+        <h2 class="mt-5 font-display text-xl font-extrabold tracking-tight text-stone-900">
           You are not a creator yet
         </h2>
         <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-stone-600">
@@ -146,7 +142,7 @@ import {
           <p id="stat-open" class="mt-1 text-xs text-stone-500">Nothing assigned right now</p>
         </div>
         <div class="card p-5">
-          <span class="flex h-10 w-10 items-center justify-center bg-brand-50 text-[color:var(--color-violet)]">
+          <span class="flex h-10 w-10 items-center justify-center bg-accent-100 text-stone-800">
             <Users class="h-5 w-5" />
           </span>
           <p id="stat-referrals" class="mt-4 text-3xl font-extrabold text-stone-900">0</p>
@@ -163,16 +159,16 @@ import {
               <h2 id="assignments-heading" class="text-base font-bold text-stone-900">Your assignments</h2>
               <p id="assignments-summary" class="mt-0.5 text-xs font-medium text-stone-600">—</p>
             </div>
-            <span class="badge bg-brand-100 text-brand-800">
+            <span class="badge bg-stone-100 text-stone-800">
               <ClipboardList class="h-3.5 w-3.5" /> <span id="assignments-count">0</span> total
             </span>
           </div>
-          <div id="assignments" class="divide-y divide-slate-100"></div>
+          <div id="assignments" class="divide-y divide-stone-100"></div>
           <div id="assignments-empty" class="hidden px-5 py-12 text-center">
             <span class="mx-auto flex h-12 w-12 items-center justify-center bg-stone-100 text-stone-600">
               <ClipboardList class="h-5 w-5" />
             </span>
-            <p class="mt-4 text-sm font-bold text-slate-800">No assignments yet</p>
+            <p class="mt-4 text-sm font-bold text-stone-900">No assignments yet</p>
             <p id="assignments-empty-detail" class="mx-auto mt-1 max-w-sm text-sm leading-relaxed text-stone-600">
               Once an admin assigns you a PG, it appears here with its brief, deadline and payout.
             </p>
@@ -182,7 +178,7 @@ import {
         <!-- Sidebar -->
         <aside class="flex flex-col gap-6">
           <!-- Share -->
-          <section class="card pixel-corner relative p-6" aria-labelledby="share-heading" >
+          <section class="card p-6" aria-labelledby="share-heading" >
             <h2 id="share-heading" class="flex items-center gap-2 text-sm font-bold text-stone-900">
               <Share2 class="h-4 w-4 text-stone-700" /> Your creator link
             </h2>
@@ -190,8 +186,8 @@ import {
               Share this with a PG owner. When they sign up and list, it is counted as your
               referral on this dashboard.
             </p>
-            <p class="mt-4 text-xs font-semibold tracking-[0.14em] text-stone-600 uppercase">Your code</p>
-            <p id="referral-code" class="mt-1 font-mono text-lg font-extrabold tracking-wide text-[color:var(--color-violet)]">—</p>
+            <p class="mt-4 text-xs font-semibold text-stone-600">Your code</p>
+            <p id="referral-code" class="mt-1 font-display text-lg font-extrabold tracking-wide text-stone-900">—</p>
 
             <label for="referral-link" class="mt-4 block text-xs font-semibold text-stone-700">
               Share link
@@ -231,19 +227,19 @@ import {
             <dl class="mt-4 space-y-3 text-sm">
               <div class="flex justify-between gap-3">
                 <dt class="text-stone-600">Name</dt>
-                <dd id="profile-name" class="min-w-0 truncate text-right font-semibold text-slate-800">—</dd>
+                <dd id="profile-name" class="min-w-0 truncate text-right font-semibold text-stone-900">—</dd>
               </div>
               <div class="flex justify-between gap-3">
                 <dt class="text-stone-600">Covers</dt>
-                <dd id="profile-covers" class="min-w-0 text-right font-semibold text-slate-800">—</dd>
+                <dd id="profile-covers" class="min-w-0 text-right font-semibold text-stone-900">—</dd>
               </div>
               <div class="flex justify-between gap-3">
                 <dt class="text-stone-600">Shoots</dt>
-                <dd id="profile-skill" class="text-right font-semibold text-slate-800">—</dd>
+                <dd id="profile-skill" class="text-right font-semibold text-stone-900">—</dd>
               </div>
               <div class="flex justify-between gap-3">
                 <dt class="text-stone-600">Payout UPI</dt>
-                <dd id="profile-upi" class="text-right font-semibold text-slate-800">—</dd>
+                <dd id="profile-upi" class="text-right font-semibold text-stone-900">—</dd>
               </div>
               <div id="profile-portfolio-row" class="flex justify-between gap-3">
                 <dt class="text-stone-600">Portfolio</dt>
@@ -271,7 +267,7 @@ import {
                 <BadgeCheck class="h-4 w-4 text-stone-700" /> Activity
               </h2>
             </div>
-            <ol id="activity" class="divide-y divide-slate-100"></ol>
+            <ol id="activity" class="divide-y divide-stone-100"></ol>
             <div id="activity-empty" class="hidden px-5 py-10 text-center">
               <p class="text-sm font-semibold text-stone-600">Nothing yet</p>
               <p class="mt-1 text-xs text-stone-600">
@@ -437,7 +433,7 @@ import {
         : `${referrals.total} owner${referrals.total === 1 ? '' : 's'}${referrals.converted ? ` · ${referrals.converted} listing` : ''}`;
 
     const wa = q<HTMLAnchorElement>('share-whatsapp');
-    const message = `Hi! I'm a PG Hunter campus creator. List your PG on PG Hunter — here's my invite link: ${link}`;
+    const message = `Hi! I'm a PG Hunter campus creator. List your PG on PG Hunter. Here's my invite link: ${link}`;
     wa.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
     q<HTMLButtonElement>('copy-link').addEventListener('click', async () => {

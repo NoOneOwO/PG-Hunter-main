@@ -29,7 +29,6 @@ import {
   Sparkles,
   Upload,
   UserRound,
-  Wallet,
 } from '@lucide/astro';
 ---
 
@@ -38,13 +37,12 @@ import {
   description="Apply to the PG Hunter Campus Creator programme: shoot walkthroughs of assigned PGs near you, submit the work, get paid per approved assignment."
   noindex
 >
-  <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-    <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+  <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 sm:py-8">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
       <!-- ------------------------------------------------------ main -->
       <div class="min-w-0">
-        <span class="eyebrow"><Wallet class="h-3.5 w-3.5" /> Earn with PG Hunter</span>
         
-        <h1 class="mt-5 text-3xl font-extrabold tracking-tight text-stone-900 sm:text-4xl">
+        <h1 class="mt-2 font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
           Register as a creator
         </h1>
         <p class="mt-3 max-w-2xl text-sm leading-relaxed text-stone-600 sm:text-base">
@@ -55,14 +53,14 @@ import {
         <!-- Loading -->
         <div id="apply-loading" class="card mt-8 p-6" role="status">
           <div class="flex items-center gap-3">
-            <span class="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-brand-100 border-t-brand-600"></span>
+            <span class="h-5 w-5 shrink-0 animate-spin motion-reduce:animate-none rounded-full border-2 border-stone-200 border-t-stone-800"></span>
             <p class="text-sm font-medium text-stone-600">Checking your account…</p>
           </div>
         </div>
 
         <!-- Signed out -->
-        <div id="apply-gate" class="card pixel-corner relative mt-8 hidden p-6 sm:p-8">
-          <span class="flex h-11 w-11 items-center justify-center bg-brand-50 text-[color:var(--color-violet)]">
+        <div id="apply-gate" class="card mt-8 hidden p-6 sm:p-8">
+          <span class="flex h-11 w-11 items-center justify-center bg-stone-100 text-stone-700">
             <UserRound class="h-5 w-5" />
           </span>
           <h2 class="mt-4 text-lg font-extrabold tracking-tight text-stone-900">
@@ -82,9 +80,9 @@ import {
         </div>
 
         <!-- Already registered (pending / approved) -->
-        <div id="apply-existing" class="card pixel-corner relative mt-8 hidden p-6 sm:p-8">
+        <div id="apply-existing" class="card mt-8 hidden p-6 sm:p-8">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="badge bg-brand-100 text-brand-800">Campus Creator</span>
+            <span class="badge bg-stone-100 text-stone-800">Campus Creator</span>
             <span id="existing-badge" class="badge bg-stone-100 text-stone-600">—</span>
           </div>
           <h2 id="existing-title" class="mt-4 text-lg font-extrabold tracking-tight text-stone-900">
@@ -107,7 +105,7 @@ import {
 
         <!-- Confirmation -->
         <div id="apply-done" class="hidden">
-          <div class="card pixel-corner relative mt-8 p-6 sm:p-8">
+          <div class="card mt-8 p-6 sm:p-8">
             <span class="flex h-11 w-11 items-center justify-center bg-emerald-50 text-emerald-700">
               <Check class="h-5 w-5" />
             </span>
@@ -116,12 +114,12 @@ import {
             </h2>
             <p class="mt-2 text-sm leading-relaxed text-stone-600">
               Your application is now <strong class="font-semibold text-amber-700">pending review</strong>.
-              An admin reads every application — decisions usually land in your dashboard, and we
+              An admin reads every application. Decisions usually land in your dashboard, and we
               use the phone number you gave us if anything needs clarifying.
             </p>
 
             <div class="mt-5 border border-stone-200 bg-stone-50 p-4">
-              <p class="text-xs font-semibold tracking-[0.14em] text-stone-600 uppercase">
+              <p class="text-xs font-semibold text-stone-600">
                 What happens next
               </p>
               <ol class="mt-3 space-y-2.5 text-sm text-stone-700">
@@ -167,7 +165,7 @@ import {
           ></div>
 
           <div class="card mt-4 p-6 sm:p-8">
-            <h2 class="section-head text-base font-bold text-stone-900">Your details</h2>
+            <h2 class="text-base font-bold text-stone-900">Your details</h2>
             <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <label for="f-full-name" class="mb-1.5 block text-sm font-semibold text-stone-700">
@@ -222,15 +220,15 @@ import {
             <fieldset class="mt-7">
               <legend class="text-sm font-semibold text-stone-700">What do you mainly shoot?</legend>
               <div id="skill-group" class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-                <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-stone-200 px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-[color:var(--color-violet)]">
+                <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-stone-200 px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-stone-900 has-[:checked]:bg-stone-900 has-[:checked]:text-white">
                   <input type="radio" name="primarySkill" value="video" class="sr-only" />
                   <Camera class="h-4 w-4" /> Video walkthroughs
                 </label>
-                <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-stone-200 px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-[color:var(--color-violet)]">
+                <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-stone-200 px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-stone-900 has-[:checked]:bg-stone-900 has-[:checked]:text-white">
                   <input type="radio" name="primarySkill" value="photo" class="sr-only" />
                   <Sparkles class="h-4 w-4" /> Photos
                 </label>
-                <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-stone-200 px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50 has-[:checked]:text-[color:var(--color-violet)]">
+                <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-sm border border-stone-200 px-3.5 text-sm font-semibold text-stone-700 has-[:checked]:border-stone-900 has-[:checked]:bg-stone-900 has-[:checked]:text-white">
                   <input type="radio" name="primarySkill" value="both" class="sr-only" />
                   <Check class="h-4 w-4" /> Both
                 </label>
@@ -257,7 +255,7 @@ import {
               </div>
             </div>
 
-            <h2 class="section-head mt-9 text-base font-bold text-stone-900">Your work</h2>
+            <h2 class="mt-9 text-base font-bold text-stone-900">Your work</h2>
             <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div class="sm:col-span-2">
                 <label for="f-portfolio" class="mb-1.5 block text-sm font-semibold text-stone-700">
@@ -289,7 +287,7 @@ import {
               </div>
             </div>
 
-            <h2 class="section-head mt-9 text-base font-bold text-stone-900">Getting paid</h2>
+            <h2 class="mt-9 text-base font-bold text-stone-900">Getting paid</h2>
             <div class="mt-6">
               <label for="f-upi" class="mb-1.5 block text-sm font-semibold text-stone-700">
                 UPI id <span class="font-normal text-stone-500">(optional now, required before your first payout)</span>
@@ -322,7 +320,7 @@ import {
 
       <!-- ----------------------------------------------------- aside -->
       <aside class="lg:pt-4">
-        <div class="card pixel-corner relative p-6">
+        <div class="card p-6">
           <h2 class="flex items-center gap-2 text-sm font-bold text-stone-900">
             <ClipboardList class="h-4 w-4 text-stone-700" /> How creators get work
           </h2>
@@ -362,7 +360,7 @@ import {
           </ul>
         </div>
 
-        <div class="mt-4 border border-brand-200 bg-brand-50 p-6">
+        <div class="mt-4 border border-accent-200 bg-accent-50 p-6">
           <h2 class="flex items-center gap-2 text-sm font-bold text-stone-900">
             <ShieldCheck class="h-4 w-4 text-[color:var(--color-violet)]" /> No fee, ever
           </h2>

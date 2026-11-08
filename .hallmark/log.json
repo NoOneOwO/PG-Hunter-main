@@ -1,5 +1,18 @@
 [
   {
+    "part": 7,
+    "date": "2026-11-08",
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "creator-app-screens+final-checks",
+    "theme": "brand/brief-locked",
+    "genre": "playful",
+    "shape": "kept",
+    "hero": "none (app screens)",
+    "signature": "skyline as empty state (not-a-creator)",
+    "prompt": "PG Hunter redesign Part 7: creator routes as app screens + final sweep (login), build/check/test, admin render/contrast, handoff"
+  },
+  {
     "part": "stylify",
     "date": "2026-11-08",
     "mode": "redesign",
