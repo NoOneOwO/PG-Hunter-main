@@ -123,9 +123,16 @@ const initials = (name: string) =>
                   {q ? 'No owners match that search' : 'No owner accounts yet'}
                 </p>
                 <p class="mt-1 text-xs text-slate-500">
-                  {q
-                    ? 'Try a different name or email.'
-                    : 'Ask the owner to create an account first — then their page can be set up here.'}
+                  {q ? (
+                    'Try a different name or email.'
+                  ) : (
+                    <>
+                      {'Ask the owner to create an account first — then their page can be set up here. '}
+                      {'If they already registered through the student door, promote them from '}
+                      <a href="/admin/students" class="font-semibold text-brand-700 hover:underline">Students</a>
+                      {' with the “Make owner” button.'}
+                    </>
+                  )}
                 </p>
               </div>
             ) : (

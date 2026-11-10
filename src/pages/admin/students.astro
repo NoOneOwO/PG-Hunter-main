@@ -2,7 +2,7 @@
 export const prerender = false;
 import AdminLayout from '@/layouts/AdminLayout.astro';
 import { getDb } from '@/lib/server/auth';
-import { Search, GraduationCap, Bookmark, Star, MessageCircle } from '@lucide/astro';
+import { Search, GraduationCap, Bookmark, Star, MessageCircle, UserRound } from '@lucide/astro';
 
 const url = new URL(Astro.request.url);
 const q = url.searchParams.get('q')?.trim() ?? '';
@@ -115,6 +115,7 @@ const statCards = [
               <th class="px-4 py-3 text-center">Saves</th>
               <th class="px-4 py-3 text-center">Experiences</th>
               <th class="px-4 py-3 text-center">Enquiries</th>
+              <th class="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
@@ -144,6 +145,18 @@ const statCards = [
                   <td class="px-4 py-3 text-center font-extrabold text-slate-900">{s.saves}</td>
                   <td class="px-4 py-3 text-center font-extrabold text-slate-900">{s.exps}</td>
                   <td class="px-4 py-3 text-center font-extrabold text-slate-900">{s.enqs}</td>
+                  <td class="px-4 py-3 text-right">
+                    <button
+                      type="button"
+                      class="btn-secondary min-h-9 px-3 text-xs"
+                      data-promote-id={s.id}
+                      data-promote-name={s.name}
+                      data-promote-email={s.email}
+                      title="Turn this account into a PG owner account — it will then appear in the owner picker"
+                    >
+                      <UserRound class="h-4 w-4" /> Make owner
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -156,7 +169,35 @@ const statCards = [
   <script>
     import { bootMotionUI } from '@/lib/motion/ui';
     import { initCountUps } from '@/lib/countUp';
+    import { openAdminDialog, sendAdmin } from '@/lib/adminActions';
     bootMotionUI();
     initCountUps();
+
+    // Make owner — turns a student account into a PG owner account. The owner
+    // picker in /admin/pgs/new (and /admin/owners) then lists this person.
+    document.querySelectorAll<HTMLButtonElement>('[data-promote-id]').forEach((button) => {
+      if (button.dataset.promoteBound) return;
+      button.dataset.promoteBound = '1';
+      button.addEventListener('click', () => {
+        openAdminDialog({
+          title: `Make ${button.dataset.promoteName ?? 'this student'} a PG owner?`,
+          description:
+            'The account keeps its history. Its owner dashboard unlocks and it appears in the owner picker when setting up a PG.',
+          submitLabel: 'Make owner',
+          onSubmit: async () => {
+            const id = button.dataset.promoteId ?? '';
+            const result = await sendAdmin('PUT', `/api/admin/users/${encodeURIComponent(id)}/role`, {
+              role: 'owner',
+            });
+            if (!result.error) {
+              const { toast } = await import('@/lib/toast');
+              toast.success('Account promoted', `${button.dataset.promoteEmail ?? ''} can now own listings.`);
+              window.location.reload();
+            }
+            return result;
+          },
+        });
+      });
+    });
   </script>
 </AdminLayout>
