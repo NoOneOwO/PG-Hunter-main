@@ -2,7 +2,7 @@
 export const prerender = false;
 import AdminLayout from '@/layouts/AdminLayout.astro';
 import { getDb } from '@/lib/server/auth';
-import { Search, Eye, Bookmark, MessageCircle, ExternalLink, CircleCheck, CircleX, RotateCcw, BadgeCheck, ShieldOff, Plus, Pencil } from '@lucide/astro';
+import { Search, Eye, Bookmark, MessageCircle, ExternalLink, CircleCheck, CircleX, RotateCcw, BadgeCheck, ShieldOff, Plus, Pencil, Trash2 } from '@lucide/astro';
 
 const url = new URL(Astro.request.url);
 const q = url.searchParams.get('q')?.trim() ?? '';
@@ -281,6 +281,16 @@ const listings = res.results.map((r: any) => ({
                   <ShieldOff class="h-4 w-4" /> Revoke badge
                 </button>
               )}
+
+              <button
+                type="button"
+                class="btn-ghost-danger min-h-10"
+                data-mod="delete"
+                data-listing-id={l.id}
+                data-listing-name={l.name}
+              >
+                <Trash2 class="h-4 w-4" /> Delete
+              </button>
 
               {l.status === 'active' && (
                 <a

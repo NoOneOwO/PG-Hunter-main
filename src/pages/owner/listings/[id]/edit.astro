@@ -39,8 +39,9 @@ const { id } = Astro.params;
   import { getOwnerListing } from '@/lib/auth';
   import { listingStatusMeta, verificationStatusMeta } from '@/lib/owner';
 
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
   const id = new URLSearchParams(window.location.search).get('id') ??
-    window.location.pathname.split('/').filter(Boolean).slice(-1)[0];
+    pathParts[pathParts.length - 2];
 
   const loading = document.getElementById('edit-loading')!;
   const root = document.getElementById('edit-root')!;

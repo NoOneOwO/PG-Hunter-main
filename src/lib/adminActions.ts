@@ -241,6 +241,7 @@ export interface ListingModeration {
   markPending: () => void;
   grantVerification: () => void;
   revokeVerification: () => void;
+  deleteListing: () => void;
 }
 
 /**
@@ -406,6 +407,27 @@ export const listingModeration = (input: {
           return result;
         },
       }),
+
+    deleteListing: () =>
+      openAdminDialog({
+        title: `Delete “${input.name}”?`,
+        description:
+          'This permanently removes the listing from the owner account it belongs to, along with its rooms and photos.',
+        submitLabel: 'Delete listing',
+        tone: 'danger',
+        confirmOnly:
+          'The owner loses access too — instead of reject or revoke, this is unrecoverable. Photos and rooms are erased; saved PGs no longer point to anything.',
+        onSubmit: async () => {
+          // Deletion lives on the owner route (admins are allowed through
+          // there); there is deliberately no admin PUT for deletion.
+          const result = await sendAdmin(
+            'DELETE',
+            `/api/owner/listings/${encodeURIComponent(input.id)}`
+          );
+          if (!result.error) done('Listing deleted', `${input.name} is gone for good.`);
+          return result;
+        },
+      }),
   };
 };
 
@@ -430,6 +452,7 @@ export const bindListingModeration = (root: ParentNode = document): void => {
       else if (action === 'pending') verbs.markPending();
       else if (action === 'grant') verbs.grantVerification();
       else if (action === 'revoke') verbs.revokeVerification();
+      else if (action === 'delete') verbs.deleteListing();
     });
   }
 };
