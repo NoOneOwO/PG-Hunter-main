@@ -1,15 +1,16 @@
 ---
-import { existsSync } from 'node:fs';
-
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SearchPanel from '@/components/SearchPanel.astro';
-import { ArrowRight, Play, ShieldCheck, Video, Mic, BadgeCheck } from '@lucide/astro';
+import { ArrowRight, ShieldCheck, Video, Mic, BadgeCheck } from '@lucide/astro';
 import { colleges } from '@/data/colleges';
 
 /* Hero walkthrough: a real video slot (the design's play-first signature).
- * Drop an mp4 at `public/hero-video.mp4` and rebuild — when absent the page
- * keeps the last-frame placeholder card, so this file never blocks a build. */
-const hasHeroVideo = existsSync('public/hero-video.mp4');
+ * The walkthrough lives at `public/hero-video.mp4` and is committed to the
+ * repo, so it ships with every build — the page renders it unconditionally.
+ * (Detecting the file with node:fs here does not work: the Cloudflare adapter
+ * prerenders pages inside a workerd sandbox where node:fs is not real, so the
+ * detection always read false.) If the video load ever fails at runtime the
+ * client script below falls back to the placeholder look. */
 ---
 
 <BaseLayout>
@@ -50,56 +51,32 @@ const hasHeroVideo = existsSync('public/hero-video.mp4');
           <!-- Signature: walkthrough shown play-first (slot: real video/poster or empty state). -->
           <div class="stage overflow-hidden rounded-2xl shadow-[var(--shadow-stage)]">
             <div class="relative" data-slot="hero-walkthrough" data-alt="PG walkthrough preview">
-              {hasHeroVideo ? (
-                <video
-                  id="hero-video"
-                  class="absolute inset-0 h-full w-full object-cover"
-                  src="/hero-video.mp4"
-                  autoplay
-                  loop
-                  muted
-                  playsinline
-                  preload="auto"
-                  aria-label="PG Hunter walkthrough video"
-                ></video>
-                <div class="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-4 sm:p-5">
-                  <span class="stage-chip"><ShieldCheck class="h-4 w-4 text-accent-300" aria-hidden="true" /> Real walkthrough, before you pay</span>
-                  <button
-                    id="hero-video-sound"
-                    class="stage-chip hidden cursor-pointer"
-                    type="button"
-                    aria-label="Unmute the walkthrough video"
-                  >
-                    Tap for sound
-                  </button>
-                </div>
-                <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 border-t border-white/10 bg-stone-950/60 px-5 py-3 text-[11px] font-medium text-stone-300 backdrop-blur-sm sm:px-6">
-                  <span class="font-semibold text-accent-400">₹0 brokerage</span>
-                  <span class="text-right text-stone-400">No advance. Details after enquiry.</span>
-                </div>
-              ) : (
-              <div class="aspect-[16/10] w-full">
-                <div class="flex h-full w-full flex-col justify-between p-5 sm:p-6">
-                  <div class="flex items-center justify-between gap-2 text-xs font-semibold">
-                    <span class="stage-chip"><ShieldCheck class="h-4 w-4 text-accent-300" aria-hidden="true" /> Real walkthrough, before you pay</span>
-                    <span class="stage-chip hidden sm:inline-flex">Play-first</span>
-                  </div>
-                  <div class="flex items-center gap-4">
-                    <span class="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent-400 text-stone-950 shadow-[0_0_0_6px_var(--color-wash-deep)]">
-                      <Play class="h-6 w-6 fill-current" aria-hidden="true" />
-                    </span>
-                    <div class="min-w-0">
-                      <p class="font-display text-lg font-extrabold leading-tight text-[color:var(--color-stage-text)] sm:text-xl">Room, mess, building</p>
-                      <p class="mt-1 text-xs leading-relaxed text-stone-400">Walk before you rent. Trust, no pressure.</p>
-                    </div>
-                  </div>
-                </div>
+              <video
+                id="hero-video"
+                class="absolute inset-0 h-full w-full object-cover"
+                src="/hero-video.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="auto"
+                aria-label="PG Hunter walkthrough video"
+              ></video>
+              <div class="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-4 sm:p-5">
+                <span class="stage-chip"><ShieldCheck class="h-4 w-4 text-accent-300" aria-hidden="true" /> Real walkthrough, before you pay</span>
+                <button
+                  id="hero-video-sound"
+                  class="stage-chip hidden cursor-pointer"
+                  type="button"
+                  aria-label="Unmute the walkthrough video"
+                >
+                  Tap for sound
+                </button>
               </div>
-              <div class="flex items-center justify-between gap-3 border-t border-white/10 px-5 py-3 text-[11px] font-medium text-stone-400 sm:px-6">
+              <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 border-t border-white/10 bg-stone-950/60 px-5 py-3 text-[11px] font-medium text-stone-300 backdrop-blur-sm sm:px-6">
                 <span class="font-semibold text-accent-400">₹0 brokerage</span>
-                <span class="text-right">No advance. Details after enquiry.</span>
+                <span class="text-right text-stone-400">No advance. Details after enquiry.</span>
               </div>
-              )}
             </div>
           </div>
         </aside>
@@ -262,6 +239,23 @@ const hasHeroVideo = existsSync('public/hero-video.mp4');
       dots.style.setProperty('--dx', '0px');
       dots.style.setProperty('--dy', '0px');
     });
+  }
+
+  // Walkthrough video: unmute chip + graceful fallback if the asset ever
+  // fails to load (rare — the mp4 ships with every deploy).
+  const video = document.getElementById('hero-video') as HTMLVideoElement | null;
+  const soundChip = document.getElementById('hero-video-sound');
+  if (video) {
+    video.addEventListener('error', () => video.remove());
+    video.addEventListener('volumechange', () => {
+      if (soundChip) soundChip.classList.toggle('hidden', !video.muted);
+    });
+    if (soundChip) {
+      soundChip.addEventListener('click', () => {
+        video.muted = false;
+        void video.play();
+      });
+    }
   }
 
   void (async () => {
