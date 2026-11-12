@@ -314,9 +314,6 @@ const edit = mode === 'edit';
   /** Where this form returns to afterwards — the admin list, or the owner's. */
   const backTo = adminPanel ? '/admin/pgs' : '/owner/listings';
   const roomsEl = document.getElementById('rooms-editor')!;
-  /** Mirrors MAX_ROOMS in lib/server/listingInput.ts, so the copy button cannot
-   *  build a batch the server will reject at save time. */
-  const MAX_ROOMS = 50;
   const amenitiesEl = document.getElementById('amenities-editor')!;
   const addRoomBtn = document.getElementById('add-room-btn') as HTMLButtonElement;
   const rulesEl = document.getElementById('rules-editor')!;
@@ -414,12 +411,6 @@ const edit = mode === 'edit';
       if (answer === null) return;
       const copies = Math.floor(Number(answer.trim()));
       if (!Number.isFinite(copies) || copies < 1) return;
-
-      const total = roomsEl.querySelectorAll(':scope > div').length;
-      if (total + copies > MAX_ROOMS) {
-        alert(`A listing can hold up to ${MAX_ROOMS} rooms.`);
-        return;
-      }
 
       // Snapshot the values first: the copies must not follow later edits to
       // the row they were cloned from.

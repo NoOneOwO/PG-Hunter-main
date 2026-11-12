@@ -17,7 +17,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { MAX_ROOMS, parseListingPayload } from '../src/lib/server/listingInput.ts';
+import { parseListingPayload } from '../src/lib/server/listingInput.ts';
 
 const baseRoom = { roomType: 'double', occupancy: 'Double sharing', rent: 8500 };
 
@@ -94,14 +94,10 @@ test('a free-looking zero rent stays accepted — some PGs quote on enquiry', ()
   assert.equal(value.rooms[0].rent, 0);
 });
 
-test('room count is capped so one request cannot write an unbounded batch', () => {
-  const rooms = Array.from({ length: MAX_ROOMS }, () => baseRoom);
-  assert.equal(parseListingPayload({ name: 'Big PG', rooms }).ok, true);
-
-  const tooMany = Array.from({ length: MAX_ROOMS + 1 }, () => baseRoom);
-  const result = parseListingPayload({ name: 'Huge PG', rooms: tooMany });
-  assert.equal(result.ok, false);
-  assert.match(result.ok === false ? result.error : '', new RegExp(`more than ${MAX_ROOMS} rooms`));
+test('a 250-room PG is accepted — real hostels are that big', () => {
+  const rooms = Array.from({ length: 250 }, () => baseRoom);
+  const value = ok({ name: 'Big PG', rooms })!;
+  assert.equal(value.rooms.length, 250);
 });
 
 test('unattached photo ids are de-duplicated, trimmed and capped', () => {

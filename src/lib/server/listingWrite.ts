@@ -14,7 +14,7 @@
 import { nowIso } from './auth';
 import { mediaUrl } from './media';
 import { fetchListing, listingDto, type ListingDto } from './listings';
-import type { ParsedListingPayload } from './listingInput';
+import type { ParsedListingPayload, ParsedRoom } from './listingInput';
 
 export interface InsertListingOptions {
   /** The account the listing belongs to (its page, its enquiries, its payouts). */
@@ -25,6 +25,45 @@ export interface InsertListingOptions {
   /** True when the team set this page up for the owner. */
   adminManaged: boolean;
 }
+
+/**
+ * Rows per multi-row INSERT. Each room binds 6 values and D1 allows at most 100
+ * bound parameters per statement, so 16 rows (96 placeholders) is the largest
+ * safe chunk.
+ */
+const ROOM_INSERT_ROWS = 16;
+
+/**
+ * Write a listing's rooms in as few statements as possible.
+ *
+ * Owners enter PGs of 150–250 beds, so a one-statement-per-room loop means
+ * hundreds of D1 round trips inside a single Worker request. Batching keeps a
+ * 200-room save to ~13 queries instead of 200.
+ */
+export const insertListingRooms = async (
+  db: D1Database,
+  listingId: string,
+  rooms: ParsedRoom[]
+): Promise<void> => {
+  for (let i = 0; i < rooms.length; i += ROOM_INSERT_ROWS) {
+    const chunk = rooms.slice(i, i + ROOM_INSERT_ROWS);
+    const values = chunk.map(() => '(?, ?, ?, ?, ?, ?)').join(', ');
+    const binds = chunk.flatMap((room) => [
+      listingId,
+      room.roomType,
+      room.occupancy,
+      room.rent,
+      room.deposit,
+      room.available,
+    ]);
+    await db
+      .prepare(
+        `INSERT INTO listing_rooms (listing_id, room_type, occupancy, rent, deposit, available) VALUES ${values}`
+      )
+      .bind(...binds)
+      .run();
+  }
+};
 
 /**
  * Insert a listing + its rooms, and claim any photos uploaded beforehand.
@@ -68,7 +107,10 @@ export const insertListing = async (
       'draft',
       'unverified',
       listing.contactDirect ? 1 : 0,
-      listing.contactPhone,
+      // The column is NOT NULL DEFAULT '': "no number on this listing" is an
+      // empty string (the enquiry code then falls back to the owner's phone),
+      // never NULL — binding NULL fails the insert outright.
+      listing.contactPhone ?? '',
       actorId,
       adminManaged ? 1 : 0,
       now,
@@ -76,14 +118,7 @@ export const insertListing = async (
     )
     .run();
 
-  for (const room of listing.rooms) {
-    await db
-      .prepare(
-        'INSERT INTO listing_rooms (listing_id, room_type, occupancy, rent, deposit, available) VALUES (?, ?, ?, ?, ?, ?)'
-      )
-      .bind(id, room.roomType, room.occupancy, room.rent, room.deposit, room.available)
-      .run();
-  }
+  await insertListingRooms(db, id, listing.rooms);
 
   // Photos uploaded before the page existed: only the uploader's own
   // unattached photos can be claimed, so one actor can never pull another

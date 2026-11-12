@@ -4,6 +4,7 @@ import { fetchListing, listingDto, type MediaRow } from '@/lib/server/listings';
 import { deleteObject, mediaUrl } from '@/lib/server/media';
 import { ensurePlanWindow } from '@/lib/server/listingPlans';
 import { normalizeListingPhone } from '@/lib/server/listingInput';
+import { insertListingRooms } from '@/lib/server/listingWrite';
 
 export const prerender = false;
 
@@ -202,7 +203,8 @@ export async function PUT(context: APIContext) {
       // Contact opt-ins are presentation, not evidence — changing them must
       // never re-queue a live listing for moderation.
       body.contactDirect ? 1 : 0,
-      contactPhone,
+      // Empty string, not NULL: owner_listings.contact_phone is NOT NULL.
+      contactPhone ?? '',
       now,
       id
     )
@@ -234,14 +236,7 @@ export async function PUT(context: APIContext) {
   }
 
   await db.prepare('DELETE FROM listing_rooms WHERE listing_id = ?').bind(id).run();
-  for (const r of parsedRooms) {
-    await db
-      .prepare(
-        'INSERT INTO listing_rooms (listing_id, room_type, occupancy, rent, deposit, available) VALUES (?, ?, ?, ?, ?, ?)'
-      )
-      .bind(id, r.roomType, r.occupancy, r.rent, r.deposit, r.available)
-      .run();
-  }
+  await insertListingRooms(db, id, parsedRooms);
 
   const full = await fetchListing(db, id);
   if (!full) return json({ error: 'Could not update the listing.' }, 500);

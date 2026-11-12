@@ -67,8 +67,12 @@ export type ListingPayloadResult =
   | { ok: true; value: ParsedListingPayload }
   | { ok: false; error: string };
 
-/** Cap on rooms per listing: keeps one request from writing an unbounded batch. */
-export const MAX_ROOMS = 50;
+/**
+ * There is deliberately no cap on rooms per listing: real PGs run to hundreds
+ * of rooms (a 200-room hostel is normal), so a limit here would reject the
+ * owners this product exists for. Large batches are made cheap by writing the
+ * rows in multi-row INSERTs — see insertListingRooms in server/listingWrite.ts.
+ */
 
 /** Cap on photos claimed in a single create. */
 export const MAX_PENDING_MEDIA = 30;
@@ -97,9 +101,6 @@ export const parseListingPayload = (body: any): ListingPayloadResult => {
 
   const roomsRaw = Array.isArray(body?.rooms) ? body.rooms : [];
   if (roomsRaw.length === 0) return { ok: false, error: 'Add at least one room with rent.' };
-  if (roomsRaw.length > MAX_ROOMS) {
-    return { ok: false, error: `That is more than ${MAX_ROOMS} rooms — split the property instead.` };
-  }
 
   const rooms: ParsedRoom[] = roomsRaw.map((r: any) => ({
     roomType: str(r?.roomType, 'double'),
