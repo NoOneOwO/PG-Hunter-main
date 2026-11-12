@@ -33,12 +33,35 @@ export interface ParsedListingPayload {
   /** Owner opt-in: allow Call/WhatsApp handoff after a student enquires. */
   contactDirect: boolean;
   /**
+   * Mobile number for this property, normalised to `91XXXXXXXXXX`, or null.
+   * Null means "use the owner account's number" (see contactForListing).
+   */
+  contactPhone: string | null;
+  /**
    * Photos uploaded before the listing existed (uploads land unattached and are
    * claimed on save). Only the *caller's own* unattached media can be claimed,
    * which is enforced by the route, not here.
    */
   pendingMediaIds: string[];
 }
+
+/**
+ * Normalise an Indian mobile number to `91XXXXXXXXXX`, or null.
+ *
+ * Shared by create and edit so both paths accept the same input (spaces,
+ * dashes, a +91 prefix, a leading 0) and store it identically. Deliberately
+ * strict: a listing's number is what a student's Call/WhatsApp button dials, so
+ * half a number must be rejected at save time rather than silently failing the
+ * handoff later.
+ */
+export const normalizeListingPhone = (raw: unknown): string | null => {
+  if (typeof raw !== 'string') return null;
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return null;
+  const trimmed = digits.length > 10 && digits.startsWith('91') ? digits.slice(2) : digits;
+  const ten = trimmed.replace(/^0+/, '');
+  return /^[6-9]\d{9}$/.test(ten) ? `91${ten}` : null;
+};
 
 export type ListingPayloadResult =
   | { ok: true; value: ParsedListingPayload }
@@ -89,6 +112,11 @@ export const parseListingPayload = (body: any): ListingPayloadResult => {
     return { ok: false, error: 'Each room needs a valid monthly rent.' };
   }
 
+  const contactPhoneRaw = str(body?.contactPhone);
+  if (contactPhoneRaw && !normalizeListingPhone(contactPhoneRaw)) {
+    return { ok: false, error: 'Enter a valid 10-digit mobile number for this PG.' };
+  }
+
   const food =
     body?.food && typeof body.food === 'object'
       ? {
@@ -116,6 +144,7 @@ export const parseListingPayload = (body: any): ListingPayloadResult => {
       amenitySlugs: strArr(body?.amenitySlugs),
       rooms,
       contactDirect: Boolean(body?.contactDirect),
+      contactPhone: normalizeListingPhone(contactPhoneRaw),
       pendingMediaIds: idArr(body?.pendingMediaIds).slice(0, MAX_PENDING_MEDIA),
     },
   };

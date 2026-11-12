@@ -51,7 +51,9 @@ export const contactForListing = async (
 ): Promise<EnquiryContact | null> => {
   const row = await db
     .prepare(
-      `SELECT ol.contact_direct, u.phone AS owner_phone
+      // The listing's own number wins; the owner account's number is the
+      // fallback for pages created before a property had its own contact.
+      `SELECT ol.contact_direct, COALESCE(NULLIF(ol.contact_phone, ''), u.phone) AS owner_phone
        FROM owner_listings ol
        JOIN users u ON u.id = ol.owner_id
        WHERE ol.id = ?

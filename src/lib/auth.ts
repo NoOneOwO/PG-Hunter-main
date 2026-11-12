@@ -378,6 +378,8 @@ export interface Listing {
   rejectionReason: string | null;
   /** Owner opt-in: may a student Call/WhatsApp them after an enquiry. */
   contactDirect: boolean;
+  /** Per-listing mobile number (91XXXXXXXXXX); '' falls back to the owner profile. */
+  contactPhone: string;
   rooms: ListingRoom[];
   media: ListingMedia[];
   createdAt: string;
@@ -399,6 +401,7 @@ export interface ListingInput {
   food?: { available: boolean; type?: 'veg' | 'non-veg' | 'both'; monthlyCost?: number };
   amenitySlugs?: string[];
   contactDirect?: boolean;
+  contactPhone?: string | null;
   rooms: ListingRoom[];
   pendingMediaIds?: string[];
 }

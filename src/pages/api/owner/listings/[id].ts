@@ -3,6 +3,7 @@ import { getDb, json, nowIso, readBody, requireAuth } from '@/lib/server/auth';
 import { fetchListing, listingDto, type MediaRow } from '@/lib/server/listings';
 import { deleteObject, mediaUrl } from '@/lib/server/media';
 import { ensurePlanWindow } from '@/lib/server/listingPlans';
+import { normalizeListingPhone } from '@/lib/server/listingInput';
 
 export const prerender = false;
 
@@ -95,6 +96,14 @@ export async function PUT(context: APIContext) {
     return json({ error: 'Each room needs a valid monthly rent.' }, 400);
   }
 
+  // Same validation as create: an unusable number must fail here, not silently
+  // produce a dead Call/WhatsApp button after an enquiry.
+  const contactPhoneRaw = str(body.contactPhone);
+  if (contactPhoneRaw && !normalizeListingPhone(contactPhoneRaw)) {
+    return json({ error: 'Enter a valid 10-digit mobile number for this PG.' }, 400);
+  }
+  const contactPhone = normalizeListingPhone(contactPhoneRaw);
+
   const db = getDb();
   const id = result.listing!.id;
   const now = nowIso();
@@ -161,7 +170,7 @@ export async function PUT(context: APIContext) {
         name = ?, property_type = ?, gender = ?, address = ?, locality = ?, city = ?,
         latitude = ?, longitude = ?, description = ?, rules = ?, curfew = ?, food = ?,
         amenity_slugs = ?, status = ?, rejection_reason = ?,
-        contact_direct = ?, updated_at = ?
+        contact_direct = ?, contact_phone = ?, updated_at = ?
        WHERE id = ?`
     )
     .bind(
@@ -193,6 +202,7 @@ export async function PUT(context: APIContext) {
       // Contact opt-ins are presentation, not evidence — changing them must
       // never re-queue a live listing for moderation.
       body.contactDirect ? 1 : 0,
+      contactPhone,
       now,
       id
     )

@@ -1,0 +1,12 @@
+-- Enquiries: let a PG page carry its own mobile number.
+--
+-- Until now the Call/WhatsApp handoff read `users.phone` — the number on the
+-- owner's *account*, not on the property. A team member setting a page up from
+-- the admin panel has no way to touch that account number, and one owner with
+-- several PGs cannot give each building its own caretaker's number.
+--
+-- Stored normalised (91XXXXXXXXXX) by lib/server/listingInput.ts, so the
+-- WhatsApp/Call links never depend on how the number was punctuated. Empty
+-- string means "no number on this listing" and the enquiry code falls back to
+-- the owner's profile number.
+ALTER TABLE owner_listings ADD COLUMN contact_phone TEXT NOT NULL DEFAULT '';

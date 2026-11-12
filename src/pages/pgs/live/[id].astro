@@ -22,6 +22,7 @@ import GradientBackdrop from '@/components/GradientBackdrop.astro';
 import VideoPlayer from '@/components/VideoPlayer.astro';
 import VerificationBadge from '@/components/VerificationBadge.astro';
 import { amenityBySlug } from '@/data/amenities';
+import { groupRooms } from '@/lib/roomGroups';
 import { amenityIcon } from '@/lib/amenityIcons';
 import {
   MapPin,
@@ -29,7 +30,6 @@ import {
   Utensils,
   Clock3,
   ShieldCheck,
-  MessageCircle,
   MessagesSquare,
   Check,
   Building2,
@@ -80,6 +80,9 @@ const photoSrc = (photo: { url: string | null; externalId: string }): string =>
   photo.url ?? photo.externalId;
 const videos = l ? l.media.filter((m) => m.type === 'video' && m.provider === 'youtube') : [];
 const availableRooms = l ? l.rooms.filter((r) => r.available).length : 0;
+// One line per option, not one line per physical room: a 45-room building is
+// 3 options to a student, and 45 rows to nobody.
+const roomGroups = l ? groupRooms(l.rooms) : [];
 const minRent = l && l.rooms.length ? Math.min(...l.rooms.map((r) => r.rent)) : null;
 const food = l?.food ?? { available: false };
 const amenitiesWithLabels = l
@@ -306,7 +309,8 @@ const listedOn = l
                 Rooms &amp; pricing
               </h2>
               <p class="mt-1 text-sm text-stone-500">
-                Rent lives at the room level, so every option has its own price.
+                Rent lives at the room level, so every option has its own price and its own
+                remaining count.
               </p>
               <div class="mt-3 overflow-x-auto border border-stone-200">
                 <table class="w-full text-left text-sm">
@@ -315,32 +319,35 @@ const listedOn = l
                       <th scope="col" class="px-4 py-3 font-semibold">Room</th>
                       <th scope="col" class="px-4 py-3 font-semibold">Monthly rent</th>
                       <th scope="col" class="px-4 py-3 font-semibold">Deposit</th>
-                      <th scope="col" class="px-4 py-3 font-semibold">Status</th>
+                      <th scope="col" class="px-4 py-3 font-semibold">Rooms available</th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-stone-100">
-                    {l.rooms.length === 0 ? (
+                    {roomGroups.length === 0 ? (
                       <tr>
                         <td colspan="4" class="px-4 py-8 text-center text-stone-500">
                           The owner has not published room options yet.
                         </td>
                       </tr>
                     ) : (
-                      l.rooms.map((room) => (
+                      roomGroups.map((group) => (
                         <tr>
                           <td class="px-4 py-3 font-semibold text-stone-800">
-                            {room.occupancy || room.roomType}
+                            {group.label}
+                            <span class="block text-xs font-medium text-stone-500">
+                              {group.total} room{group.total === 1 ? '' : 's'}
+                            </span>
                           </td>
-                          <td class="px-4 py-3 text-stone-700">{formatINR(room.rent)}</td>
-                          <td class="px-4 py-3 text-stone-700">{formatINR(room.deposit)}</td>
+                          <td class="px-4 py-3 text-stone-700">{formatINR(group.rent)}</td>
+                          <td class="px-4 py-3 text-stone-700">{formatINR(group.deposit)}</td>
                           <td class="px-4 py-3">
-                            {room.available ? (
+                            {group.available > 0 ? (
                               <span class="inline-flex items-center gap-1 rounded-sm bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700">
-                                <Check class="h-3 w-3" /> Available
+                                <Check class="h-3 w-3" /> {group.available} available
                               </span>
                             ) : (
                               <span class="inline-flex items-center gap-1 rounded-sm bg-stone-200 px-2 py-0.5 text-xs font-semibold text-stone-700">
-                                Occupied
+                                Full
                               </span>
                             )}
                           </td>
@@ -469,22 +476,22 @@ const listedOn = l
                 {minRent !== null && <span class="text-sm font-semibold text-stone-600">/month</span>}
               </p>
               <ul class="mt-4 flex flex-col gap-2 text-sm text-stone-700">
-                <li class="flex items-center gap-2"><Check class="h-4 w-4 text-emerald-700" />{availableRooms} of {l.rooms.length} room types available</li>
+                <li class="flex items-center gap-2"><Check class="h-4 w-4 text-emerald-700" />{availableRooms} of {l.rooms.length} rooms available</li>
                 <li class="flex items-center gap-2"><Check class="h-4 w-4 text-emerald-700" />{food.available ? 'Mess/food available' : 'No mess on site'}</li>
                 <li class="flex items-center gap-2"><ShieldCheck class="h-4 w-4 text-stone-700" />₹0 brokerage, owner listed</li>
               </ul>
 
-              <!-- Send enquiry opens the ContactOwner flow (same intent). Handlers preserved in ContactOwner. -->
-              <button type="button" id="enquiry-btn" class="btn-primary mt-5 w-full px-6">
-                <MessageCircle class="h-4 w-4" />Send enquiry
-              </button>
-              <a href={`/messages?owner=${encodeURIComponent(l.ownerId)}&listing=${encodeURIComponent(l.id)}`} class="btn-secondary mt-2 w-full px-6" id="message-owner-btn">
+              <!-- One enquiry CTA only: it lives in the Contact owner card below,
+                   which owns the manifest, the dialog and the post-submit state.
+                   A second button here just offered the same action twice. -->
+              <a href={`/messages?owner=${encodeURIComponent(l.ownerId)}&listing=${encodeURIComponent(l.id)}`} class="btn-secondary mt-5 w-full px-6" id="message-owner-btn">
                 <MessagesSquare class="h-4 w-4" />Message owner
               </a>
             </div>
 
             <ContactOwner listingId={l.id} listingName={l.name} />
-            <!-- Sidebar controls: "Send enquiry" triggers ContactOwner's existing #enquiry-open/dialog handler (no handler duplication; preserved). "Message owner" is a separate navigation link. "Contact Owner" UI lives in ContactOwner below (same enquiry flow) — kept and made secondary to avoid duplicate primary CTAs. -->
+            <!-- "Message owner" is a navigation link; the enquiry CTA lives in the
+                 ContactOwner card below (a single primary action per page). -->
 
             <div class="card mt-4 border border-stone-200 p-5">
               <h2 class="flex items-center gap-2 text-sm font-bold text-stone-900">
@@ -629,13 +636,6 @@ const listedOn = l
 
     likeBtn?.addEventListener('click', () => void handleReaction('like'));
     dislikeBtn?.addEventListener('click', () => void handleReaction('dislike'));
-
-    // Sidebar "Send enquiry" opens ContactOwner's dialog (handler preserved in ContactOwner).
-    document.getElementById('enquiry-btn')?.addEventListener('click', () => {
-      const open = document.getElementById('enquiry-open') as HTMLButtonElement | null;
-      if (open) open.click();
-      else (document.getElementById('enquiry-dialog') as HTMLDialogElement | null)?.showModal?.();
-    });
 
     /* ------------------------------------------------ gallery -------- */
     const gallery = document.getElementById('pg-gallery') as HTMLElement | null;

@@ -99,6 +99,7 @@ const edit = mode === 'edit';
     <fieldset class="border-t border-slate-100 pt-5">
       <legend class="text-sm font-bold text-slate-900">Rooms & pricing</legend>
       <p class="mt-0.5 text-xs text-slate-500">Add at least one room with a monthly rent.</p>
+      <div id="rooms-availability" class="mt-4 hidden"></div>
       <div id="rooms-editor" class="mt-4 space-y-3"></div>
       <button type="button" id="add-room-btn" class="btn-secondary mt-3">
         <Plus class="h-4 w-4" /> Add room
@@ -177,11 +178,10 @@ const edit = mode === 'edit';
       <p id="upload-status" class="mt-2 hidden text-sm font-medium text-emerald-700" role="status"></p>
     </fieldset>
     <!-- Videos ------------------------------------------------------- -->
-    {edit && (
-      <fieldset class="border-t border-slate-100 pt-5">
-        <legend class="flex items-center gap-2 text-sm font-bold text-slate-900">
-          Videos <span class="text-xs font-medium text-slate-400">(YouTube)</span>
-        </legend>
+    <fieldset class="border-t border-slate-100 pt-5">
+      <legend class="flex items-center gap-2 text-sm font-bold text-slate-900">
+        Videos <span class="text-xs font-medium text-slate-400">(YouTube)</span>
+      </legend>
         <div id="video-grid" class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2"></div>
         <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
           <p class="mb-3 text-xs font-semibold text-slate-600">Add a video walkthrough</p>
@@ -206,9 +206,14 @@ const edit = mode === 'edit';
           <p class="mt-2 text-xs text-slate-400">
             Supported: YouTube full URLs, Shorts links, embeds, or bare video IDs.
           </p>
+          {!edit && (
+            <p class="mt-3 flex items-start gap-2 rounded-xl bg-brand-50 px-4 py-3 text-sm font-medium text-brand-800">
+              <Info class="mt-0.5 h-4 w-4 shrink-0" />
+              Videos are attached to the listing when you save the draft.
+            </p>
+          )}
         </div>
       </fieldset>
-    )}
 
     <!-- Contact ------------------------------------------------------ -->
     <fieldset class="border-t border-slate-100 pt-5">
@@ -231,6 +236,24 @@ const edit = mode === 'edit';
             </span>
           </span>
         </label>
+        <div class="mt-1">
+          <label for="f-contact-phone" class="mb-1.5 block text-sm font-semibold text-slate-700">
+            Mobile number for this PG
+            <span class="font-medium text-slate-400">(optional)</span>
+          </label>
+          <input
+            id="f-contact-phone"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel"
+            placeholder="e.g. 98765 43210"
+            class="field w-full sm:max-w-xs"
+          />
+          <p class="mt-1 text-xs text-slate-500">
+            The number students reach when they tap Call or WhatsApp after enquiring. Leave it
+            empty to use the number on your profile.
+          </p>
+        </div>
       </div>
     </fieldset>
 
@@ -276,6 +299,7 @@ const edit = mode === 'edit';
   } from '@/lib/auth';
   import type { Listing, ListingInput, ListingMedia } from '@/lib/auth';
   import { roomTypeOptions } from '@/lib/owner';
+  import { groupRooms, roomGroupKey } from '@/lib/roomGroups';
   // Media titles, ids and URLs are database values rendered into attributes via
   // innerHTML. Attribute positions need escaping, or a quote breaks out of the
   // attribute and becomes markup.
@@ -290,6 +314,9 @@ const edit = mode === 'edit';
   /** Where this form returns to afterwards — the admin list, or the owner's. */
   const backTo = adminPanel ? '/admin/pgs' : '/owner/listings';
   const roomsEl = document.getElementById('rooms-editor')!;
+  /** Mirrors MAX_ROOMS in lib/server/listingInput.ts, so the copy button cannot
+   *  build a batch the server will reject at save time. */
+  const MAX_ROOMS = 50;
   const amenitiesEl = document.getElementById('amenities-editor')!;
   const addRoomBtn = document.getElementById('add-room-btn') as HTMLButtonElement;
   const rulesEl = document.getElementById('rules-editor')!;
@@ -321,6 +348,14 @@ const edit = mode === 'edit';
   const occupancyFor = (roomType: string): string =>
     roomTypeOptions.find((o) => o.value === roomType)?.occupancy ?? 'Sharing';
 
+  const readRoom = (row: Element) => ({
+    roomType: row.querySelector<HTMLSelectElement>('[data-r="roomType"]')!.value,
+    occupancy: row.querySelector<HTMLInputElement>('[data-r="occupancy"]')!.value,
+    rent: Number(row.querySelector<HTMLInputElement>('[data-r="rent"]')!.value) || 0,
+    deposit: Number(row.querySelector<HTMLInputElement>('[data-r="deposit"]')!.value) || 0,
+    available: row.querySelector<HTMLInputElement>('[data-r="available"]')!.checked,
+  });
+
   const roomRow = (room: any = emptyRoom()) => {
     const row = document.createElement('div');
     row.className = 'rounded-xl border border-slate-200 p-3';
@@ -350,6 +385,9 @@ const edit = mode === 'edit';
           <label class="flex min-h-9 cursor-pointer items-center gap-1.5 rounded-lg bg-slate-50 px-2.5 text-xs font-semibold text-slate-600">
             <input data-r="available" type="checkbox" ${room.available !== false ? 'checked' : ''} /> Available
           </label>
+          <button type="button" data-copy-room class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-brand-50 hover:text-brand-700" aria-label="Copy this room" title="Copy this room">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          </button>
           <button type="button" data-rm-room class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-rose-50 hover:text-rose-600" aria-label="Remove room">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           </button>
@@ -359,21 +397,108 @@ const edit = mode === 'edit';
     row.querySelector<HTMLSelectElement>('[data-r="roomType"]')!.addEventListener('change', (e) => {
       const select = e.target as HTMLSelectElement;
       row.querySelector<HTMLInputElement>('[data-r="occupancy"]')!.value = occupancyFor(select.value);
+      renderAvailability();
     });
-    row.querySelector<HTMLButtonElement>('[data-rm-room]')!.addEventListener('click', () => row.remove());
+    // Rent and deposit are part of a room option's identity, so editing either
+    // can split or merge groups in the availability summary.
+    for (const field of ['rent', 'deposit'] as const) {
+      row.querySelector<HTMLInputElement>(`[data-r="${field}"]`)!.addEventListener('change', () =>
+        renderAvailability()
+      );
+    }
+    // Duplicate this exact room N times. A PG with 45 identical single rooms
+    // should not need 44 manual entries, and the copies must carry the same
+    // rent/deposit rather than being retyped (and mistyped).
+    row.querySelector<HTMLButtonElement>('[data-copy-room]')!.addEventListener('click', () => {
+      const answer = window.prompt('How many copies of this room?', '1');
+      if (answer === null) return;
+      const copies = Math.floor(Number(answer.trim()));
+      if (!Number.isFinite(copies) || copies < 1) return;
+
+      const total = roomsEl.querySelectorAll(':scope > div').length;
+      if (total + copies > MAX_ROOMS) {
+        alert(`A listing can hold up to ${MAX_ROOMS} rooms.`);
+        return;
+      }
+
+      // Snapshot the values first: the copies must not follow later edits to
+      // the row they were cloned from.
+      const source = readRoom(row);
+      let anchor: Element = row;
+      for (let i = 0; i < copies; i++) {
+        const copy = roomRow(source);
+        anchor.after(copy);
+        anchor = copy;
+      }
+      renderAvailability();
+    });
+    row.querySelector<HTMLButtonElement>('[data-rm-room]')!.addEventListener('click', () => {
+      row.remove();
+      renderAvailability();
+    });
     return row;
   };
 
-  const readRooms = () =>
-    Array.from(roomsEl.querySelectorAll(':scope > div')).map((row) => ({
-      roomType: row.querySelector<HTMLSelectElement>('[data-r="roomType"]')!.value,
-      occupancy: row.querySelector<HTMLInputElement>('[data-r="occupancy"]')!.value,
-      rent: Number(row.querySelector<HTMLInputElement>('[data-r="rent"]')!.value) || 0,
-      deposit: Number(row.querySelector<HTMLInputElement>('[data-r="deposit"]')!.value) || 0,
-      available: row.querySelector<HTMLInputElement>('[data-r="available"]')!.checked,
-    }));
+  const readRooms = () => Array.from(roomsEl.querySelectorAll(':scope > div')).map(readRoom);
 
-  addRoomBtn.addEventListener('click', () => roomsEl.appendChild(roomRow()));
+  /* ---- Availability summary ----------------------------------------- */
+  const availabilityEl = document.getElementById('rooms-availability')!;
+  /**
+   * Owners count rooms ("34 of 45 free"), they do not tick 45 boxes one by one.
+   * This block edits the rows in bulk; the row checkboxes remain the stored
+   * truth, so nothing about the data model changes.
+   */
+  const renderAvailability = () => {
+    const rows = Array.from(roomsEl.querySelectorAll<HTMLElement>(':scope > div'));
+    const groups = groupRooms(rows.map((row) => readRoom(row)));
+    if (groups.length === 0) {
+      availabilityEl.innerHTML = '';
+      availabilityEl.classList.add('hidden');
+      return;
+    }
+    availabilityEl.classList.remove('hidden');
+    availabilityEl.innerHTML = `
+      <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+        <p class="mb-2 text-xs font-bold uppercase tracking-wide text-slate-500">How many are free?</p>
+        <div class="flex flex-col gap-2">
+          ${groups
+            .map(
+              (g) => `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-semibold text-slate-700">
+                ${escapeHtml(g.label)} \u00b7 \u20b9${g.rent.toLocaleString('en-IN')}/mo \u00b7 deposit \u20b9${g.deposit.toLocaleString('en-IN')}
+              </span>
+              <label class="flex items-center gap-2 text-xs font-medium text-slate-500">
+                <input type="number" min="0" max="${g.total}" value="${g.available}"
+                  data-avail-key="${escapeAttr(g.key)}"
+                  class="field w-20 !min-h-8 px-2 py-1 text-xs" />
+                of ${g.total} available
+              </label>
+            </div>`
+            )
+            .join('')}
+        </div>
+      </div>`;
+
+    availabilityEl.querySelectorAll<HTMLInputElement>('[data-avail-key]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const key = input.dataset.availKey!;
+        const max = Number(input.max) || 0;
+        let remaining = Math.max(0, Math.min(Math.floor(Number(input.value) || 0), max));
+        rows.forEach((row) => {
+          if (roomGroupKey(readRoom(row)) !== key) return;
+          row.querySelector<HTMLInputElement>('[data-r="available"]')!.checked = remaining > 0;
+          remaining -= 1;
+        });
+        renderAvailability();
+      });
+    });
+  };
+
+  addRoomBtn.addEventListener('click', () => {
+    roomsEl.appendChild(roomRow());
+    renderAvailability();
+  });
 
   /* ---- Rules editor -------------------------------------------------- */
   const ruleRow = (value = '') => {
@@ -407,6 +532,8 @@ const edit = mode === 'edit';
       .filter((c) => c.checked && c.value)
       .map((c) => c.value),
     contactDirect: form.querySelector<HTMLInputElement>('#f-contact-direct')!.checked,
+    contactPhone:
+      (form.querySelector<HTMLInputElement>('#f-contact-phone')!.value || '').trim() || undefined,
     rules: Array.from(rulesEl.querySelectorAll<HTMLInputElement>('input'))
       .map((i) => i.value.trim())
       .filter(Boolean),
@@ -423,6 +550,12 @@ const edit = mode === 'edit';
   /* ---- Media state --------------------------------------------------- */
   let media: ListingMedia[] = [];
   let pendingMediaIds: string[] = [];
+  /**
+   * Videos entered before the listing exists. There is no row to attach a
+   * video to until the draft is created, so they wait here and are POSTed
+   * immediately after a successful create.
+   */
+  const pendingVideos: { url: string; title: string }[] = [];
 
   /* ---- Photo management --------------------------------------------- */
   const renderPhotos = () => {
@@ -655,6 +788,49 @@ const edit = mode === 'edit';
   const renderVideos = () => {
     const grid = document.getElementById('video-grid');
     if (!grid) return;
+
+    // A new listing has no id yet, so its videos are queued locally and shown
+    // from that queue rather than from the media table.
+    if (mode === 'create') {
+      if (pendingVideos.length === 0) {
+        grid.innerHTML = `<p class="col-span-full py-4 text-center text-sm text-slate-400">No videos added yet.</p>`;
+        return;
+      }
+      grid.innerHTML = pendingVideos
+        .map((video, index) => {
+          const ytId = youTubeId(video.url);
+          const thumb = ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : '';
+          const label = ytId || video.url;
+          return `
+        <div class="group relative overflow-hidden rounded-xl bg-slate-900">
+          <div class="aspect-video">
+            ${thumb
+              ? `<img src="${escapeAttr(safeImageSrc(thumb) ?? '')}" alt="${escapeAttr(video.title)}" loading="lazy" decoding="async" class="h-full w-full object-cover opacity-80" />`
+              : `<div class="flex h-full items-center justify-center bg-slate-800 px-3 text-center text-xs text-slate-400">${escapeHtml(label)}</div>`
+            }
+          </div>
+          <div class="flex items-center justify-between px-3 py-2">
+            <div class="min-w-0">
+              <p class="truncate text-xs font-semibold text-white">${escapeHtml(video.title)}</p>
+              <p class="text-[10px] font-medium text-slate-400">Queued — attaches on save</p>
+            </div>
+            <button type="button" data-remove-pending-video="${index}" class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-rose-500/20 hover:text-rose-400" aria-label="Remove video">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+        </div>`;
+        })
+        .join('');
+
+      grid.querySelectorAll<HTMLButtonElement>('[data-remove-pending-video]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          pendingVideos.splice(Number(btn.dataset.removePendingVideo), 1);
+          renderVideos();
+        });
+      });
+      return;
+    }
+
     const videos = media.filter((m) => m.type === 'video');
     if (videos.length === 0) {
       grid.innerHTML = `<p class="col-span-full py-4 text-center text-sm text-slate-400">No videos added yet.</p>`;
@@ -721,7 +897,7 @@ const edit = mode === 'edit';
   const videoStatus = document.getElementById('video-status') as HTMLElement | null;
 
   addVideoBtn?.addEventListener('click', async () => {
-    if (!videoUrlInput || !videoStatus || !listingId) return;
+    if (!videoUrlInput || !videoStatus) return;
     flash(videoStatus, false);
     const url = videoUrlInput.value.trim();
     if (!url) {
@@ -729,6 +905,24 @@ const edit = mode === 'edit';
       setStatus(videoStatus, 'Please enter a video URL.');
       return;
     }
+
+    // Before the draft exists there is nothing to POST to: validate the link
+    // now, queue it, and attach it right after the create succeeds.
+    if (mode === 'create') {
+      if (!youTubeId(url)) {
+        videoStatus.className = 'mt-2 text-sm font-medium text-rose-700';
+        setStatus(videoStatus, 'That does not look like a YouTube link or video ID.');
+        return;
+      }
+      pendingVideos.push({ url, title: videoTitleInput?.value.trim() || 'Room tour' });
+      renderVideos();
+      videoUrlInput.value = '';
+      if (videoTitleInput) videoTitleInput.value = '';
+      videoStatus.className = 'mt-2 text-sm font-medium text-emerald-700';
+      setStatus(videoStatus, 'Video queued — it attaches when you save the draft.');
+      return;
+    }
+    if (!listingId) return;
 
     addVideoBtn.disabled = true;
     addVideoBtn.textContent = 'Adding…';
@@ -774,12 +968,23 @@ const edit = mode === 'edit';
       const { listing } = await updateListing(listingId, input);
       return listing;
     }
-    if (adminPanel) {
-      if (!ownerId) throw new Error('Pick the owner this page belongs to before saving.');
-      const { listing } = await createListingForOwner(ownerId, input);
-      return listing;
+    const created = adminPanel
+      ? await (() => {
+          if (!ownerId) throw new Error('Pick the owner this page belongs to before saving.');
+          return createListingForOwner(ownerId, input);
+        })()
+      : await createListing(input);
+    const listing = created.listing;
+
+    // Queued videos can only be attached once the row exists.
+    for (const video of pendingVideos) {
+      try {
+        await addVideo({ listingId: listing.id, url: video.url, title: video.title });
+      } catch (err) {
+        throw new Error(`Draft saved, but a video could not be added: ${(err as Error).message}`);
+      }
     }
-    const { listing } = await createListing(input);
+    pendingVideos.length = 0;
     return listing;
   };
 
@@ -918,7 +1123,13 @@ const edit = mode === 'edit';
     if (l.rooms.length === 0) roomsEl.appendChild(roomRow());
 
     media = l.media;
+    renderAvailability();
     form.querySelector<HTMLInputElement>('#f-contact-direct')!.checked = Boolean(l.contactDirect);
+    // Stored normalised (91XXXXXXXXXX); the field shows the 10-digit form people
+    // actually type.
+    form.querySelector<HTMLInputElement>('#f-contact-phone')!.value = l.contactPhone
+      ? l.contactPhone.replace(/^91/, '')
+      : '';
     renderPhotos();
     renderVideos();
   };
@@ -935,6 +1146,7 @@ const edit = mode === 'edit';
       });
   } else {
     roomsEl.appendChild(roomRow());
+    renderAvailability();
     rulesEl.appendChild(ruleRow());
   }
 </script>
