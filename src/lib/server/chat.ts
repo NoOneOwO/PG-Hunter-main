@@ -284,15 +284,32 @@ export const listMessages = async (
   const limit = Math.min(Math.max(options.limit ?? 200, 1), 200);
   const afterSeq = Number.isFinite(options.afterSeq) ? Number(options.afterSeq) : 0;
 
-  const res = await db
-    .prepare(
-      `SELECT rowid AS seq, * FROM messages
-       WHERE conversation_id = ? AND rowid > ?
-       ORDER BY rowid
-       LIMIT ?`
-    )
-    .bind(conversationId, afterSeq, limit)
-    .all<MessageRow & { seq: number }>();
+  // Opening a thread (no cursor) must show the LATEST `limit` messages, not the
+  // first ones: a long-running chat has to open where the conversation actually
+  // is. Polling keeps the plain ascending "everything newer than my cursor"
+  // query, which is exact because the thread is append-only.
+  const res =
+    afterSeq > 0
+      ? await db
+          .prepare(
+            `SELECT rowid AS seq, * FROM messages
+             WHERE conversation_id = ? AND rowid > ?
+             ORDER BY rowid
+             LIMIT ?`
+          )
+          .bind(conversationId, afterSeq, limit)
+          .all<MessageRow & { seq: number }>()
+      : await db
+          .prepare(
+            `SELECT * FROM (
+               SELECT rowid AS seq, * FROM messages
+                WHERE conversation_id = ?
+                ORDER BY rowid DESC
+                LIMIT ?
+             ) ORDER BY seq`
+          )
+          .bind(conversationId, limit)
+          .all<MessageRow & { seq: number }>();
 
   return res.results.map((row) => messageDto(row, options.viewerId));
 };

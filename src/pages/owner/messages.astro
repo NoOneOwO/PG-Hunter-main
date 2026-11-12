@@ -16,6 +16,17 @@ import ChatApp, { type ChatStarter } from '@/components/chat/ChatApp';
 import { currentUser, getDb } from '@/lib/server/auth';
 import { MessageSquare } from '@lucide/astro';
 
+/** One row per student+PG: the deep-link starter and the leads query overlap. */
+const dedupeStarters = (rows: ChatStarter[]): ChatStarter[] => {
+  const seen = new Set<string>();
+  return rows.filter((row) => {
+    const key = `${row.studentId ?? ''}:${row.listingId ?? ''}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
 const params = new URL(Astro.request.url).searchParams;
 const startStudentId = params.get('student')?.trim() ?? '';
 const startListingId = params.get('listing')?.trim() ?? '';
@@ -125,7 +136,9 @@ if (viewer && (viewer.role === 'owner' || Boolean(viewer.is_admin))) {
     <ChatApp
       client:load
       role="owner"
-      starters={[...(deepLinkStarter ? [deepLinkStarter, ...starters] : starters), ...starters.filter((s) => s.studentId !== startStudentId)]}
+      starters={dedupeStarters(
+        deepLinkStarter ? [deepLinkStarter, ...starters] : starters
+      )}
       startStudentId={startStudentId || undefined}
       startListingId={startListingId || undefined}
       startEnquiryLeadId={

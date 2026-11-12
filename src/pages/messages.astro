@@ -76,7 +76,7 @@ const starters: ChatStarter[] = liveRes.results.map((row: any) => ({
       <p class="mt-2 text-sm text-stone-600">
         Conversations are private to your account.
       </p>
-      <a href="/login" class="btn-primary mt-5 justify-center">Log in or sign up</a>
+      <a href="/login" id="messages-login-link" class="btn-primary mt-5 justify-center">Log in or sign up</a>
     </div>
 
     <div id="messages-root" class="mt-4 hidden sm:mt-6">
@@ -97,6 +97,14 @@ const starters: ChatStarter[] = liveRes.results.map((row: any) => ({
   const loading = document.getElementById('messages-loading')!;
   const gate = document.getElementById('messages-gate')!;
   const root = document.getElementById('messages-root')!;
+  const loginLink = document.getElementById('messages-login-link') as HTMLAnchorElement | null;
+
+  // Keep the PG the student came from: /messages?owner=…&listing=… must survive
+  // the login hop, or the conversation they clicked "Message owner" for is
+  // silently dropped and they land on an empty inbox.
+  if (loginLink) {
+    loginLink.href = `/login?next=${encodeURIComponent(location.pathname + location.search)}`;
+  }
 
   void (async () => {
     const user = await getSession();
