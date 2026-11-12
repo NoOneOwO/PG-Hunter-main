@@ -41,7 +41,10 @@ import { colleges } from '@/data/colleges';
           </div>
         </div>
 
-        <aside class="min-w-0" aria-label="Walkthrough preview">
+        <!-- The walkthrough is a desktop flourish: on a phone it is the single
+             tallest block in the hero, and it pushed the listings below the
+             fold. Hidden below lg so search results are visible on landing. -->
+        <aside class="hidden min-w-0 lg:block" aria-label="Walkthrough preview">
           <!-- Signature: walkthrough shown play-first (slot: real video/poster or empty state). -->
           <div class="stage overflow-hidden rounded-2xl shadow-[var(--shadow-stage)]">
             <div class="relative aspect-[16/10] w-full" data-slot="hero-walkthrough" data-alt="PG walkthrough preview">
