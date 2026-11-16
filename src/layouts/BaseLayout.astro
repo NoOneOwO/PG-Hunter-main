@@ -71,6 +71,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
         }, 2500);
       }
     </script>
+
+    {/* Per-page head additions — currently structured data on listing pages. */}
+    <slot name="head" />
   </head>
   <body class="flex min-h-screen flex-col">
     <PublicHeader />

@@ -2,7 +2,6 @@
 import { fileURLToPath } from 'node:url';
 import { defineConfig, sessionDrivers } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 
@@ -24,7 +23,10 @@ export default defineConfig({
   site: 'https://pghunter.in',
   // React powers shadcn/ui islands (src/components/ui/*); everything else
   // stays server-rendered .astro.
-  integrations: [react(), sitemap()],
+  // No @astrojs/sitemap: the sitemap is generated on demand at /sitemap.xml
+  // (src/pages/sitemap.xml.ts) because it has to include live D1 listings,
+  // which do not exist at build time.
+  integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
     // React and sonner were being resolved twice (once pre-bundled for the

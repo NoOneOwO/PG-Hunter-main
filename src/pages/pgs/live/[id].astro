@@ -91,6 +91,51 @@ const amenitiesWithLabels = l
 const listedOn = l
   ? new Date(l.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
   : '';
+
+/**
+ * LodgingBusiness structured data for Google, built only from what is already
+ * on the page. Two deliberate omissions: the owner's phone number (contact is
+ * returned only after an enquiry) and any rating (there is no rating data, and
+ * inventing one would be a manual-action waiting to happen).
+ */
+const structuredData = l
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'LodgingBusiness',
+      name: l.name,
+      description: l.description.slice(0, 320),
+      url: new URL(Astro.url.pathname, Astro.site).href,
+      image: photos.map((photo) => new URL(photoSrc(photo), Astro.site).href).slice(0, 6),
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: l.address || undefined,
+        addressLocality: l.locality || l.city,
+        addressRegion: l.city,
+        addressCountry: 'IN',
+      },
+      ...(l.latitude !== null && l.longitude !== null
+        ? {
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: l.latitude,
+              longitude: l.longitude,
+            },
+          }
+        : {}),
+      numberOfRooms: l.rooms.length,
+      ...(minRent !== null ? { priceRange: `${formatINR(minRent)} per month` } : {}),
+      amenityFeature: amenitiesWithLabels.map((amenity) => ({
+        '@type': 'LocationFeatureSpecification',
+        name: amenity.label,
+        value: true,
+      })),
+    }
+  : null;
+
+const structuredDataJson = structuredData
+  // `<` would let a listing name close the script tag early.
+  ? JSON.stringify(structuredData).replace(/</g, '\\u003c')
+  : null;
 ---
 
 <BaseLayout
@@ -99,6 +144,11 @@ const listedOn = l
   image={photos.length ? photoSrc(photos[0]) : undefined}
   noindex={!l}
 >
+  {structuredDataJson && (
+    <Fragment slot="head">
+      <script type="application/ld+json" is:inline set:html={structuredDataJson} />
+    </Fragment>
+  )}
   {
     !l ? (
       <section class="mx-auto max-w-2xl px-4 py-20 text-center sm:px-6">

@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
+
 Disallow: /admin
 Disallow: /api
+Disallow: /owner
+Disallow: /messages
+Disallow: /profile
+Disallow: /saved
 
-Sitemap: https://pghunter.in/sitemap-index.xml
+Sitemap: https://pghunter.in/sitemap.xml
