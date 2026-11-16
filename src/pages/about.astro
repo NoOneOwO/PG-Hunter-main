@@ -1,0 +1,195 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { ArrowRight, Building2, Handshake, Search } from '@lucide/astro';
+
+const founders = [
+  {
+    name: 'Rishabh Dhillon',
+    role: 'Co-founder',
+    bio: 'Computer Science student. Works across the product and the people side of PG Hunter — talking to hostel owners, walking the buildings, and turning what students actually need into the app.',
+    href: 'https://www.linkedin.com/in/rishabh-dhillon-47b13a381/',
+    initials: 'RD',
+  },
+  {
+    name: 'Taiyab Jazim',
+    role: 'Co-founder',
+    bio: 'Computer Science student. Builds the platform behind the listings — the owner dashboard, the student experience and the search that makes a city’s PGs feel like one place.',
+    href: 'https://www.linkedin.com/in/mohd-taiyab/',
+    initials: 'TJ',
+  },
+];
+
+const principles = [
+  {
+    Icon: Building2,
+    title: 'Every PG in one place',
+    body: 'Students used to piece together a shortlist from WhatsApp forwards, notice boards and whoever a friend of a friend knew. PG Hunter puts the listings themselves in one searchable place.',
+  },
+  {
+    Icon: Handshake,
+    title: 'No brokerage, ever',
+    body: 'You pay for a room, not for an introduction. There is no broker in the middle taking a cut to tell you a phone number you could have found yourself.',
+  },
+  {
+    Icon: Search,
+    title: 'Transparent by default',
+    body: 'Rent, deposit, sharing type and how many rooms are actually free — written by the owner and shown as it is, so nobody travels across the city for a room that does not exist.',
+  },
+];
+---
+
+<BaseLayout
+  title="About Us — Who Builds PG Hunter | PG Hunter"
+  description="PG Hunter was started by two Computer Science students, Rishabh Dhillon and Taiyab Jazim, to put every PG in one place — with no brokerage and listings you can actually trust."
+>
+  <section class="border-b border-stone-200 bg-background">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="max-w-3xl">
+        <p class="text-xs font-bold tracking-wide text-stone-500 uppercase">About us</p>
+        <h1 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-stone-900 sm:text-5xl">
+          Finding a PG shouldn’t cost you a broker.
+        </h1>
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-stone-700 sm:text-lg">
+          PG Hunter is a student-built platform that lists PGs, rooms, hostels and co-living
+          spaces in one place — with the rent, the deposit and the availability written down
+          openly, and no brokerage anywhere in the middle.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="story-heading" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-16">
+      <div>
+        <h2 id="story-heading" class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+          Our story
+        </h2>
+        <div class="mt-4 max-w-2xl space-y-4 text-sm leading-relaxed text-stone-700 sm:text-base">
+          <p>
+            We are Rishabh Dhillon and Taiyab Jazim — two Computer Science students who kept
+            watching the same thing happen every semester. A student arrives in the city, needs
+            a room by the end of the week, and the only way to find one is to call a broker who
+            charges half a month’s rent to hand over a phone number.
+          </p>
+          <p>
+            The listings that were free to find were scattered across group chats and notice
+            boards, half of them out of date. Nobody could answer the only questions that
+            mattered: how many rooms are actually free, what does it really cost, and is the
+            place what it claims to be?
+          </p>
+          <p>
+            So we built the thing we wished existed: one honest list of PGs, published by the
+            owners themselves, with rooms and rent stated plainly. No brokerage, no hidden
+            charges, no samples dressed up as live listings. Every PG on PG Hunter is a real
+            property that its owner listed.
+          </p>
+          <p>
+            Between the two of us we have shipped a lot of side projects and small startup gigs.
+            This one is our own — and it is the one we care about most, because it is the one we
+            would have used ourselves.
+          </p>
+        </div>
+      </div>
+
+      <aside class="card h-fit p-6">
+        <h2 class="font-display text-lg font-extrabold text-stone-900">At a glance</h2>
+        <dl class="mt-4 space-y-4 text-sm">
+          <div>
+            <dt class="font-semibold text-stone-900">Founded by</dt>
+            <dd class="mt-0.5 text-stone-600">Rishabh Dhillon &amp; Taiyab Jazim</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-stone-900">Base</dt>
+            <dd class="mt-0.5 text-stone-600">New Delhi, India</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-stone-900">What we do</dt>
+            <dd class="mt-0.5 text-stone-600">
+              One place for student accommodation — owner-listed, brokerage-free, transparent.
+            </dd>
+          </div>
+        </dl>
+        <a href="/pgs-near-you" class="btn-primary mt-6 w-full justify-center">
+          Browse PGs <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <section aria-labelledby="what-heading" class="border-y border-stone-200 bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <h2 id="what-heading" class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+        What we are trying to fix
+      </h2>
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {principles.map(({ Icon, title, body }) => (
+          <div class="card p-5">
+            <Icon class="h-5 w-5 text-stone-700" aria-hidden="true" />
+            <h3 class="mt-3 text-base font-bold text-stone-900">{title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-stone-600">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="founders-heading" class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <h2 id="founders-heading" class="font-display text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+      The founders
+    </h2>
+    <p class="mt-2 max-w-2xl text-sm text-stone-600 sm:text-base">
+      Two Computer Science students, one shared frustration with how student housing gets found.
+    </p>
+
+    <ul class="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
+      {founders.map((founder) => (
+        <li class="card flex flex-col p-6">
+          <div class="flex items-center gap-3">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-stone-900 font-display text-sm font-extrabold text-white">
+              {founder.initials}
+            </span>
+            <div>
+              <h3 class="font-display text-lg font-extrabold text-stone-900">{founder.name}</h3>
+              <p class="text-xs font-semibold text-stone-500">{founder.role} · Computer Science student</p>
+            </div>
+          </div>
+          <p class="mt-4 flex-1 text-sm leading-relaxed text-stone-700">{founder.bio}</p>
+          <a
+            href={founder.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary mt-5 w-full justify-center sm:w-auto"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C21.4 8.75 23 10.9 23 14.2V21h-4v-6c0-1.5-.03-3.4-2.08-3.4-2.08 0-2.4 1.6-2.4 3.3V21h-4V9Z" />
+            </svg>
+            Connect on LinkedIn
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="border-t border-stone-200">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div class="flex flex-col items-start justify-between gap-6 rounded-xl border border-stone-800 bg-stone-900 p-6 text-white sm:p-8 lg:flex-row lg:items-center">
+        <div>
+          <h2 class="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">Own a PG? Let’s get it listed.</h2>
+          <p class="mt-2 text-sm text-stone-300 sm:text-base">
+            Publish your rooms with the rent and availability you actually have — and reach students directly.
+          </p>
+        </div>
+        <a href="/for-owners" class="btn-primary shrink-0 px-8">
+          List your PG <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+</style>
