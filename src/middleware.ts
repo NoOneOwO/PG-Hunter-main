@@ -30,13 +30,14 @@ import { SESSION_COOKIE, getDb, getUserFromSession } from './lib/server/auth';
 /**
  * CSP hashes for per-request inline scripts.
  *
- * Listing pages emit a JSON-LD block built from D1 (see
- * pages/pgs/live/[id].astro), so its bytes — and therefore its hash — differ
- * per page. The build-time hash pass in scripts/generate-static-headers.mts
- * cannot see those, so they are hashed here and appended to script-src for
- * this response only. Reading a clone leaves the real body untouched.
+ * Every inline <script> on a page has to appear in script-src as a hash: the
+ * build-time pass in scripts/generate-static-headers.mts only covers
+ * prerendered HTML, so on-demand routes were quietly losing their inline
+ * scripts — the layout's motion failsafe, and now listing JSON-LD built from
+ * D1 (see pages/pgs/live/[id].astro). Both are hashed here and appended to
+ * script-src for this response. Reading a clone leaves the real body untouched.
  */
-const inlineJsonLdHashes = async (response: Response): Promise<string[]> => {
+const inlineScriptHashes = async (response: Response): Promise<string[]> => {
   const contentType = response.headers.get('Content-Type') ?? '';
   if (!contentType.includes('text/html')) return [];
 
@@ -47,10 +48,13 @@ const inlineJsonLdHashes = async (response: Response): Promise<string[]> => {
     return [];
   }
 
-  const blocks = html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g);
+  const blocks = html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g);
   const hashes: string[] = [];
   for (const block of blocks) {
-    const body = block[1];
+    // External scripts are covered by 'self', and an empty body hashes to the
+    // hash of nothing — skip both.
+    if (/\bsrc\s*=/.test(block[1])) continue;
+    const body = block[2];
     if (!body) continue;
     const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(body));
     const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
@@ -99,6 +103,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // --- 3. Security headers ----------------------------------------------
   const response = await next();
-  const scriptHashes = await inlineJsonLdHashes(response);
+  const scriptHashes = await inlineScriptHashes(response);
   return applySecurityHeaders(response, request, { scriptHashes });
 });
