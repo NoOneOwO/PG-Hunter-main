@@ -80,21 +80,41 @@ const api = async <T>(path: string, init?: RequestInit): Promise<T> => {
 /* Session                                                             */
 /* ------------------------------------------------------------------ */
 
+/**
+ * The in-flight session request, shared by every caller in the same tick.
+ *
+ * A listing page mounts the header, the footer and its own script, each of
+ * which asks for the session on load: four identical /api/auth/me requests per
+ * page view. They now share one.
+ */
+let pendingSession: Promise<AppUser | null> | null = null;
+
 /** Currently logged-in user, or null. Cached; pass `true` to force a refetch. */
 export const getSession = async (force = false): Promise<AppUser | null> => {
   if (!force && cachedUser !== undefined) return cachedUser;
-  try {
-    const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
-    if (!res.ok) {
+  if (!force && pendingSession) return pendingSession;
+
+  const request = (async (): Promise<AppUser | null> => {
+    try {
+      const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+      if (!res.ok) {
+        if (cachedUser !== undefined) emit(null);
+        return null;
+      }
+      const { user } = (await res.json()) as { user: AppUser | null };
+      emit(user);
+      return user;
+    } catch {
       if (cachedUser !== undefined) emit(null);
       return null;
     }
-    const { user } = (await res.json()) as { user: AppUser | null };
-    emit(user);
-    return user;
-  } catch {
-    if (cachedUser !== undefined) emit(null);
-    return null;
+  })();
+
+  pendingSession = request;
+  try {
+    return await request;
+  } finally {
+    pendingSession = null;
   }
 };
 
