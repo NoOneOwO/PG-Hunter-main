@@ -163,13 +163,29 @@ export const SECURITY_HEADERS: Record<string, string> = {
 
 export const HSTS_HEADER = 'max-age=31536000; includeSubDomains';
 
+export interface SecurityHeaderOptions {
+  /**
+   * Extra `'sha256-…'` sources for inline scripts rendered per request.
+   *
+   * On-demand pages cannot use the build-time hash pass (it scans the built
+   * HTML), but a listing page emits a data-dependent JSON-LD block. The
+   * middleware hashes those bodies per response and passes them here, so
+   * `script-src` stays free of 'unsafe-inline'.
+   */
+  scriptHashes?: string[];
+}
+
 /**
  * Apply the security headers to a response.
  *
  * Headers are only added when absent, so a route that deliberately sets its
  * own `Cache-Control` or CSP keeps it.
  */
-export const applySecurityHeaders = (response: Response, request: Request): Response => {
+export const applySecurityHeaders = (
+  response: Response,
+  request: Request,
+  options: SecurityHeaderOptions = {}
+): Response => {
   // A Response created by `next()` may have immutable headers (e.g. a
   // redirect), in which case we fall back to a mutable copy.
   let target: Response;
@@ -181,7 +197,12 @@ export const applySecurityHeaders = (response: Response, request: Request): Resp
     target = response;
   }
 
-  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+  const hashes = options.scriptHashes?.length ? options.scriptHashes : null;
+  const headers: Record<string, string> = hashes
+    ? { ...SECURITY_HEADERS, 'Content-Security-Policy': buildContentSecurityPolicy({ script: hashes }) }
+    : SECURITY_HEADERS;
+
+  for (const [name, value] of Object.entries(headers)) {
     if (!target.headers.has(name)) target.headers.set(name, value);
   }
 
